@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitRise</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">FitRise</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <div class="nav-buttons">
+      <button class="btn-outline" onclick="window.location.href='login.html'">Login</button>
+      <button class="btn-fill" onclick="window.location.href='register.html'">Register</button>
+      <button id="mode-toggle" class="mode-btn">🌙</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" >
+    <div class="hero-text">
+      <h1>Achieve Your Fitness Goals with FitRise AI Coach</h1>
+      <p>
+        FitRise revolutionizes your fitness journey with smart tracking,
+        personalized AI challenges, and unwavering motivational support.
+        Experience a new way to stay active, healthy, and on track.
+      </p>
+    </div>
+    <div class="hero-image">
+      <img src="phone.png" alt="FitRise App" />
+    </div>
+  </section>
+
+  <!-- Features Section -->
+ <section id="features" class="features">
+  <h2>Unlock Your Potential with FitRise Features</h2>
+  <div class="features-grid">
+    <div class="feature-box">
+      <img src="workout.png" alt="Workout Plans" class="feature-img" />
+      <h3>Personalized Workout Plans</h3>
+      <p>
+        Custom-tailored workout routines designed by AI to match your fitness
+        level and goals.
+      </p>
+    </div>
+    <div class="feature-box">
+      <img src="nutrition.png" alt="Nutrition Guidance" class="feature-img" />
+      <h3>AI-Powered Nutrition Guidance</h3>
+      <p>
+        Smart meal suggestions and dietary advice to fuel your body and optimize
+        results.
+      </p>
+    </div>
+    <div class="feature-box">
+      <img src="progress.png" alt="Progress Tracking" class="feature-img" />
+      <h3>Progress Visualization & Reporting</h3>
+      <p>
+        Track your journey with intuitive charts and detailed reports to
+        celebrate every milestone.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about-section">
+  <div class="about-container">
+    <div class="about-image">
+      <img src="fitness-team.png" alt="FitRise Team Working">
+    </div>
+    <div class="about-text">
+      <h2>About FitRise</h2>
+      <p>
+        FitRise is an AI-powered fitness platform that helps users achieve their
+        health goals through personalized workout plans, nutrition tracking, and
+        progress visualization. 
+      </p>
+      <p>
+        Our mission is to make fitness accessible, intelligent, and motivating —
+        by combining technology, smart insights, and user-friendly design to
+        keep you inspired every step of the way.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Reviews Section -->
+<section id="reviews" class="reviews">
+  <h2>What Our Users Say</h2>
+  <div class="reviews-grid">
+    <div class="review">
+      <img src="user1.png" alt="Alex M." class="user-img" />
+      <h4>Alex M.</h4>
+      <p class="stars">★★★★★</p>
+      <p>
+        FitRise has completely transformed my approach to fitness! The AI
+        challenges are incredibly motivating, and the personalized plans
+        actually work. Highly recommend!
+      </p>
+    </div>
+    <div class="review">
+      <img src="user2.png" alt="Sarah L." class="user-img" />
+      <h4>Sarah L.</h4>
+      <p class="stars">★★★★☆</p>
+      <p>
+        I love the smart tracking features. It's so easy to see my progress and
+        adjust my goals. The nutritional advice is a huge bonus too.
+      </p>
+    </div>
+    <div class="review">
+      <img src="user3.png" alt="Mark T." class="user-img" />
+      <h4>Mark T.</h4>
+      <p class="stars">★★★★★</p>
+      <p>
+        Finally an app that keeps me consistent. The motivational support is
+        just what I needed. Seeing my progress visualized is a game-changer!
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    © 2025 FitRise. All rights reserved.
+  </footer>
+  <script>
+  const toggle = document.getElementById("mode-toggle");
+  toggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+      toggle.textContent = "☀️";
+    } else {
+      toggle.textContent = "🌙";
+    }
+  });
+</script>
+
+</body>
+</html>
