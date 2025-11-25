@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitRise – Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.25);
+      color: var(--text-main);
+      transition: all .25s ease;
+    }
+    .auth-input:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 10px var(--secondary);
+      transform: scale(1.01);
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      transition: .3s;
+    }
+    .auth-btn:hover { box-shadow: 0 0 20px var(--secondary); transform: translateY(-2px); }
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--primary-soft); border-radius: 16px; padding: 2rem; width: 90%; max-width: 600px; box-shadow: 0 0 20px var(--primary-soft); animation: popIn .3s ease; max-height: 90vh; overflow-y: auto; }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .toast { position: fixed; top: 20px; right: 20px; background: #22c55e; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-10px); transition: all .4s ease; z-index: 200; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all" style="background: var(--bg); border-color: var(--primary-soft);">
+    <div class="w-full px-6 py-4 flex items-center justify-between">
+      <a class="flex items-center" href="index.html">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+          <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+        </div>
+        <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <label class="theme-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <section class="flex flex-col items-center pt-28 px-6 pb-16">
+    <div class="bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-lg p-8 w-full max-w-2xl text-center">
+      <div class="flex flex-col items-center mb-6">
+        <img id="profile-pic" src="https://randomuser.me/api/portraits/women/65.jpg" class="w-24 h-24 rounded-full border-4 border-[var(--secondary)] mb-3" alt="Profile Picture">
+        <h2 class="text-2xl font-bold">Safa Zidan</h2>
+        <p class="text-gray-400">safa.zidan@example.com</p>
+      </div>
+      <button onclick="openModal()" class="auth-btn w-44 mx-auto mb-8">Edit Profile</button>
+
+      <h3 class="text-xl font-semibold mb-3">Achievements</h3>
+      <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
+        <div class="bg-[var(--primary)] h-3 rounded-full" style="width: 70%"></div>
+      </div>
+      <p class="text-gray-400">Pro Level – 70% completed</p>
+    </div>
+  </section>
+
+  <div id="editModal" class="modal-bg hidden">
+    <div class="modal-content">
+      <h3 class="text-2xl font-bold mb-6 text-center" style="color: var(--secondary)">Edit Profile Details</h3>
+
+      <form id="editForm" class="space-y-6">
+        <div class="border-b border-[var(--primary-soft)] pb-4">
+          <h4 class="text-lg font-semibold mb-3" style="color: var(--primary)">Personal Information</h4>
+          <label class="block mb-1 font-medium">Full Name</label>
+          <input type="text" class="auth-input mb-3" placeholder="Enter your name" required>
+
+          <label class="block mb-1 font-medium">Email</label>
+          <input type="email" class="auth-input mb-3" placeholder="Enter your email" required>
+
+          <label class="block mb-1 font-medium">Change Password</label>
+          <input type="password" class="auth-input" placeholder="Enter new password">
+        </div>
+
+        <div>
+          <h4 class="text-lg font-semibold mb-3" style="color: var(--primary)">Fitness Details</h4>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-1 font-medium">Height (cm)</label>
+              <input type="number" class="auth-input" required>
+            </div>
+            <div>
+              <label class="block mb-1 font-medium">Weight (kg)</label>
+              <input type="number" class="auth-input" required>
+            </div>
+          </div>
+
+          <label class="block mt-4 mb-1 font-medium">Fitness Goal</label>
+          <select class="auth-input" required>
+            <option disabled selected>Select goal</option>
+            <option>Lose Weight</option>
+            <option>Build Muscle</option>
+            <option>Stay Fit</option>
+          </select>
+
+          <label class="block mt-4 mb-1 font-medium">Activity Level</label>
+          <select class="auth-input" required>
+            <option disabled selected>Select activity level</option>
+            <option>Sedentary</option>
+            <option>Lightly active</option>
+            <option>Moderately active</option>
+            <option>Very active</option>
+          </select>
+
+          <label class="block mt-4 mb-1 font-medium">Date of Birth</label>
+          <input type="date" class="auth-input" required>
+        </div>
+
+        <div class="flex justify-between mt-6">
+          <button type="button" onclick="closeModal()" class="px-5 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-lg bg-[var(--primary)] text-black font-semibold hover:opacity-90">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">✅ Profile updated successfully</div>
+
+  <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
+    © 2025 FitRise – All Rights Reserved
+  </footer>
+
+  <script>
+    const modal = document.getElementById('editModal');
+    const toast = document.getElementById('toast');
+
+    function openModal() { modal.classList.remove('hidden'); }
+    function closeModal() { modal.classList.add('hidden'); }
+
+    document.getElementById('editForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      closeModal();
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    });
+
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</body>
+</html>

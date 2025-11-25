@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitRise – Fitness Setup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.25);
+      color: var(--text-main);
+      transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease, transform .25s ease;
+    }
+    .auth-input::placeholder { color: rgba(255,255,255,0.5); }
+    .auth-input:focus {
+      border-color: var(--secondary);
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 10px var(--secondary);
+      transform: scale(1.01);
+    }
+    .light-mode .auth-input {
+      background: white;
+      border: 2px solid #cfcfcf;
+      color: #222;
+    }
+    .light-mode .auth-input::placeholder { color: #999; }
+    .light-mode .auth-input:focus {
+      border-color: #8E3CA9;
+      background: white;
+      box-shadow: 0 0 10px #c07bff55;
+      transform: scale(1.01);
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      transition: .3s;
+    }
+    .auth-btn:hover { box-shadow: 0 0 20px var(--secondary); transform: translateY(-2px); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all"
+       style="background: var(--bg); border-color: var(--primary-soft);">
+    <div class="w-full px-6 py-4 flex items-center justify-between">
+      <a class="flex items-center" href="index.html">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+          <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+        </div>
+        <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <label class="theme-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN FORM SECTION -->
+  <section class="flex flex-1 justify-center items-center pt-28 pb-16 px-6">
+    <div class="w-full max-w-md bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-lg p-8 transition-all">
+      <h2 class="text-3xl font-bold text-center mb-2" style="color: var(--secondary)">Complete Your Fitness Profile</h2>
+      <p class="text-center text-gray-400 mb-8">Let’s personalize your FitRise experience</p>
+
+      <form class="space-y-5" onsubmit="return validateForm()">
+        <div>
+          <label class="block font-medium mb-1">Gender</label>
+          <select class="auth-input" id="gender" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block font-medium mb-1">Height (cm)</label>
+            <input type="number" id="height" class="auth-input" placeholder="e.g. 170" required>
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Weight (kg)</label>
+            <input type="number" id="weight" class="auth-input" placeholder="e.g. 65" required>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-1">Fitness Goal</label>
+          <select class="auth-input" id="goal" required>
+            <option value="" disabled selected>Select your goal</option>
+            <option>Lose Weight</option>
+            <option>Build Muscle</option>
+            <option>Stay Fit</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-1">Activity Level</label>
+          <select class="auth-input" id="activity" required>
+            <option value="" disabled selected>How active are you?</option>
+            <option>Sedentary (little or no exercise)</option>
+            <option>Lightly active (1–3 days/week)</option>
+            <option>Moderately active (3–5 days/week)</option>
+            <option>Very active (6–7 days/week)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-1">Date of Birth</label>
+          <input type="date" id="dob" class="auth-input" required>
+        </div>
+
+        <button type="submit" class="auth-btn mt-6">Save and Continue</button>
+        <p class="text-center text-sm mt-4">Want to change something? <a href="login.html#register" class="text-[var(--secondary)] hover:underline">Go back to Register</a></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- CHAT BUBBLE -->
+  <div class="chat-bubble">💬 Chat with AI</div>
+
+  <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
+    © 2025 FitRise – All Rights Reserved
+  </footer>
+
+  <script>
+    // Theme toggle logic
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Form validation
+    function validateForm() {
+      const fields = ['gender','height','weight','goal','activity','dob'];
+      for (let id of fields) {
+        const el = document.getElementById(id);
+        if (!el.value) {
+          alert('Please fill all required fields.');
+          el.focus();
+          return false;
+        }
+      }
+      alert('Profile saved successfully!');
+      return true;
+    }
+  </script>
+</body>
+</html>
