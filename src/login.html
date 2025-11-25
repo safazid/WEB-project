@@ -1,163 +1,652 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | FitRise</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitRise – Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    /* ----------------- نفس شغلك الأصلي (الألوان + الثيم) ----------------- */
+:root {
+  --primary: #4EE4C2;
+  --primary-soft: rgba(78, 228, 194, 0.5);
+  --secondary: #A066FF;
+  --bg: #0B0F17;
+  --text-main: white;
+  --text-sub: #c9c9c9;
+}
 
-  <body class="font-sans bg-gray-50 text-gray-900">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <!-- Left: Logo -->
-        <a href="index.html" class="flex items-center gap-2">
-          <span class="text-2xl font-bold text-green-600">FitRise</span>
-        </a>
+/* LOGIN + REGISTER HEIGHT FIX */
+#loginForm {
+  min-height: 50vh;
+}
+#registerForm {
+  padding-bottom: 40px;
+}
 
-        <!-- Center: Nav Links -->
-        <div style="margin-left: 27%" class="hidden md:flex items-center space-x-8 mx-auto">
-          <a href="index.html#about" class="hover:text-green-600 transition">About</a>
-          <a href="index.html#features" class="hover:text-green-600 transition">Features</a>
-          <a href="index.html#reviews" class="hover:text-green-600 transition">Reviews</a>
-        </div>
+/* ================== THEME SWITCH ================== */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
 
-        <!-- Right: Register -->
-        <div class="hidden md:flex items-center space-x-4">
-          <a
-            href="register.html"
-            class="px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-600 hover:text-white transition"
-          >Sign Up</a>
-        </div>
-      </div>
-    </nav>
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-    <!-- Login Section -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-4">
-        <div class="max-w-md mx-auto">
-          <div class="bg-white rounded-xl shadow-lg p-8">
-            <div class="text-center mb-8">
-              <h1 class="text-3xl font-bold text-green-700 mb-2">Welcome Back</h1>
-              <p class="text-gray-600">
-                Sign in to continue your smart fitness journey
-              </p>
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ffffffaa;
+  border-radius: 30px;
+  transition: .4s;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.slider:before {
+  position: absolute;
+  content: "🌙";
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  width: 26px;
+  left: 2px;
+  bottom: 2px;
+  background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+  border-radius: 50%;
+  transition: .35s;
+  color: white;
+}
+
+.light-mode nav {
+  background: #0B8A8C !important;
+  border-bottom: none !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* LIGHT MODE TOGGLE */
+.light-mode .slider:before {
+  content: "☀️";
+  background: linear-gradient(135deg, #FFD37A, #FFB85C);
+  font-size: 16px;
+}
+
+input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+/* MENU LINKS */
+.login-link {
+  color: white !important;
+  font-weight: 500;
+  padding: 0 8px;
+  transition: .2s;
+}
+.login-link:hover {
+  opacity: .8;
+}
+
+/* REGISTER BUTTON */
+.register-btn {
+  background: linear-gradient(135deg, #C46CFF, #8E3CA9) !important;
+  color: white !important;
+  padding: 8px 20px;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(142,60,169,0.35);
+  transition: .25s ease;
+}
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(142,60,169,0.45);
+}
+
+.light-mode #themeToggle {
+  background: #066D6F !important;
+  color: white !important;
+}
+
+/* LIGHT MODE COLORS */
+.light-mode {
+  --primary: #0B8A8C;
+  --secondary: #8E3CA9;
+  --bg: white;
+  --text-main: #1A1A1A;
+  --text-sub: #555;
+}
+
+/* ================== INPUT STYLING ================== */
+.auth-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.25);
+  color: var(--text-main);
+
+  transition:
+    border-color .25s ease,
+    background-color .25s ease,
+    box-shadow .25s ease,
+    transform .25s ease;
+}
+
+.auth-input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.auth-input:focus {
+  border-color: var(--secondary);
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 10px var(--secondary);
+  transform: scale(1.01);
+}
+
+/* LIGHT MODE INPUT */
+.light-mode .auth-input {
+  background: white;
+  border: 2px solid #cfcfcf;
+  color: #222;
+}
+
+.light-mode .auth-input::placeholder {
+  color: #999;
+}
+
+.light-mode .auth-input:focus {
+  border-color: #8E3CA9;
+  background: white;
+  box-shadow: 0 0 10px #c07bff55;
+  transform: scale(1.01);
+}
+
+/* ================== FORM TRANSITION ================== */
+/* الحاوية الأساسية للفورمات */
+.form-wrapper {
+  width: 100%;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* الفورم الظاهر */
+.visible-form {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+/* الفورم المخفي */
+.hidden-form {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+/* --- Image CAPTCHA Grid (Fixed Size + Neat Layout) --- */
+#image-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 3 صور في كل صف */
+  gap: 10px;
+  justify-items: center;
+  margin-top: 10px;
+}
+
+#image-options img {
+  width: 70px;          /* حجم صغير ومرتب */
+  height: 70px;
+  object-fit: cover;    /* يظل الشكل متناسق بدون تمدد */
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+#image-options img:hover {
+  transform: scale(1.05);
+  border-color: #a3a3a3;
+}
+
+#image-options img.selected {
+  border-color: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+
+
+/* BUTTON */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: var(--primary);
+  color: black;
+  transition: .3s;
+}
+.auth-btn:hover {
+  box-shadow: 0 0 20px var(--primary);
+}
+
+/* LINKS */
+.switch-text a {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+/* BODY COLOR */
+body {
+  background: var(--bg);
+  color: var(--text-main);
+  transition: .4s ease;
+}
+
+/* WHITE LOGO IN LIGHT MODE */
+.light-mode .logo-gradient {
+  -webkit-text-fill-color: white !important;
+  color: white !important;
+}
+
+/* Welcome Back purple */
+#loginForm h1 {
+  color: var(--secondary) !important;
+}
+
+/* ==================== SOCIAL ICONS FIX ==================== */
+section.w-full.text-center {
+  margin-top: 140px; /* ينزل القسم لتحت */
+  padding-top: 40px;
+}
+
+section.w-full.text-center div {
+  justify-content: center;
+}
+
+section.w-full.text-center svg {
+  width: 32px;
+  height: 32px;
+}
+/* ========== CHAT BUBBLE STYLE ========== */
+.chat-bubble {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: var(--primary);
+  color: black;
+  padding: 14px 20px;
+  border-radius: 50px;
+  box-shadow: 0 0 20px var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  animation: floatChat 3s ease-in-out infinite;
+  z-index: 50;
+}
+
+@keyframes floatChat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+</style>
+
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+<!-- NAVBAR (نفس موقعك الأصلي) -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all"
+     style="background: var(--bg); border-color: var(--primary-soft);">
+
+  <div class="w-full px-6 py-4 flex items-center justify-between">
+
+    <!-- LEFT — LOGO -->
+    <a class="flex items-center" href="index.html">
+  <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+    <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+  </div>
+  <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+</a>
+
+
+    <!-- CENTER — MENU -->
+    <div class="hidden md:flex items-center space-x-10 mx-auto font-medium">
+       <a class="hover:underline underline-offset-4" href="index.html#home">Home</a>
+      <a class="hover:underline underline-offset-4" href="index.html#features">Features</a>
+      <a class="hover:underline underline-offset-4" href="index.html#about">About</a>
+      <a class="hover:underline underline-offset-4" href="index.html#reviews">Reviews</a>
+      <a class="hover:underline underline-offset-4" href="index.html#coach">AI Coach</a>
+    </div>
+
+    <!-- RIGHT — SWITCH + LOGIN + REGISTER -->
+    <div class="flex items-center gap-4">
+
+      <!-- THEME SWITCH -->
+      <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+
+      <a class="login-link cursor-pointer" onclick="showLogin()">Login</a>
+
+      <a class="register-btn cursor-pointer" onclick="showRegister()">Register</a>
+
+    </div>
+
+  </div>
+</nav>
+
+<!-- =============== LOGIN / REGISTER FULLSCREEN =============== -->
+<div class="flex justify-center px-6 pt-32 flex-1 items-start"
+     style="min-height: calc(100vh - 140px);">
+
+  <!-- ثابت عشان الفورمين يكونوا فوق بعض -->
+<div class="w-full max-w-md flex flex-col flex-1 relative" style="min-height: 0;">
+
+    <!-- LOGIN FORM -->
+<div id="loginForm" class="form-wrapper visible-form w-full">
+
+<h1 class="text-4xl font-bold text-center mb-2">Welcome Back</h1>
+<p class="text-center text-gray-400 mb-6 text-lg">
+  Continue your journey with <span style="color: var(--secondary); font-weight:600">FitAI</span>
+</p>
+
+      <input type="text" class="auth-input mb-4" placeholder="Email or Username">
+      <input type="password" class="auth-input mb-4" placeholder="Password">
+
+      <button class="auth-btn mb-3">Login</button>
+
+      <p class="switch-text text-center">
+        Not registered?
+        <a onclick="showRegister()">Create an account</a>
+      </p>
+    </div>
+
+    <!-- REGISTER FORM -->
+<!-- REGISTER FORM -->
+<div id="registerForm" class="form-wrapper hidden-form w-full">
+
+  <h2 class="text-3xl font-bold text-center mb-2">Create Your Account</h2>
+<p class="text-center text-gray-400 mb-6 text-lg">
+  Join <span style="color: var(--secondary); font-weight:600">FitAI</span> and start your fitness journey today
+</p>
+
+
+  <!-- Full Name -->
+  <div>
+    <label class="block font-medium mb-1">Full Name</label>
+    <input type="text" placeholder="your name" 
+           class="auth-input">
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label class="block font-medium mb-1">Email Address</label>
+    <input type="email" placeholder="you@example.com" 
+           class="auth-input">
+  </div>
+
+  <!-- Password -->
+  <div>
+    <label class="block font-medium mb-1">Password</label>
+    <input type="password" placeholder="••••••••" 
+           class="auth-input">
+    <p class="text-sm text-gray-400 mt-1">Password must be at least 8 characters long</p>
+  </div>
+
+  <!-- Confirm Password -->
+  <div>
+    <label class="block font-medium mb-1">Confirm Password</label>
+    <input type="password" placeholder="••••••••" 
+           class="auth-input">
+  </div>
+
+   <!-- CAPTCHA Selection -->
+            <div class="mb-6">
+              <label for="captcha-type" class="block text-sm font-medium text-gray-700">Choose CAPTCHA Type:</label>
+              <select
+                id="captcha-type"
+                class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              >
+                <option value="arithmetic" selected>Arithmetic</option>
+                <option value="image">Image Selection</option>
+              </select>
             </div>
 
-            <form id="login-form">
-              <!-- Email -->
-              <div class="mb-6">
-                <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fas fa-envelope text-gray-400"></i>
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    class="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
+            <!-- Arithmetic CAPTCHA -->
+            <div id="arithmetic-captcha-container" class="mb-6">
+              <label for="arithmetic-answer" class="block text-sm font-medium text-gray-700 mb-1">Solve the CAPTCHA:</label>
+              <div class="flex items-center space-x-4 mb-2">
+                <span id="arithmetic-challenge" class="text-lg font-semibold text-gray-800"></span>
+                <button type="button" id="refresh-arithmetic-captcha" class="text-green-600 hover:text-green-800">🔄</button>
               </div>
+              <input
+                type="text"
+                id="arithmetic-answer"
+                class="w-full border border-gray-300 rounded-md py-2 px-3"
+                placeholder="Enter the answer"
+              />
+              <p id="arithmetic-error" class="text-sm text-red-500 mt-1 hidden">Incorrect CAPTCHA answer.</p>
+            </div>
 
-              <!-- Password -->
-              <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                  <label for="password" class="block text-gray-700 font-medium">Password</label>
-                  <a href="#" class="text-sm text-green-600 hover:text-green-800">Forgot password?</a>
-                </div>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fas fa-lock text-gray-400"></i>
-                  </div>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="••••••••"
-                    required
-                  />
-                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    <button type="button" id="toggle-password" class="text-gray-400 focus:outline-none">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <!-- Image CAPTCHA -->
+            <div id="image-captcha-container" class="mb-6 hidden">
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Select all images containing: <span id="image-challenge-text" class="font-semibold"></span>
+              </label>
+              <button type="button" id="refresh-image-captcha" class="text-green-600 hover:text-green-800 mb-2">🔄 Refresh</button>
+              <div id="image-options" class="flex flex-wrap gap-2"></div>
+              <p id="image-error" class="text-sm text-red-500 mt-1 hidden">Please select the correct images.</p>
+            </div>
 
-              <!-- Remember Me -->
-              <div class="flex items-center mb-6">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  name="remember"
-                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                />
-                <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
-              </div>
+            <p id="captcha-attempts-error" class="text-sm text-red-600 hidden">Too many incorrect CAPTCHA attempts. Please try again later.</p>
 
-              <!-- Submit -->
-              <button
-                type="submit"
-                class="w-full py-3 px-4 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-md"
-              >
-                Sign In
-              </button>
 
-              <div class="text-center mt-6">
-                <p class="text-gray-600">
-                  Don’t have an account?
-                  <a href="register.html" class="text-green-600 font-medium hover:text-green-800">Sign up</a>
-                </p>
-              </div>
-            </form>
-          </div>
+  <!-- Create Account Button -->
+<button class="w-full p-3 rounded-xl text-white font-semibold 
+               bg-gradient-to-r from-[var(--secondary)] to-purple-500 shadow-lg mt-6">
+  Create Account
+</button>
 
-          <div class="text-center mt-8">
-            <a href="index.html" class="text-green-600 hover:text-green-800 flex items-center justify-center">
-              <i class="fas fa-arrow-left mr-2"></i> Back to Home
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- Switch to Login -->
+<p class="text-center text-gray-300 mt-4">
+  Already have an account?
+  <span class="text-[var(--secondary)] cursor-pointer" onclick="showLogin()">Sign in</span>
+</p>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8">
-      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        <a href="index.html" class="flex items-center gap-2">
-          <span class="text-xl font-bold text-white">FitRise</span>
-        </a>
 
-        <div class="flex space-x-6 text-gray-400">
-          <a href="#" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-        </div>
+</div>
 
-        <p class="text-sm text-gray-400">&copy; 2025 FitRise. All rights reserved.</p>
-      </div>
-    </footer>
 
+<p id="motivationText" class="mt-4 text-center text-sm opacity-100 transition-opacity duration-500">
+  Transform your body. Upgrade your mind.
+</p>
+
+  </div>
+
+</div>
+<!-- SOCIAL ICONS SECTION -->
+<section class="w-full py-10 text-center" style="color: var(--text-sub);">
+
+  <div class="flex justify-center gap-8 mb-4">
+
+    <!-- Instagram -->
+    <a href="#" class="hover:opacity-80 transition" aria-label="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+        fill="var(--secondary)" viewBox="0 0 24 24">
+        <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 
+        5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 
+        2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 
+        3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 
+        3c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 
+        5-5-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 
+        3s-1.346 3-3 3-3-1.346-3-3 1.346-3 
+        3-3zm4.5-.25a1.25 1.25 0 110-2.5 1.25 
+        1.25 0 010 2.5z"/>
+      </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a href="#" class="hover:opacity-80 transition" aria-label="Facebook">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+        fill="var(--secondary)" viewBox="0 0 24 24">
+        <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2v-3h2v-2.3c0-2 
+        1.2-3.1 3-3.1.9 0 1.8.1 1.8.1v2h-1c-1 
+        0-1.3.6-1.3 1.2V12h2.3l-.4 3h-1.9v7A10 
+        10 0 0022 12z"/>
+      </svg>
+    </a>
+
+    <!-- LinkedIn -->
+    <a href="#" class="hover:opacity-80 transition" aria-label="LinkedIn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+        fill="var(--secondary)" viewBox="0 0 24 24">
+        <path d="M20.447 20.452H17.21V14.83c0-1.34-.027-3.065-1.868-3.065-1.87 
+        0-2.157 1.46-2.157 2.968v5.72H9.01V9h3.112v1.561h.043c.434-.82 
+        1.494-1.683 3.073-1.683 3.287 0 3.894 2.164 3.894 4.977v6.597zM5.337 
+        7.433a1.802 1.802 0 110-3.604 1.802 1.802 0 010 3.604zM6.98 
+        20.452H3.69V9h3.29v11.452zM22.225 0H1.771C.792 0 0 
+        .774 0 1.729v20.542C0 23.227.792 24 1.771 
+        24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 
+        .774 23.2 0 22.225 0z"/>
+      </svg>
+    </a>
+
+  </div>
+
+  <p class="opacity-80 text-sm">Follow us for updates & fitness tips</p>
+
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="w-full text-center py-6 mt-auto
+
+        border-t border-[var(--primary-soft)]
+        text-sm tracking-wide flex-shrink-0"
+        style="color: var(--text-sub);">
+
+  <span class="opacity-80">© 2025 FitAI — All Rights Reserved</span>
+
+</footer>
+
+
+
+<!-- ==================== CHAT BUBBLE ==================== -->
+<div class="chat-bubble">💬 Chat with AI</div>
+<script>
+  const themeToggle = document.getElementById("themeToggle");
+  const body = document.body;
+
+  // تحميل الثيم من localStorage
+  if (localStorage.getItem("theme") === "light") {
+    body.classList.add("light-mode");
+    themeToggle.checked = true;
+  }
+
+  // عند تغيير السويتش
+  themeToggle.addEventListener("change", () => {
+    if (themeToggle.checked) {
+      body.classList.add("light-mode");
+      localStorage.setItem("theme", "light");
+    } else {
+      body.classList.remove("light-mode");
+      localStorage.setItem("theme", "dark");
+    }
+  });
+
+  // ⭐⭐⭐ wrapper fix
+  const wrapper = document.querySelector(".max-w-md.relative");
+
+  function updateHeight(id) {
+    const activeForm = document.getElementById(id);
+    if (activeForm && wrapper) {
+      wrapper.style.height = activeForm.offsetHeight + "px";
+    }
+  }
+
+  function showRegister() {
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    loginForm.classList.add("hidden-form");
+    loginForm.classList.remove("visible-form");
+
+    registerForm.classList.remove("hidden-form");
+    registerForm.classList.add("visible-form");
+
+    updateHeight("registerForm");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function showLogin() {
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    registerForm.classList.add("hidden-form");
+    registerForm.classList.remove("visible-form");
+
+    loginForm.classList.remove("hidden-form");
+    loginForm.classList.add("visible-form");
+
+    updateHeight("loginForm");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  const motivationMessages = [
+    "Transform your body. Upgrade your mind.",
+    "Fitness made smarter — just for you.",
+    "Stop guessing. Start progressing.",
+    "Your goals deserve better — try FitRise.",
+    "Motivation isn’t luck — it’s a system."
+  ];
+
+  const motivationEl = document.getElementById("motivationText");
+  let motivationIndex = 0;
+
+  function rotateMotivation() {
+    if (!motivationEl) return;
+
+    // إخفاء النص بسلاسة
+    motivationEl.classList.add("opacity-0");
+
+    setTimeout(() => {
+      // غيّر النص
+      motivationIndex = (motivationIndex + 1) % motivationMessages.length;
+      motivationEl.textContent = motivationMessages[motivationIndex];
+
+      // إظهاره مرة ثانية
+      motivationEl.classList.remove("opacity-0");
+    }, 500); // نفس مدة الـ transition بالـ class
+  }
+
+  // كل 10 ثواني
+  setInterval(rotateMotivation, 10000);
+</script>
     <script src="auth.js"></script>
-  </body>
+    <script src="captcha.js"></script>
+
+    <script>
+  // لما الصفحة تجهز، نتحقق من الهاش (hash) في الرابط
+  window.addEventListener("DOMContentLoaded", () => {
+    const hash = window.location.hash;
+
+    // إذا العنوان يحتوي على #register → اعرض فورم التسجيل
+    if (hash === "#register") {
+      showRegister();
+    } else {
+      // افتراضيًا خليها على login
+      showLogin();
+    }
+  });
+</script>
+
+</body>
 </html>

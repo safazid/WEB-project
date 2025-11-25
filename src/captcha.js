@@ -71,7 +71,6 @@ function generateImageCaptcha() {
     if (img.label === correctImageKeyword) {
       correctImageIndexes.add(index.toString());
     }
-
     imgElement.addEventListener("click", () => {
       const idx = imgElement.dataset.index;
       if (selectedIndexes.has(idx)) {

@@ -1,144 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FitRise</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitRise – Cyber Fitness</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    html {
+      scroll-behavior: smooth; /* يجعل الانتقال بين الأقسام ناعم */
+    }
+  </style>
 </head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">FitRise</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#reviews">Reviews</a></li>
-    </ul>
-    <div class="nav-buttons">
-      <button class="btn-outline" onclick="window.location.href='login.html'">Login</button>
-      <button class="btn-fill" onclick="window.location.href='register.html'">Register</button>
-      <button id="mode-toggle" class="mode-btn">🌙</button>
-    </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero" >
-    <div class="hero-text">
-      <h1>Achieve Your Fitness Goals with FitRise AI Coach</h1>
-      <p>
-        FitRise revolutionizes your fitness journey with smart tracking,
-        personalized AI challenges, and unwavering motivational support.
-        Experience a new way to stay active, healthy, and on track.
-      </p>
-    </div>
-    <div class="hero-image">
-      <img src="phone.png" alt="FitRise App" />
-    </div>
-  </section>
+<body style="background: var(--bg); color: var(--text-main);" class="transition-all">
 
-  <!-- Features Section -->
- <section id="features" class="features">
-  <h2>Unlock Your Potential with FitRise Features</h2>
-  <div class="features-grid">
-    <div class="feature-box">
-      <img src="workout.png" alt="Workout Plans" class="feature-img" />
-      <h3>Personalized Workout Plans</h3>
-      <p>
-        Custom-tailored workout routines designed by AI to match your fitness
-        level and goals.
-      </p>
+<!-- ==================== NAVBAR ==================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all"
+     style="background: var(--bg); border-color: var(--primary-soft);">
+
+  <div class="w-full px-6 py-4 flex items-center justify-between">
+    <!-- LEFT — LOGO -->
+    <a class="flex items-center" href="#home">
+      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+        <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+      </div>
+      <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+    </a>
+
+    <!-- CENTER — MENU -->
+    <div class="hidden md:flex items-center space-x-10 mx-auto font-medium">
+      <a class="hover:underline underline-offset-4" href="#home">Home</a>
+      <a class="hover:underline underline-offset-4" href="#features">Features</a>
+      <a class="hover:underline underline-offset-4" href="#about">About</a>
+      <a class="hover:underline underline-offset-4" href="#reviews">Reviews</a>
+      <a class="hover:underline underline-offset-4" href="#coach">AI Coach</a>
     </div>
-    <div class="feature-box">
-      <img src="nutrition.png" alt="Nutrition Guidance" class="feature-img" />
-      <h3>AI-Powered Nutrition Guidance</h3>
-      <p>
-        Smart meal suggestions and dietary advice to fuel your body and optimize
-        results.
-      </p>
+
+    <!-- RIGHT — SWITCH + LOGIN + REGISTER -->
+    <div class="flex items-center gap-4">
+      <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+
+      <a href="login.html" class="login-link">Login</a>
+      <a href="login.html#register" class="register-btn">Register</a>
+
     </div>
-    <div class="feature-box">
-      <img src="progress.png" alt="Progress Tracking" class="feature-img" />
-      <h3>Progress Visualization & Reporting</h3>
-      <p>
-        Track your journey with intuitive charts and detailed reports to
-        celebrate every milestone.
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="home" class="max-w-7xl mx-auto px-6 py-20">
+  <div class="grid lg:grid-cols-2 gap-12 items-center fade-in">
+    <div>
+      <h2 class="text-5xl font-extrabold leading-tight">
+        <span style="color:var(--primary)">Get Fitter.</span><br>
+        <span class="typing" style="color:var(--secondary)">Train Smarter.</span>
+      </h2>
+
+      <p class="mt-5 text-lg leading-relaxed"
+         style="color: var(--text-sub); max-width: 550px;">
+        Join the smart fitness platform that gives you daily challenges, personalized plans,
+        real progress tracking and motivation from our AI fitness bot.
       </p>
+
+      <div class="mt-8 flex gap-4">
+        <button class="px-6 py-3 rounded-lg font-bold transition-all btn-start"
+          style="background: var(--primary); color:black; box-shadow:0 0 20px var(--primary-soft);">
+          Start Now
+        </button>
+
+        <button class="px-6 py-3 rounded-lg border transition-all"
+          style="border-color: var(--secondary); color: var(--secondary);">
+          Try Demo
+        </button>
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <div class="p-6 rounded-xl tilt transition-all"
+           style="background: var(--card-bg); border:1px solid var(--primary-soft);">
+        <img src="YOUR_LOGO.png" class="w-80" style="filter: drop-shadow(0 0 20px var(--primary));">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="about-section">
-  <div class="about-container">
-    <div class="about-image">
-      <img src="fitness-team.png" alt="FitRise Team Working">
+<!-- ==================== FEATURES ==================== -->
+<section id="features" class="max-w-7xl mx-auto px-6 py-16 fade-in">
+  <h3 class="text-3xl font-bold text-center mb-12 section-title">Why Choose FitRise?</h3>
+  <div class="grid md:grid-cols-3 gap-10">
+    <div class="p-6 rounded-xl transition-all feature-card">
+      <h4 class="text-xl font-semibold mb-2 feature-title">Personalized Challenges</h4>
+      <p class="feature-text">AI-generated workouts tailored to your fitness level.</p>
     </div>
-    <div class="about-text">
-      <h2>About FitRise</h2>
-      <p>
-        FitRise is an AI-powered fitness platform that helps users achieve their
-        health goals through personalized workout plans, nutrition tracking, and
-        progress visualization. 
-      </p>
-      <p>
-        Our mission is to make fitness accessible, intelligent, and motivating —
-        by combining technology, smart insights, and user-friendly design to
-        keep you inspired every step of the way.
-      </p>
+    <div class="p-6 rounded-xl transition-all feature-card">
+      <h4 class="text-xl font-semibold mb-2 feature-title">AI Fitness Coach</h4>
+      <p class="feature-text">Smart motivation & adaptive difficulty.</p>
+    </div>
+    <div class="p-6 rounded-xl transition-all feature-card">
+      <h4 class="text-xl font-semibold mb-2 feature-title">Track Progress</h4>
+      <p class="feature-text">Stats, streaks and habit tracking dashboard.</p>
     </div>
   </div>
 </section>
 
+<!-- ==================== ABOUT FITRISE ==================== -->
+<section id="about" class="py-20 fade-in" 
+         style="background: var(--card-bg); border-top:1px solid var(--primary-soft); border-bottom:1px solid var(--primary-soft);">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
-  <!-- Reviews Section -->
-<section id="reviews" class="reviews">
-  <h2>What Our Users Say</h2>
-  <div class="reviews-grid">
-    <div class="review">
-      <img src="user1.png" alt="Alex M." class="user-img" />
-      <h4>Alex M.</h4>
-      <p class="stars">★★★★★</p>
-      <p>
-        FitRise has completely transformed my approach to fitness! The AI
-        challenges are incredibly motivating, and the personalized plans
-        actually work. Highly recommend!
-      </p>
+    <div class="flex justify-center">
+      <div class="p-4 rounded-xl transition-all tilt"
+           style="background: var(--card-bg); border:1px solid var(--primary-soft); box-shadow:0 0 20px var(--primary-soft);">
+        <img src="YOUR_LOGO.png" class="w-80" style="filter: drop-shadow(0 0 20px var(--primary));">
+      </div>
     </div>
-    <div class="review">
-      <img src="user2.png" alt="Sarah L." class="user-img" />
-      <h4>Sarah L.</h4>
-      <p class="stars">★★★★☆</p>
-      <p>
-        I love the smart tracking features. It's so easy to see my progress and
-        adjust my goals. The nutritional advice is a huge bonus too.
+
+    <div>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--primary);">About FitRise</h2>
+      <p class="text-lg mb-4 leading-relaxed" style="color: var(--text-sub);">
+        FitRise helps users stay consistent with personalized AI-generated fitness challenges 
+        and motivational guidance tailored to their fitness level.
       </p>
-    </div>
-    <div class="review">
-      <img src="user3.png" alt="Mark T." class="user-img" />
-      <h4>Mark T.</h4>
-      <p class="stars">★★★★★</p>
-      <p>
-        Finally an app that keeps me consistent. The motivational support is
-        just what I needed. Seeing my progress visualized is a game-changer!
+      <p class="text-lg leading-relaxed" style="color: var(--text-sub);">
+        Our platform combines smart workouts, progress tracking, and daily motivation — making 
+        fitness accessible, efficient, and fun for everyone.
       </p>
+      <button class="mt-6 px-6 py-3 rounded-lg font-bold transition-all"
+              style="background: var(--primary); color:black; box-shadow:0 0 15px var(--primary-soft);">
+        Learn More
+      </button>
     </div>
   </div>
 </section>
 
+<!-- ==================== STATS ==================== -->
+<section class="max-w-7xl mx-auto px-6 py-16 fade-in">
+  <div class="grid md:grid-cols-3 gap-12 text-center">
+    <div class="transition transform hover:scale-105">
+      <h4 class="text-4xl font-extrabold" id="users" style="color: var(--primary);">0</h4>
+      <p style="color:var(--text-sub)">Active Users</p>
+    </div>
+    <div class="transition transform hover:scale-105">
+      <h4 class="text-4xl font-extrabold" id="challenges" style="color: var(--secondary);">0</h4>
+      <p style="color:var(--text-sub)">Challenges Completed</p>
+    </div>
+    <div class="transition transform hover:scale-105">
+      <h4 class="text-4xl font-extrabold" id="success" style="color: var(--tertiary);">0%</h4>
+      <p style="color:var(--text-sub)">Success Rate</p>
+    </div>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 FitRise. All rights reserved.
-  </footer>
-  <script>
-  const toggle = document.getElementById("mode-toggle");
+<!-- ==================== REVIEWS SECTION ==================== -->
+<section id="reviews" class="py-20 fade-in" style="background: var(--card-bg); border-top:1px solid var(--primary-soft); border-bottom:1px solid var(--primary-soft);">
+  <h2 class="text-3xl font-bold text-center mb-4" style="color: var(--primary);">What Our Users Say</h2>
+  <p class="text-center mb-12" style="color: var(--text-sub);">
+    Hear from people who improved their fitness journey with FitRise.
+  </p>
+
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+    <div class="p-8 rounded-xl shadow-lg transition-all feature-card hover:scale-105 hover:shadow-2xl"
+         style="background: var(--card-bg); border:1px solid var(--primary-soft);">
+      <div class="text-yellow-400 mb-3 text-xl">★★★★★</div>
+      <p class="mb-4" style="color: var(--text-main);">
+        "I always struggled to stay consistent. FitRise’s AI challenges finally helped me keep a daily routine!"
+      </p>
+      <div class="flex items-center gap-3">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full border border-[var(--primary-soft)]" />
+        <div>
+          <h4 class="font-bold" style="color: var(--primary);">Adam Brooks</h4>
+          <p style="color: var(--text-sub);" class="text-sm">Beginner User</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-8 rounded-xl shadow-lg transition-all feature-card hover:scale-105 hover:shadow-2xl"
+         style="background: var(--card-bg); border:1px solid var(--secondary);">
+      <div class="text-yellow-400 mb-3 text-xl">★★★★★</div>
+      <p class="mb-4" style="color: var(--text-main);">
+        "The AI coach keeps me motivated every day. The personalized challenges are exactly what I needed!"
+      </p>
+      <div class="flex items-center gap-3">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" class="w-10 h-10 rounded-full border border-[var(--secondary)]" />
+        <div>
+          <h4 class="font-bold" style="color: var(--secondary);">Emily Carter</h4>
+          <p style="color: var(--text-sub);" class="text-sm">Intermediate User</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-8 rounded-xl shadow-lg transition-all feature-card hover:scale-105 hover:shadow-2xl"
+         style="background: var(--card-bg); border:1px solid var(--tertiary);">
+      <div class="text-yellow-400 mb-3 text-xl">★★★★☆</div>
+      <p class="mb-4" style="color: var(--text-main);">
+        "I love how the dashboard shows my progress. Seeing my streaks motivates me to keep going!"
+      </p>
+      <div class="flex items-center gap-3">
+        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-10 h-10 rounded-full border border-[var(--tertiary)]" />
+        <div>
+          <h4 class="font-bold" style="color: var(--tertiary);">Jason Lee</h4>
+          <p style="color: var(--text-sub);" class="text-sm">Advanced User</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== AI COACH ==================== -->
+<section id="coach" class="max-w-7xl mx-auto px-6 py-20 fade-in">
+  <h3 class="text-3xl font-bold text-center mb-12" style="color: var(--secondary);">
+    Meet Your AI Fitness Coach
+  </h3>
+  <div class="grid lg:grid-cols-2 gap-16 items-center">
+    <div class="space-y-6" style="color:var(--text-sub)">
+      <h4 class="text-2xl font-semibold" style="color:var(--primary)">Smarter • Adaptive • Motivating</h4>
+      <p>Your AI coach analyzes your progress, adapts the intensity level,
+         sends reminders, and helps you stay consistent.</p>
+      <ul class="space-y-2">
+        <li class="flex items-center gap-3"><span style="color:var(--primary)" class="text-xl">✔</span> Adaptive workouts</li>
+        <li class="flex items-center gap-3"><span style="color:var(--secondary)" class="text-xl">✔</span> Motivation engine</li>
+        <li class="flex items-center gap-3"><span style="color:var(--tertiary)" class="text-xl">✔</span> Track habits & streaks</li>
+      </ul>
+      <button class="px-6 py-3 rounded-xl font-bold transition-all"
+        style="background: var(--secondary); color:black; box-shadow:0 0 15px var(--secondary);">
+        Try AI Coach
+      </button>
+    </div>
+
+    <div class="flex justify-center">
+      <div class="p-6 rounded-xl tilt transition-all"
+           style="background:var(--card-bg); border:1px solid var(--secondary);">
+        <img src="YOUR_LOGO.png" class="w-64" style="filter: drop-shadow(0 0 20px var(--secondary));">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="text-center py-6 text-[var(--text-sub)] border-t" style="border-color: var(--primary-soft);">
+  © 2025 FitRise – All Rights Reserved
+</footer>
+
+<!-- ==================== CHAT BUBBLE ==================== -->
+<div class="chat-bubble">💬 Chat with AI</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+  function animateValue(id, start, end, duration, suffix="") {
+    const el = document.getElementById(id);
+    let startTime = null;
+    function anim(t) {
+      if (!startTime) startTime = t;
+      const progress = Math.min((t - startTime) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      el.textContent = value.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(anim);
+    }
+    requestAnimationFrame(anim);
+  }
+
+  animateValue("users", 0, 12800, 2000, "+");
+  animateValue("challenges", 0, 520000, 2000, "+");
+  animateValue("success", 0, 93, 2000, "%");
+
+  const toggle = document.getElementById("themeToggle");
   toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-      toggle.textContent = "☀️";
-    } else {
-      toggle.textContent = "🌙";
+    document.documentElement.classList.toggle("light-mode");
+  });
+</script>
+
+<script>
+  // التحقق إذا الرابط يحتوي على #register → يفتح فورم التسجيل مباشرة
+  window.addEventListener("load", () => {
+    if (window.location.hash === "#register") {
+      showRegister();
     }
   });
 </script>
