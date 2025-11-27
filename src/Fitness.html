@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Workout Step</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white">
+
+  <nav class="bg-slate-900 px-6 py-4">
+    <h1 class="font-bold text-xl">FitAI – Workout</h1>
+  </nav>
+
+  <main class="max-w-md mx-auto mt-10 px-4">
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 shadow-xl text-center">
+      <h2 class="text-2xl font-bold mb-3 text-emerald-400">Step 1</h2>
+      <p class="text-sm text-slate-200 mb-4">
+        Start with a light warm-up: 5 minutes of easy movement (march in place, light jogging, or fast walking).
+      </p>
+
+      <div class="flex flex-col items-center gap-2 mb-4">
+        <span id="timer" class="text-3xl font-mono font-bold bg-slate-800 px-5 py-2 rounded-full">
+          00:30
+        </span>
+        <span class="text-xs text-slate-400">Timer for this step</span>
+      </div>
+
+      <button
+        id="restartBtn"
+        class="bg-purple-500 hover:bg-purple-400 px-4 py-2 rounded-full text-sm font-semibold w-full mb-3"
+      >
+        Restart Timer
+      </button>
+
+      <a
+        href="ai-bot.html"
+        class="block bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-full text-xs text-slate-200"
+      >
+        Back to plans
+      </a>
+    </div>
+  </main>
+
+  <script>
+    let intervalId = null;
+
+    function format(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      let seconds = 30;
+      timerEl.textContent = format(seconds);
+
+      if (intervalId) clearInterval(intervalId);
+
+      intervalId = setInterval(() => {
+        seconds--;
+        timerEl.textContent = format(seconds);
+        if (seconds <= 0) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }, 1000);
+    }
+
+    document.getElementById("restartBtn").addEventListener("click", startTimer);
+
+//timer
+    startTimer();
+  </script>
+</body>
+</html>
