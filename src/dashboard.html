@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,3 +158,164 @@
 
 </body>
 </html>
+=======
+<!--dashboard.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – FitRise</title>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white flex">
+
+<!-- Sidebar -->
+<div class="w-64 h-screen bg-gray-800 p-6 flex flex-col justify-between">
+
+    <div>
+        <h1 class="text-2xl font-bold text-pink-400 mb-8">FitRise</h1>
+
+        <nav class="space-y-4 text-gray-300">
+
+            <a href="index.html" 
+               class="block hover:text-pink-400 transition">
+                Home
+            </a>
+
+            <a href="challenges.html" 
+               class="block hover:text-pink-400 transition">
+                Challenges
+            </a>
+
+            <a href="dashboard.html" 
+               class="block hover:text-pink-400 transition">
+                Dashboard
+            </a>
+
+            <a href="motivation.html" 
+               class="block hover:text-pink-400 transition">
+                Motivation
+            </a>
+
+        </nav>
+    </div>
+
+    <div class="text-gray-300 text-sm">
+        <p id="userEmail" class="mb-2"></p>
+        <a href="login.html" class="text-red-400 hover:text-red-300">Logout</a>
+    </div>
+
+</div>
+
+
+
+    <!-- Page Content -->
+    <div class="flex-1 p-10">
+
+        <!-- Title -->
+        <h1 class="text-4xl font-bold text-pink-400 mb-2">Progress Dashboard</h1>
+        <p class="text-gray-400 mb-8">Track your fitness achievements</p>
+
+        <!-- Stats Boxes -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+            <!-- Total Workouts -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <p class="text-gray-400">Total Workouts</p>
+                <p id="totalWorkouts" class="text-green-400 text-4xl font-bold">0</p>
+                <p class="text-gray-500 text-sm">All time</p>
+            </div>
+
+            <!-- Calories Burned -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <p class="text-gray-400">Calories Burned</p>
+                <p id="totalCalories" class="text-orange-400 text-4xl font-bold">0</p>
+                <p class="text-gray-500 text-sm">Total energy</p>
+            </div>
+
+            <!-- Current Streak -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <p class="text-gray-400">Current Streak</p>
+                <p id="streak" class="text-purple-400 text-4xl font-bold">1 days</p>
+                <p class="text-gray-500 text-sm">Keep it up!</p>
+            </div>
+
+            <!-- Weekly Goal -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <p class="text-gray-400">Weekly Goal</p>
+                <p id="weeklyGoalText" class="text-orange-300 text-4xl font-bold">0/5</p>
+                <p id="weeklyPercent" class="text-gray-500 text-sm">0% complete</p>
+            </div>
+
+        </div>
+
+        <!-- Weekly Progress -->
+        <h2 class="text-xl font-bold mb-2">Weekly Progress</h2>
+        <p id="weeklyProgressText" class="text-gray-400 mb-2">0 of 5 workouts completed</p>
+
+        <div class="w-full bg-gray-700 h-4 rounded-full mb-8 overflow-hidden">
+            <div id="weeklyBar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-full" style="width: 0%;"></div>
+        </div>
+
+        <!-- Last Workout -->
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-2">Last Workout</h2>
+            <p id="lastWorkout" class="text-gray-400">No data yet</p>
+        </div>
+
+    </div>
+
+    <!-- Load Data -->
+    <script>
+
+        // Show email
+        const email = localStorage.getItem("email");
+        document.getElementById("userEmail").innerText = email ? email : "";
+
+        // Read daily data
+        const totalWorkouts = parseInt(localStorage.getItem("totalWorkouts")) || 0;
+        const totalCalories = parseInt(localStorage.getItem("totalCalories")) || 0;
+
+        // Update cards
+        document.getElementById("totalWorkouts").innerText = totalWorkouts;
+        document.getElementById("totalCalories").innerText = totalCalories;
+
+        /* ---------------- WEEKLY GOAL FIXED ---------------- */
+
+        // عدد المهام الأسبوعية (عدّديهم حسب challenges الأسبوعية)
+        const weeklyGoal = 2;   // <<< بدّك تغيريها حسب عدد weekly challenges عندك
+
+        // قراءة عدد المهام الأسبوعية المنجزة
+        const completedWeekly = parseInt(localStorage.getItem("completedWeekly")) || 0;
+
+        // حساب النسبة الحقيقية
+        const rawPercent = Math.round((completedWeekly / weeklyGoal) * 100);
+
+        // البار لا يتجاوز 100%
+        const percent = Math.min(100, rawPercent);
+
+        // عرض النصوص
+        document.getElementById("weeklyGoalText").innerText = `${completedWeekly}/${weeklyGoal}`;
+        document.getElementById("weeklyPercent").innerText = `${percent}% complete`;
+        document.getElementById("weeklyProgressText").innerText = `${completedWeekly} of ${weeklyGoal} weekly challenges completed`;
+
+        // ضبط عرض شريط التقدم
+        document.getElementById("weeklyBar").style.width = percent + "%";
+
+        // Last workout
+        if (totalWorkouts > 0) {
+            document.getElementById("lastWorkout").innerText =
+                new Date().toLocaleDateString("en-US", {
+                    weekday: "long", year: "numeric", month: "long", day: "numeric"
+                });
+        }
+
+    </script>
+
+</body>
+</html>
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332

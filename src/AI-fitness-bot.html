@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+<<<<<<< HEAD
   <title>FitRise – AI Fitness Bot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
@@ -94,32 +95,99 @@
 
   
       <script>
+=======
+  <title>AI Fitness Bot</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white">
+
+  <!-- Navbar -->
+  <nav class="bg-slate-900 px-6 py-4 flex justify-between">
+    <h1 class="font-bold text-xl">FitAI</h1>
+
+    <div class="flex gap-4">
+      <a href="ai-bot.html" class="text-emerald-400 font-semibold">AI Bot</a>
+      <a href="social-sharing.html" class="text-slate-300 hover:text-white">Social</a>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <main class="max-w-5xl mx-auto py-10 px-4">
+    <h2 class="text-3xl font-bold mb-4 text-emerald-400">AI Fitness Bot</h2>
+
+    <p class="text-slate-300 mb-6">
+      These workout plans are generated for your current fitness level. Read the short description under each plan to
+      know which one is best for you today.
+    </p>
+
+    <!-- Cards -->
+    <div id="plans" class="grid md:grid-cols-3 gap-5 mb-10"></div>
+
+    <!-- Details -->
+    <section id="details" class="p-5 bg-slate-900 rounded-xl border border-slate-700">
+      <p class="text-slate-300">
+        No plan selected yet. Click
+        <span class="font-semibold text-emerald-400">Choose Plan</span>
+        to see full details.
+      </p>
+    </section>
+  </main>
+
+  <script>
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
     const plans = [
       {
         id: 1,
         name: "Quick Morning Burn",
         duration: 15,
         goal: "Weight Loss",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Perfect if you want a short morning session to burn calories and wake up your body.",
         exercises: ["5 min light jog","3 × 12 squats","3 × 10 jumping jacks","2 × 30s plank"],
+=======
+        purpose:
+          "Perfect if you want a short morning session to burn calories and wake up your body.",
+        image: "https://via.placeholder.com/300x200?text=Morning+Burn",
+        exercises: [
+          "5 min light jog",
+          "3 x 12 squats",
+          "3 x 10 jumping jacks",
+          "2 x 30s plank",
+        ],
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
       },
       {
         id: 2,
         name: "Core Strength Boost",
         duration: 20,
         goal: "Strength",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/3823063/pexels-photo-3823063.jpeg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Good for improving core and upper-body strength, especially if you sit a lot during the day.",
         exercises: ["3 × 10 push-ups","3 × 12 lunges each leg","2 × 40s plank","3 × 15 crunches"],
+=======
+        purpose:
+          "Good for improving core and upper-body strength, especially if you sit a lot during the day.",
+        image: "https://via.placeholder.com/300x200?text=Core+Strength",
+        exercises: [
+          "3 x 10 push-ups",
+          "3 x 12 lunges each leg",
+          "2 x 40s plank",
+          "3 x 15 crunches",
+        ],
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
       },
       {
         id: 3,
         name: "Cardio Endurance Run",
         duration: 25,
         goal: "Endurance",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/28076/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Best choice if your goal is to improve stamina and breathing for longer activities and sports.",
@@ -127,6 +195,15 @@
           "10 min interval run (1 min fast / 1 min slow)",
           "3 × 15 squats",
           "3 × 20 calf raises",
+=======
+        purpose:
+          "Best choice if your goal is to improve stamina and breathing for longer activities and sports.",
+        image: "https://via.placeholder.com/300x200?text=Endurance+Run",
+        exercises: [
+          "10 min interval run (1 min fast / 1 min slow)",
+          "3 x 15 squats",
+          "3 x 20 calf raises",
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
           "5 min cool-down walk",
         ],
       },
@@ -135,6 +212,7 @@
         name: "Mobility & Stretch Session",
         duration: 15,
         goal: "Mobility",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Ideal on recovery days to reduce stiffness and improve flexibility in hips, back and legs.",
@@ -143,6 +221,16 @@
           "3 × 30s hamstring stretch each leg",
           "3 × 30s hip flexor stretch",
           "2 × 45s child’s pose breathing",
+=======
+        purpose:
+          "Ideal on recovery days to reduce stiffness and improve flexibility in hips, back and legs.",
+        image: "https://via.placeholder.com/300x200?text=Mobility",
+        exercises: [
+          "2 min neck & shoulder circles",
+          "3 x 30s hamstring stretch each leg",
+          "3 x 30s hip flexor stretch",
+          "2 x 45s child’s pose breathing",
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
         ],
       },
       {
@@ -150,6 +238,7 @@
         name: "Full Body Home Workout",
         duration: 20,
         goal: "Full Body",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/3823036/pexels-photo-3823036.jpeg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Good balanced option if you want to train the whole body at home using only bodyweight.",
@@ -158,6 +247,16 @@
           "3 × 10 push-ups (on knees if needed)",
           "3 × 12 glute bridges",
           "2 × 30s mountain climbers",
+=======
+        purpose:
+          "Good balanced option if you want to train the whole body at home using only bodyweight.",
+        image: "https://via.placeholder.com/300x200?text=Full+Body",
+        exercises: [
+          "3 x 12 bodyweight squats",
+          "3 x 10 push-ups (on knees if needed)",
+          "3 x 12 glute bridges",
+          "2 x 30s mountain climbers",
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
         ],
       },
       {
@@ -165,6 +264,7 @@
         name: "HIIT Fat Burner",
         duration: 18,
         goal: "Weight Loss",
+<<<<<<< HEAD
         image: "https://images.pexels.com/photos/6453392/pexels-photo-6453392.jpeg?auto=compress&cs=tinysrgb&w=800",
         purpose:
           "Choose this if you feel energetic and want a high-intensity session to burn maximum calories.",
@@ -172,12 +272,22 @@
           "6 rounds: 20s fast high knees + 20s rest",
           "3 × 12 jump squats",
           "3 × 30s burpees (easy pace)",
+=======
+        purpose:
+          "Choose this if you feel energetic and want a high-intensity session to burn maximum calories.",
+        image: "https://via.placeholder.com/300x200?text=HIIT",
+        exercises: [
+          "6 rounds: 20s fast high knees + 20s rest",
+          "3 x 12 jump squats",
+          "3 x 30s burpees (easy pace)",
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332
           "3 min slow walk to cool down",
         ],
       },
     ];
 
     const plansContainer = document.getElementById("plans");
+<<<<<<< HEAD
     const modal = document.getElementById("planModal");
     const planTitle = document.getElementById("planTitle");
     const planImage = document.getElementById("planImage");
@@ -243,3 +353,67 @@ function renderPlans() {
 
 </body>
 </html>
+=======
+    const details = document.getElementById("details");
+
+    function renderPlans() {
+      plans.forEach((p) => {
+        const card = document.createElement("article");
+        card.className =
+          "bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-lg flex flex-col";
+
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-cover rounded-xl mb-3" />
+          <h3 class="font-bold mb-1">${p.name}</h3>
+          <p class="text-xs text-slate-300 mb-1">
+            Goal: <span class="font-semibold">${p.goal}</span> •
+            Duration: <span class="font-semibold">${p.duration} min</span>
+          </p>
+          <p class="text-xs text-slate-400 mb-3">
+            ${p.purpose}
+          </p>
+          <button
+            class="mt-auto bg-emerald-400 text-black px-3 py-2 rounded-full text-sm font-semibold hover:bg-emerald-300"
+            onclick="selectPlan(${p.id})"
+          >
+            Choose Plan
+          </button>
+        `;
+        plansContainer.appendChild(card);
+      });
+    }
+
+    window.selectPlan = function (id) {
+      const p = plans.find((x) => x.id === id);
+      if (!p) return;
+
+      details.innerHTML = `
+        <h3 class="text-xl font-bold mb-1">${p.name}</h3>
+        <p class="text-xs text-slate-300 mb-2">
+          <strong>Goal:</strong> ${p.goal} •
+          <strong>Duration:</strong> ${p.duration} min
+        </p>
+        <p class="text-sm text-slate-300 mb-3">
+          <strong>Why this plan?</strong> ${p.purpose}
+        </p>
+        <h4 class="text-sm font-semibold mb-2">Workout details</h4>
+        <ul class="list-disc ml-4 text-sm text-slate-200 mb-4">
+          ${p.exercises.map((ex) => `<li>${ex}</li>`).join("")}
+        </ul>
+
+        <a
+          href="workout.html"
+          class="bg-purple-500 px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-400 inline-block"
+        >
+          Start Today&apos;s Challenge
+        </a>
+      `;
+
+      details.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    renderPlans();
+  </script>
+</body>
+</html>
+>>>>>>> a9a49413baec7ed9bb40d6c21d2701680a1cf332

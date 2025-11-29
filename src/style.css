@@ -72,6 +72,23 @@ input:checked + .slider:before { transform: translateX(30px); content: "🌙"; f
 .light-mode .feature-title { color: var(--primary) !important; }
 .light-mode .feature-text { color: var(--text-sub) !important; }
 
+ /*
+ we add this for the part of miriam
+ */
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #1f2937;
+    padding: 24px;
+    min-height: 100vh;
+}
+
+/* Main dynamic area */
+.content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
 
 
 
