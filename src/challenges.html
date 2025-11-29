@@ -1,0 +1,252 @@
+<!--challenges.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenges – FitRise</title>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white flex">
+
+<!-- Sidebar -->
+<div class="w-64 h-screen bg-gray-800 p-6 flex flex-col justify-between">
+
+    <div>
+        <h1 class="text-2xl font-bold text-pink-400 mb-8">FitRise</h1>
+
+        <nav class="space-y-4 text-gray-300">
+
+            <a href="index.html" 
+               class="block hover:text-pink-400 transition">
+                Home
+            </a>
+
+            <a href="challenges.html" 
+               class="block hover:text-pink-400 transition">
+                Challenges
+            </a>
+
+            <a href="dashboard.html" 
+               class="block hover:text-pink-400 transition">
+                Dashboard
+            </a>
+
+            <a href="motivation.html" 
+               class="block hover:text-pink-400 transition">
+                Motivation
+            </a>
+
+        </nav>
+    </div>
+
+    <div class="text-gray-300 text-sm">
+        <p id="userEmail" class="mb-2"></p>
+        <a href="login.html" class="text-red-400 hover:text-red-300">Logout</a>
+    </div>
+
+</div>
+
+
+    <!-- Page Content -->
+    <div class="flex-1 p-10">
+
+        <!-- Title -->
+        <h1 class="text-4xl font-bold text-pink-400 mb-2">Challenges</h1>
+        <p class="text-gray-400 mb-8">Complete challenges to earn points and track progress</p>
+
+        <!-- Tabs -->
+        <div class="flex bg-gray-800 rounded-xl overflow-hidden w-80 mb-10">
+            <button id="dailyTab" class="flex-1 py-3 bg-gray-900 font-bold">Daily</button>
+            <button id="weeklyTab" class="flex-1 py-3 hover:bg-gray-700">Weekly</button>
+        </div>
+
+        <!-- DAILY SECTION -->
+        <div id="dailySection">
+
+            <!-- Challenge 1 -->
+            <div class="bg-gray-800 p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">⚡</span>
+                    <h2 class="text-xl font-bold">Morning Cardio</h2>
+                </div>
+
+                <p class="text-gray-400 mb-4">Complete 30 minutes of cardio exercise</p>
+
+                <p class="text-green-400 text-sm font-bold">+50 pts</p>
+                <p class="text-orange-400 text-sm mb-4">300 cal</p>
+
+                <button onclick="completeChallenge(this,50,300,false)"
+                    class="w-full py-3 rounded bg-gradient-to-r from-pink-500 to-purple-500 font-bold text-white">
+                    Complete Challenge
+                </button>
+            </div>
+
+            <!-- Challenge 2 -->
+            <div class="bg-gray-800 p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">💪</span>
+                    <h2 class="text-xl font-bold">Strength Training</h2>
+                </div>
+
+                <p class="text-gray-400 mb-4">Complete 45 minutes of strength training</p>
+
+                <p class="text-green-400 text-sm font-bold">+75 pts</p>
+                <p class="text-orange-400 text-sm mb-4">400 cal</p>
+
+                <button onclick="completeChallenge(this,75,400,false)"
+                    class="w-full py-3 rounded bg-gradient-to-r from-pink-500 to-purple-500 font-bold text-white">
+                    Complete Challenge
+                </button>
+            </div>
+
+            <!-- Challenge 3 -->
+            <div class="bg-gray-800 p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">🧘</span>
+                    <h2 class="text-xl font-bold">Yoga Flow</h2>
+                </div>
+
+                <p class="text-gray-400 mb-4">Practice 20 minutes of yoga</p>
+
+                <p class="text-green-400 text-sm font-bold">+40 pts</p>
+                <p class="text-orange-400 text-sm mb-4">150 cal</p>
+
+                <button onclick="completeChallenge(this,40,150,false)"
+                    class="w-full py-3 rounded bg-gradient-to-r from-pink-500 to-purple-500 font-bold text-white">
+                    Complete Challenge
+                </button>
+            </div>
+
+        </div>
+
+        <!-- WEEKLY SECTION -->
+        <div id="weeklySection" class="hidden">
+
+            <!-- Weekly Challenge 1 -->
+            <div class="bg-gray-800 p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">🏆</span>
+                    <h2 class="text-xl font-bold">Complete 5 Workouts This Week</h2>
+                </div>
+
+                <p class="text-gray-400 mb-4">Finish at least 5 workout sessions this week</p>
+
+                <p class="text-green-400 text-sm font-bold">+200 pts</p>
+                <p class="text-orange-400 text-sm mb-4">1500 cal</p>
+
+                <button onclick="completeChallenge(this,200,1500,true)"
+                    class="w-full py-3 rounded bg-gradient-to-r from-pink-500 to-purple-500 font-bold text-white">
+                    Complete Challenge
+                </button>
+            </div>
+
+            <!-- Weekly Challenge 2 -->
+            <div class="bg-gray-800 p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">🔥</span>
+                    <h2 class="text-xl font-bold">Burn 2000 Calories</h2>
+                </div>
+
+                <p class="text-gray-400 mb-4">Burn a total of 2000 calories this week</p>
+
+                <p class="text-green-400 text-sm font-bold">+250 pts</p>
+                <p class="text-orange-400 text-sm mb-4">2000 cal</p>
+
+                <button onclick="completeChallenge(this,250,2000,true)"
+                    class="w-full py-3 rounded bg-gradient-to-r from-pink-500 to-purple-500 font-bold text-white">
+                    Complete Challenge
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- EMAIL -->
+    <script>
+        const email = localStorage.getItem("email");
+        document.getElementById("userEmail").innerText = email ? email : "";
+    </script>
+
+    <!-- Motivation Box -->
+    <div id="motivationBox"
+        class="hidden fixed top-6 right-6 bg-gray-800 text-white p-4 rounded-xl shadow-lg border border-pink-400">
+        🌟 Great job! Keep pushing toward your goals!
+    </div>
+
+    <!-- MAIN SCRIPT -->
+    <script>
+
+        /* ------------------------- TABS ------------------------- */
+
+        const dailyTab = document.getElementById("dailyTab");
+        const weeklyTab = document.getElementById("weeklyTab");
+        const dailySection = document.getElementById("dailySection");
+        const weeklySection = document.getElementById("weeklySection");
+
+        dailyTab.addEventListener("click", () => {
+            dailyTab.classList.add("bg-gray-900");
+            weeklyTab.classList.remove("bg-gray-900");
+            dailySection.classList.remove("hidden");
+            weeklySection.classList.add("hidden");
+        });
+
+        weeklyTab.addEventListener("click", () => {
+            weeklyTab.classList.add("bg-gray-900");
+            dailyTab.classList.remove("bg-gray-900");
+            weeklySection.classList.remove("hidden");
+            dailySection.classList.add("hidden");
+        });
+
+
+        /* ------------ SAVE TO DASHBOARD (LOCAL STORAGE) ----------- */
+
+        function addToDashboard(points, calories) {
+
+            let totalWorkouts = parseInt(localStorage.getItem("totalWorkouts")) || 0;
+            let totalCalories = parseInt(localStorage.getItem("totalCalories")) || 0;
+
+            totalWorkouts += 1;
+            totalCalories += calories;
+
+            localStorage.setItem("totalWorkouts", totalWorkouts);
+            localStorage.setItem("totalCalories", totalCalories);
+        }
+
+
+        /* -------------------- COMPLETE CHALLENGE -------------------- */
+
+        function completeChallenge(button, points, calories, isWeekly) {
+
+            if (button.disabled) return;
+
+            // update button
+            button.innerText = "✓ Completed";
+            button.classList.remove("bg-gradient-to-r", "from-pink-500", "to-purple-500", "text-white");
+            button.classList.add("bg-gray-700", "text-gray-300", "border", "border-gray-600");
+            button.disabled = true;
+
+            // save daily data
+            addToDashboard(points, calories);
+
+            // save weekly data
+            if (isWeekly) {
+                let completedWeekly = parseInt(localStorage.getItem("completedWeekly")) || 0;
+                completedWeekly++;
+                localStorage.setItem("completedWeekly", completedWeekly);
+            }
+
+            // show message
+            const box = document.getElementById("motivationBox");
+            box.classList.remove("hidden");
+
+            setTimeout(() => box.classList.add("hidden"), 10000);
+        }
+
+    </script>
+
+</body>
+</html>
