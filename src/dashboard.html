@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – FitRise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--primary-soft);
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+    .progress-bar {
+      background: linear-gradient(to right, #C46CFF, #8E3CA9);
+      transition: width 0.5s ease-in-out;
+    }
+  </style>
+</head>
+
+<body style="background: var(--bg); color: var(--text-main);" class="transition-all">
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all"
+     style="background: var(--bg); border-color: var(--primary-soft);">
+
+  <div class="w-full px-6 py-4 flex items-center justify-between">
+    <!-- LEFT — LOGO -->
+    <a class="flex items-center" href="index.html">
+      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+        <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+      </div>
+      <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+    </a>
+
+    <!-- CENTER — MENU -->
+    <div class="hidden md:flex items-center space-x-10 mx-auto font-medium">
+      <a class="hover:underline underline-offset-4" href="profile.html">Profile</a>
+      <a class="hover:underline underline-offset-4 text-[var(--secondary)] font-semibold" href="challenges.html">Challenges</a>
+      <a class="hover:underline underline-offset-4" href="dashboard.html">Dashboard</a>
+      <a class="hover:underline underline-offset-4" href="motivation.html">Motivation</a>
+    </div>
+
+    <!-- RIGHT — SWITCH + LOGOUT -->
+    <div class="flex items-center gap-4">
+      <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+      <a href="login.html" class="login-link">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== DASHBOARD SECTION ==================== -->
+<section id="dashboard" class="max-w-7xl mx-auto px-6 py-32 fade-in">
+  <h1 class="text-4xl font-extrabold mb-2 text-[var(--secondary)]">Your Progress Dashboard</h1>
+  <p class="text-[var(--text-sub)] mb-12">Track your daily stats, progress, and weekly achievements</p>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="card p-6 text-center">
+      <p class="text-[var(--text-sub)] mb-1">Total Workouts</p>
+      <p id="totalWorkouts" class="text-green-400 text-4xl font-bold">0</p>
+      <p class="text-gray-500 text-sm">All time</p>
+    </div>
+
+    <div class="card p-6 text-center">
+      <p class="text-[var(--text-sub)] mb-1">Calories Burned</p>
+      <p id="totalCalories" class="text-orange-400 text-4xl font-bold">0</p>
+      <p class="text-gray-500 text-sm">Total energy</p>
+    </div>
+
+    <div class="card p-6 text-center">
+      <p class="text-[var(--text-sub)] mb-1">Current Streak</p>
+      <p id="streak" class="text-purple-400 text-4xl font-bold">1 days</p>
+      <p class="text-gray-500 text-sm">Keep it up!</p>
+    </div>
+
+    <div class="card p-6 text-center">
+      <p class="text-[var(--text-sub)] mb-1">Weekly Goal</p>
+      <p id="weeklyGoalText" class="text-pink-400 text-4xl font-bold">0/5</p>
+      <p id="weeklyPercent" class="text-gray-500 text-sm">0% complete</p>
+    </div>
+  </div>
+
+  <!-- Weekly Progress -->
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-3 text-[var(--secondary)]">Weekly Progress</h2>
+    <p id="weeklyProgressText" class="text-[var(--text-sub)] mb-2">0 of 5 workouts completed</p>
+    <div class="w-full bg-gray-700 h-4 rounded-full overflow-hidden shadow-inner">
+      <div id="weeklyBar" class="progress-bar h-full" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <!-- Last Workout -->
+  <div class="card p-6">
+    <h2 class="text-2xl font-bold mb-2 text-[var(--secondary)]">Last Workout</h2>
+    <p id="lastWorkout" class="text-[var(--text-sub)]">No data yet</p>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="text-center py-6 text-[var(--text-sub)] border-t" style="border-color: var(--primary-soft);">
+  © 2025 FitRise – All Rights Reserved
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+  // Theme toggle
+  const toggle = document.getElementById("themeToggle");
+  toggle.addEventListener("click", () => {
+    document.documentElement.classList.toggle("light-mode");
+  });
+
+  // Show email (optional)
+  const email = localStorage.getItem("email");
+  if (email) console.log("Welcome, " + email);
+
+  // Dashboard data
+  const totalWorkouts = parseInt(localStorage.getItem("totalWorkouts")) || 0;
+  const totalCalories = parseInt(localStorage.getItem("totalCalories")) || 0;
+  const weeklyGoal = 5;
+  const completedWeekly = parseInt(localStorage.getItem("completedWeekly")) || 0;
+  const percent = Math.min(100, Math.round((completedWeekly / weeklyGoal) * 100));
+
+  document.getElementById("totalWorkouts").innerText = totalWorkouts;
+  document.getElementById("totalCalories").innerText = totalCalories;
+  document.getElementById("weeklyGoalText").innerText = `${completedWeekly}/${weeklyGoal}`;
+  document.getElementById("weeklyPercent").innerText = `${percent}% complete`;
+  document.getElementById("weeklyProgressText").innerText = `${completedWeekly} of ${weeklyGoal} weekly challenges completed`;
+  document.getElementById("weeklyBar").style.width = percent + "%";
+
+  // Last workout
+  if (totalWorkouts > 0) {
+    document.getElementById("lastWorkout").innerText =
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+  }
+</script>
+
+</body>
+</html>

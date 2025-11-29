@@ -6,7 +6,37 @@
   <title>FitRise – Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
   <style>
+    .auth-btn {
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 12px 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(196,108,255,0.4);
+    }
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(196,108,255,0.6);
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--primary-soft);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: all .3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    #profile-pic {
+      transition: all 0.3s ease;
+    }
     .auth-input {
       width: 100%;
       padding: 14px;
@@ -21,26 +51,15 @@
       box-shadow: 0 0 10px var(--secondary);
       transform: scale(1.01);
     }
-    .auth-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
-      color: white;
-      transition: .3s;
-    }
-    .auth-btn:hover { box-shadow: 0 0 20px var(--secondary); transform: translateY(-2px); }
-    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--primary-soft); border-radius: 16px; padding: 2rem; width: 90%; max-width: 600px; box-shadow: 0 0 20px var(--primary-soft); animation: popIn .3s ease; max-height: 90vh; overflow-y: auto; }
     @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .toast { position: fixed; top: 20px; right: 20px; background: #22c55e; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-10px); transition: all .4s ease; z-index: 200; }
-    .toast.show { opacity: 1; transform: translateY(0); }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
 
-  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all" style="background: var(--bg); border-color: var(--primary-soft);">
+  <!-- 🔹 NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
+       style="background: var(--bg); border-color: var(--primary-soft);">
     <div class="w-full px-6 py-4 flex items-center justify-between">
       <a class="flex items-center" href="index.html">
         <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
@@ -48,7 +67,15 @@
         </div>
         <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
       </a>
+
       <div class="flex items-center gap-4">
+        <a href="ai-fitness-bot.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">AI Bot</a>
+        <a href="social-sharing.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Social Sharing</a>
+        <a href="profile.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Profile</a>
+        <a href="dashboard.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Dashboard</a>
+        <a href="challenges.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Challenges</a>
+        <a href="motivation.html"text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Motivation</a>
+        <button onclick="logout()" class="auth-btn text-sm px-4 py-2">Logout</button>
         <label class="theme-switch">
           <input type="checkbox" id="themeToggle">
           <span class="slider"></span>
@@ -57,25 +84,46 @@
     </div>
   </nav>
 
+  <!-- 🔹 PROFILE SECTION -->
   <section class="flex flex-col items-center pt-28 px-6 pb-16">
-    <div class="bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-lg p-8 w-full max-w-2xl text-center">
-      <div class="flex flex-col items-center mb-6">
-        <img id="profile-pic" src="https://randomuser.me/api/portraits/women/65.jpg" class="w-24 h-24 rounded-full border-4 border-[var(--secondary)] mb-3" alt="Profile Picture">
-        <h2 class="text-2xl font-bold">Safa Zidan</h2>
-        <p class="text-gray-400">safa.zidan@example.com</p>
+    <div class="card text-center w-full max-w-xl">
+      <div class="flex flex-col items-center mb-6 relative">
+        <img id="profile-pic" src="https://randomuser.me/api/portraits/women/65.jpg"
+             class="w-28 h-28 rounded-full border-4 border-[var(--secondary)] shadow-lg mb-3 object-cover"
+             alt="Profile Picture">
+        
+        <label for="upload-photo" class="auth-btn text-sm px-3 py-2 cursor-pointer flex items-center gap-2">
+          <i class="fas fa-camera"></i> Change Photo
+        </label>
+        <input type="file" id="upload-photo" accept="image/*" class="hidden" onchange="changeProfilePic(event)">
+        
+        <h2 class="text-2xl font-bold mt-3">Safa Zidan</h2>
+        <p class="text-[var(--text-sub)]">safa.zidan@example.com</p>
       </div>
-      <button onclick="openModal()" class="auth-btn w-44 mx-auto mb-8">Edit Profile</button>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <button onclick="openModal()" class="auth-btn flex items-center justify-center gap-2">
+          <i class="fas fa-pen"></i> Edit Profile
+        </button>
+        <a href="ai-fitness-bot.html" class="auth-btn flex items-center justify-center gap-2">
+          <i class="fas fa-robot"></i> AI Fitness Bot
+        </a>
+        <a href="social-sharing.html" class="auth-btn flex items-center justify-center gap-2">
+          <i class="fas fa-share-nodes"></i> Social Sharing
+        </a>
+      </div>
 
       <h3 class="text-xl font-semibold mb-3">Achievements</h3>
       <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
         <div class="bg-[var(--primary)] h-3 rounded-full" style="width: 70%"></div>
       </div>
-      <p class="text-gray-400">Pro Level – 70% completed</p>
+      <p class="text-[var(--text-sub)]">Pro Level – 70% completed</p>
     </div>
   </section>
 
-  <div id="editModal" class="modal-bg hidden">
-    <div class="modal-content">
+  <!-- ✏️ Edit Modal -->
+  <div id="editModal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50">
+    <div class="bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl p-8 w-full max-w-2xl shadow-xl animate-[popIn_.3s_ease] overflow-y-auto max-h-[90vh]">
       <h3 class="text-2xl font-bold mb-6 text-center" style="color: var(--secondary)">Edit Profile Details</h3>
 
       <form id="editForm" class="space-y-6">
@@ -127,32 +175,18 @@
 
         <div class="flex justify-between mt-6">
           <button type="button" onclick="closeModal()" class="px-5 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-700">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-lg bg-[var(--primary)] text-black font-semibold hover:opacity-90">Save Changes</button>
+          <button type="submit" class="px-5 py-2 rounded-lg bg-[var(--primary)] text-white font-semibold hover:opacity-90">Save Changes</button>
         </div>
       </form>
     </div>
   </div>
-
-  <div id="toast" class="toast">✅ Profile updated successfully</div>
 
   <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
     © 2025 FitRise – All Rights Reserved
   </footer>
 
   <script>
-    const modal = document.getElementById('editModal');
-    const toast = document.getElementById('toast');
-
-    function openModal() { modal.classList.remove('hidden'); }
-    function closeModal() { modal.classList.add('hidden'); }
-
-    document.getElementById('editForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      closeModal();
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    });
-
+    // 🌙 Light/Dark mode toggle
     const themeToggle = document.getElementById('themeToggle');
     if (localStorage.getItem('theme') === 'light') {
       document.body.classList.add('light-mode');
@@ -167,6 +201,36 @@
         localStorage.setItem('theme', 'dark');
       }
     });
+
+    // 📸 تغيير صورة البروفايل
+    function changeProfilePic(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profile-pic').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // ✏️ نافذة التعديل
+    const modal = document.getElementById('editModal');
+    function openModal() { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+    function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+
+    document.getElementById('editForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('✅ Profile updated successfully');
+      closeModal();
+    });
+
+    // 🚪 زر الخروج
+    function logout() {
+      alert("You have been logged out!");
+      window.location.href = "index.html";
+    }
   </script>
+
 </body>
 </html>

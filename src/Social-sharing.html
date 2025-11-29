@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitRise – Social Sharing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    .share-btn {
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 8px 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(196, 108, 255, 0.4);
+    }
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(196, 108, 255, 0.6);
+    }
+    .workout-card {
+      transition: all 0.3s ease;
+    }
+    .workout-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
+
+  <!-- 🔹 NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
+       style="background: var(--bg); border-color: var(--primary-soft);">
+    <div class="w-full px-6 py-4 flex items-center justify-between">
+      <a class="flex items-center" href="index.html">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+          <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+        </div>
+        <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <a href="ai-fitness-bot.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">AI Bot</a>
+        <a href="profile.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">Profile</a>
+        <label class="theme-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔹 MAIN CONTENT -->
+  <main class="pt-28 pb-16 px-6 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold mb-2 text-[var(--secondary)] flex items-center gap-2">
+      💜 Social Sharing
+    </h2>
+    <p class="text-[var(--text-sub)] mb-8 text-sm leading-relaxed">
+      Here are some of your recent workouts. Share your progress with friends and inspire others to stay active 💪
+    </p>
+
+    <div class="space-y-8">
+
+      <!-- Workout 1 -->
+      <div class="workout-card bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-md p-6">
+        <h3 class="text-xl font-bold mb-1 text-[var(--primary)]">Quick Morning Burn</h3>
+        <p class="text-[var(--text-sub)] text-sm mb-3">
+          Date: <span class="text-[var(--text-main)]">2025-02-12</span> • Goal:
+          <span class="text-[var(--secondary)]">Weight Loss</span> • Duration: 15 min
+        </p>
+        <p class="text-[var(--text-sub)] text-sm mb-3">
+          Short high-energy session to start the day strong. You completed all rounds successfully!
+        </p>
+        <ul class="text-xs text-[var(--text-sub)] mb-4 list-disc ml-5">
+          <li>5 min light jog</li>
+          <li>3 × 12 squats</li>
+          <li>3 × 10 jumping jacks</li>
+        </ul>
+
+        <button onclick="toggle(1)" class="share-btn flex items-center gap-2">
+          <i class="fas fa-share-nodes"></i> Share
+        </button>
+
+        <div id="menu1" class="hidden mt-4 border border-[var(--primary-soft)] rounded-xl p-4 bg-[var(--bg)] shadow">
+          <p class="font-semibold mb-3 text-[var(--text-main)]">Share this workout:</p>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <button class="px-3 py-2 rounded bg-green-600 hover:bg-green-700">WhatsApp</button>
+            <button class="px-3 py-2 rounded bg-pink-600 hover:bg-pink-700">Instagram</button>
+            <button class="px-3 py-2 rounded bg-sky-600 hover:bg-sky-700">Messenger</button>
+            <button class="px-3 py-2 rounded bg-gray-700 hover:bg-gray-800">Copy Link</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workout 2 -->
+      <div class="workout-card bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-md p-6">
+        <h3 class="text-xl font-bold mb-1 text-[var(--primary)]">Core Strength Boost</h3>
+        <p class="text-[var(--text-sub)] text-sm mb-3">
+          Date: <span class="text-[var(--text-main)]">2025-02-10</span> • Goal:
+          <span class="text-[var(--secondary)]">Strength</span> • Duration: 20 min
+        </p>
+        <p class="text-[var(--text-sub)] text-sm mb-3">
+          Abs and legs focused — you improved your plank time compared to last week!
+        </p>
+        <ul class="text-xs text-[var(--text-sub)] mb-4 list-disc ml-5">
+          <li>3 × 10 push-ups</li>
+          <li>3 × 12 lunges each leg</li>
+          <li>2 × 40s plank</li>
+        </ul>
+
+        <button onclick="toggle(2)" class="share-btn flex items-center gap-2">
+          <i class="fas fa-share-nodes"></i> Share
+        </button>
+
+        <div id="menu2" class="hidden mt-4 border border-[var(--primary-soft)] rounded-xl p-4 bg-[var(--bg)] shadow">
+          <p class="font-semibold mb-3 text-[var(--text-main)]">Share this workout:</p>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <button class="px-3 py-2 rounded bg-green-600 hover:bg-green-700">WhatsApp</button>
+            <button class="px-3 py-2 rounded bg-pink-600 hover:bg-pink-700">Instagram</button>
+            <button class="px-3 py-2 rounded bg-sky-600 hover:bg-sky-700">Messenger</button>
+            <button class="px-3 py-2 rounded bg-gray-700 hover:bg-gray-800">Copy Link</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
+    © 2025 FitRise – All Rights Reserved
+  </footer>
+
+  <script>
+    function toggle(id) {
+      [1, 2].forEach((num) => {
+        const m = document.getElementById("menu" + num);
+        if (num !== id && m && !m.classList.contains("hidden")) m.classList.add("hidden");
+      });
+      const menu = document.getElementById("menu" + id);
+      if (menu) menu.classList.toggle("hidden");
+    }
+
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+
+</body>
+</html>

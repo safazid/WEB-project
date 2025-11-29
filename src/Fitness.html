@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitRise – Workout Step</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-btn {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      transition: .3s;
+    }
+    .auth-btn:hover {
+      box-shadow: 0 0 20px var(--secondary);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
+
+  <!-- 🔹 NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
+       style="background: var(--bg); border-color: var(--primary-soft);">
+    <div class="w-full px-6 py-4 flex items-center justify-between">
+      <a class="flex items-center" href="index.html">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+          <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+        </div>
+        <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <a href="ai-bot.html" class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">AI Bot</a>
+        <label class="theme-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔹 MAIN CONTENT -->
+  <main class="pt-32 pb-16 flex flex-col items-center justify-center px-6">
+    <div class="bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-2xl shadow-lg p-8 text-center w-full max-w-md">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--secondary);">🏋️ Step 1</h2>
+      <p class="text-[var(--text-sub)] mb-6 text-sm leading-relaxed">
+        Start with a light warm-up: 5 minutes of easy movement (march in place, light jogging, or fast walking).
+      </p>
+
+      <!-- Timer -->
+      <div class="flex flex-col items-center gap-2 mb-6">
+        <span id="timer" class="text-4xl font-mono font-bold bg-[var(--primary-soft)] text-white px-8 py-3 rounded-full">
+          00:30
+        </span>
+        <span class="text-xs text-[var(--text-sub)]">Timer for this step</span>
+      </div>
+
+      <!-- Buttons -->
+      <button id="restartBtn" class="auth-btn mb-4">Restart Timer</button>
+
+      <a href="AI-fitness-bot.html"
+         class="block text-sm font-semibold text-[var(--primary)] hover:underline">
+        ← Back to Plans
+      </a>
+    </div>
+  </main>
+
+  <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
+    © 2025 FitRise – All Rights Reserved
+  </footer>
+
+ <script>
+  // نقرأ الاسم والمدة من الرابط
+  const params = new URLSearchParams(window.location.search);
+  const duration = parseInt(params.get("duration")) || 1; // بالدقائق
+  const workoutName = params.get("name") || "Workout Step";
+
+  // تحديث العنوان
+  document.querySelector("h2").innerHTML = `🏋️‍♂️ ${workoutName}`;
+
+  // نحول الوقت إلى ثواني
+  let seconds = duration * 60;
+  let intervalId = null;
+
+  function format(sec) {
+    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  function startTimer() {
+    const timerEl = document.getElementById("timer");
+    timerEl.textContent = format(seconds);
+
+    if (intervalId) clearInterval(intervalId);
+
+    intervalId = setInterval(() => {
+      seconds--;
+      timerEl.textContent = format(seconds);
+      if (seconds <= 0) {
+        clearInterval(intervalId);
+        intervalId = null;
+        timerEl.textContent = "✅ Done!";
+      }
+    }, 1000);
+  }
+
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    seconds = duration * 60;
+    startTimer();
+  });
+
+  startTimer();
+</script>
+<script>
+  // 🌙 Theme toggle system
+  const themeToggle = document.getElementById('themeToggle');
+
+  // نقرأ الوضع الحالي من localStorage
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    themeToggle.checked = true;
+  } else {
+    document.body.classList.remove('light-mode');
+    themeToggle.checked = false;
+  }
+
+  // لما المستخدم يبدّل الوضع
+  themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+      document.body.classList.add('light-mode');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+</script>
+
+</body>
+</html>

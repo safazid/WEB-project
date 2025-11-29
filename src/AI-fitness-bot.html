@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitRise – AI Fitness Bot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+      color: white;
+      transition: .3s;
+    }
+    .auth-btn:hover { box-shadow: 0 0 20px var(--secondary); transform: translateY(-2px); }
+
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--primary-soft); border-radius: 16px; padding: 2rem; width: 90%; max-width: 600px; box-shadow: 0 0 20px var(--primary-soft); animation: popIn .3s ease; max-height: 90vh; overflow-y: auto; }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .plan-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.plan-description {
+  min-height: 60px; /* يخلي كل النصوص بنفس الارتفاع */
+}
+
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text-main); transition: .4s;">
+
+<!-- 🔹 NAVBAR -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
+     style="background: var(--bg); border-color: var(--primary-soft);">
+  <div class="w-full px-6 py-4 flex items-center justify-between">
+    <a class="flex items-center" href="index.html">
+      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+        <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+      </div>
+      <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <!-- زر الصفحة الشخصية -->
+      <a href="profile.html" 
+         class="text-[var(--text-sub)] hover:text-[var(--primary)] font-semibold transition">
+        Profile
+      </a>
+
+      <!-- سويتش الوضع الليلي -->
+      <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- 🔹 MAIN CONTENT -->
+  <main class="pt-28 px-6 pb-16 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-4 text-[var(--primary)] flex items-center gap-2">
+      🤖 AI Fitness Bot
+    </h2>
+    <p class="text-[var(--text-sub)] mb-10 text-lg">
+      These personalized workout plans are generated for your fitness level. Select one to view details and start your daily challenge.
+    </p>
+
+    <!-- Workout Cards -->
+    <div id="plans" class="grid md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- 🔹 POPUP MODAL -->
+  <div id="planModal" class="modal-bg hidden">
+    <div class="modal-content">
+      <h3 id="planTitle" class="text-2xl font-bold mb-2" style="color: var(--secondary)">Workout Plan</h3>
+      <img id="planImage" src="" class="w-full h-48 object-cover rounded-lg mb-4">
+      <p id="planDetails" class="text-[var(--text-sub)] mb-4 text-sm"></p>
+      <ul id="planExercises" class="list-disc ml-6 text-[var(--text-main)] mb-6"></ul>
+      <div class="flex justify-end gap-4">
+        <button onclick="closePlanModal()" class="px-5 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-700">Cancel</button>
+        <a id="startBtn" href="#" class="px-5 py-2 rounded-lg bg-[var(--primary)] text-black font-semibold hover:opacity-90">Start Now</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-6 text-[var(--text-sub)] border-t border-[var(--primary-soft)] mt-auto">
+    © 2025 FitRise – All Rights Reserved
+  </footer>
+
+  
+      <script>
+    const plans = [
+      {
+        id: 1,
+        name: "Quick Morning Burn",
+        duration: 15,
+        goal: "Weight Loss",
+        image: "https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Perfect if you want a short morning session to burn calories and wake up your body.",
+        exercises: ["5 min light jog","3 × 12 squats","3 × 10 jumping jacks","2 × 30s plank"],
+      },
+      {
+        id: 2,
+        name: "Core Strength Boost",
+        duration: 20,
+        goal: "Strength",
+        image: "https://images.pexels.com/photos/3823063/pexels-photo-3823063.jpeg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Good for improving core and upper-body strength, especially if you sit a lot during the day.",
+        exercises: ["3 × 10 push-ups","3 × 12 lunges each leg","2 × 40s plank","3 × 15 crunches"],
+      },
+      {
+        id: 3,
+        name: "Cardio Endurance Run",
+        duration: 25,
+        goal: "Endurance",
+        image: "https://images.pexels.com/photos/28076/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Best choice if your goal is to improve stamina and breathing for longer activities and sports.",
+        exercises: [
+          "10 min interval run (1 min fast / 1 min slow)",
+          "3 × 15 squats",
+          "3 × 20 calf raises",
+          "5 min cool-down walk",
+        ],
+      },
+      {
+        id: 4,
+        name: "Mobility & Stretch Session",
+        duration: 15,
+        goal: "Mobility",
+        image: "https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Ideal on recovery days to reduce stiffness and improve flexibility in hips, back and legs.",
+        exercises: [
+          "2 min neck & shoulder circles",
+          "3 × 30s hamstring stretch each leg",
+          "3 × 30s hip flexor stretch",
+          "2 × 45s child’s pose breathing",
+        ],
+      },
+      {
+        id: 5,
+        name: "Full Body Home Workout",
+        duration: 20,
+        goal: "Full Body",
+        image: "https://images.pexels.com/photos/3823036/pexels-photo-3823036.jpeg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Good balanced option if you want to train the whole body at home using only bodyweight.",
+        exercises: [
+          "3 × 12 bodyweight squats",
+          "3 × 10 push-ups (on knees if needed)",
+          "3 × 12 glute bridges",
+          "2 × 30s mountain climbers",
+        ],
+      },
+      {
+        id: 6,
+        name: "HIIT Fat Burner",
+        duration: 18,
+        goal: "Weight Loss",
+        image: "https://images.pexels.com/photos/6453392/pexels-photo-6453392.jpeg?auto=compress&cs=tinysrgb&w=800",
+        purpose:
+          "Choose this if you feel energetic and want a high-intensity session to burn maximum calories.",
+        exercises: [
+          "6 rounds: 20s fast high knees + 20s rest",
+          "3 × 12 jump squats",
+          "3 × 30s burpees (easy pace)",
+          "3 min slow walk to cool down",
+        ],
+      },
+    ];
+
+    const plansContainer = document.getElementById("plans");
+    const modal = document.getElementById("planModal");
+    const planTitle = document.getElementById("planTitle");
+    const planImage = document.getElementById("planImage");
+    const planDetails = document.getElementById("planDetails");
+    const planExercises = document.getElementById("planExercises");
+    const startBtn = document.getElementById("startBtn");
+
+function renderPlans() {
+  plans.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "plan-card bg-[var(--card-bg)] border border-[var(--primary-soft)] rounded-xl p-6 shadow-lg hover:scale-[1.02] transition";
+
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-cover rounded-lg mb-3">
+      <h3 class="text-xl font-bold mb-1" style="color: var(--secondary);">${p.name}</h3>
+      <p class="text-[var(--text-sub)] text-sm mb-2">
+        Goal: <span class="font-semibold">${p.goal}</span> • Duration: <span class="font-semibold">${p.duration} min</span>
+      </p>
+      <p class="plan-description text-[var(--text-sub)] text-sm mb-4">${p.purpose}</p>
+      <div class="mt-auto">
+        <button class="auth-btn w-full text-sm" onclick="openPlanModal(${p.id})">Choose Plan</button>
+      </div>
+    `;
+    plansContainer.appendChild(card);
+  });
+}
+
+
+    function openPlanModal(id) {
+      const p = plans.find(x => x.id === id);
+      if (!p) return;
+      planTitle.textContent = p.name;
+      planImage.src = p.image;
+      planDetails.innerHTML = `<strong>Goal:</strong> ${p.goal} • <strong>Duration:</strong> ${p.duration} min <br><br>${p.purpose}`;
+      planExercises.innerHTML = p.exercises.map(ex => `<li>${ex}</li>`).join("");
+      //startBtn.href = "Fitness.html";
+      startBtn.href = `fitness.html?duration=${p.duration}&name=${encodeURIComponent(p.name)}`;
+      modal.classList.remove("hidden");
+    }
+
+    function closePlanModal() { modal.classList.add("hidden"); }
+
+    renderPlans();
+
+    // Theme toggle (نفس نظام الموقع)
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+
+
+
+</body>
+</html>

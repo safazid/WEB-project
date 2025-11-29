@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motivation – FitRise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--primary-soft);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .quote-box {
+      background: var(--card-bg);
+      border: 1px solid var(--primary-soft);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .quote-box:hover {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .gradient-btn {
+      background: var(--primary);
+      color: black;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px var(--primary-soft);
+    }
+
+    .gradient-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body style="background: var(--bg); color: var(--text-main);" class="transition-all">
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all"
+     style="background: var(--bg); border-color: var(--primary-soft);">
+
+  <div class="w-full px-6 py-4 flex items-center justify-between">
+    <!-- LEFT — LOGO -->
+    <a class="flex items-center" href="index.html">
+      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 border border-white shadow">
+        <img src="YOUR_LOGO.png" class="w-7 h-7 rounded-full" alt="FitRise Logo">
+      </div>
+      <span class="ml-3 font-bold text-xl logo-gradient">FitRise</span>
+    </a>
+
+    <!-- CENTER — MENU -->
+    <div class="hidden md:flex items-center space-x-10 mx-auto font-medium">
+      <a class="hover:underline underline-offset-4" href="profile.html">Profile</a>
+      <a class="hover:underline underline-offset-4" href="challenges.html">Challenges</a>
+      <a class="hover:underline underline-offset-4" href="dashboard.html">Dashboard</a>
+      <a class="hover:underline underline-offset-4 text-[var(--secondary)] font-semibold" href="motivation.html">Motivation</a>
+    </div>
+
+    <!-- RIGHT — SWITCH + LOGOUT -->
+    <div class="flex items-center gap-4">
+      <label class="theme-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+      <a href="login.html" class="login-link">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== MOTIVATION SECTION ==================== -->
+<section class="max-w-5xl mx-auto px-6 py-32 fade-in">
+  <h1 class="text-4xl font-extrabold mb-2 text-[var(--secondary)]">Stay Motivated ✨</h1>
+  <p class="text-[var(--text-sub)] mb-10">Get inspired and learn tips to improve your fitness journey.</p>
+
+  <!-- QUOTE BOX -->
+  <div class="quote-box mb-10">
+    <p id="quoteText" class="text-3xl font-semibold mb-4">
+      "Your body can stand almost anything. It's your mind you have to convince."
+    </p>
+    <p class="text-[var(--text-sub)] mb-6">— Anonymous</p>
+
+    <button onclick="newQuote()" class="gradient-btn">
+      ⟳ New Quote
+    </button>
+  </div>
+
+  <!-- FITNESS TIPS -->
+  <h2 class="text-2xl font-bold mb-6 text-[var(--secondary)]">💡 Fitness Tips</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="card">
+      <p class="text-2xl mb-2">💧</p>
+      <h3 class="font-bold text-lg">Stay Hydrated</h3>
+      <p class="text-[var(--text-sub)] text-sm">Drink at least 8 glasses of water daily.</p>
+    </div>
+
+    <div class="card">
+      <p class="text-2xl mb-2">🔥</p>
+      <h3 class="font-bold text-lg">Warm Up Properly</h3>
+      <p class="text-[var(--text-sub)] text-sm">Always warm up before exercise.</p>
+    </div>
+
+    <div class="card">
+      <p class="text-2xl mb-2">😴</p>
+      <h3 class="font-bold text-lg">Rest Days Matter</h3>
+      <p class="text-[var(--text-sub)] text-sm">Let your muscles recover well.</p>
+    </div>
+
+    <div class="card">
+      <p class="text-2xl mb-2">🌙</p>
+      <h3 class="font-bold text-lg">Consistent Sleep</h3>
+      <p class="text-[var(--text-sub)] text-sm">Aim for 7–9 hours of quality sleep.</p>
+    </div>
+
+    <div class="card">
+      <p class="text-2xl mb-2">🥗</p>
+      <h3 class="font-bold text-lg">Balanced Nutrition</h3>
+      <p class="text-[var(--text-sub)] text-sm">Eat proteins, carbs, and healthy fats daily.</p>
+    </div>
+
+    <div class="card">
+      <p class="text-2xl mb-2">📊</p>
+      <h3 class="font-bold text-lg">Track Progress</h3>
+      <p class="text-[var(--text-sub)] text-sm">Monitor your improvements regularly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="text-center py-6 text-[var(--text-sub)] border-t" style="border-color: var(--primary-soft);">
+  © 2025 FitRise – All Rights Reserved
+</footer>
+
+<!-- ==================== SCRIPT ==================== -->
+<script>
+  // Theme toggle (light/dark)
+  const themeToggle = document.getElementById('themeToggle');
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    themeToggle.checked = true;
+  }
+  themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+      document.body.classList.add('light-mode');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Quotes functionality
+  const quotes = [
+    "Your only limit is you.",
+    "Push yourself, because no one else will do it for you.",
+    "Don’t stop when you’re tired. Stop when you're done.",
+    "Success doesn’t come from what you do occasionally. It comes from what you do consistently.",
+    "Believe you can, and you’re halfway there.",
+    "Small progress is still progress.",
+    "Dream it. Wish it. Do it.",
+    "The body achieves what the mind believes."
+  ];
+
+  function newQuote() {
+    const random = Math.floor(Math.random() * quotes.length);
+    document.getElementById("quoteText").innerText = `"${quotes[random]}"`;
+  }
+</script>
+
+</body>
+</html>
