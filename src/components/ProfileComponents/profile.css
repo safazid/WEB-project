@@ -1,0 +1,105 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease-out;
+  opacity: 1; /* ✅ أمان */
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.35s ease-out;
+  opacity: 1; /* ✅ أمان */
+}
+
+.card-hover {
+  transition: all 0.25s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.25);
+}
+
+.btn-animate {
+  transition: all 0.2s ease;
+}
+
+.btn-animate:hover {
+  transform: scale(1.03);
+}
+
+.btn-animate:active {
+  transform: scale(0.97);
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ================== PROFILE MODAL ================== */
+/* مودال البروفايل (مصمت، مش شفاف) */
+
+.profile-modal {
+  background: #121821; /* دارك مود – لون مصمت */
+}
+
+/* Light mode */
+.light-mode .profile-modal {
+  background: #ffffff;
+}
+
+/* الوضع العادي */
+.user-name,
+.user-email {
+  color: var(--text-main);
+}
+
+/* 🌙 Night Mode */
+.dark-mode .user-name,
+.dark-mode .user-email {
+  color: var(--text-main);
+}
+
+/* Scrollbar nicer (Chrome/Edge) */
+.modal-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0,128,128,0.25);
+  border-radius: 999px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.03);
+}
+
+/* bounce for arrow */
+@keyframes bounceSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.animate-bounce {
+  animation: bounceSoft 0.9s ease-in-out infinite;
+}

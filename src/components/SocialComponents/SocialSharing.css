@@ -1,0 +1,38 @@
+/* ===== Social Sharing Page ===== */
+
+.share-btn {
+  background: linear-gradient(135deg, #C46CFF, #8E3CA9);
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 18px;
+  transition: .25s ease;
+  box-shadow: 0 4px 14px rgba(196,108,255,.35);
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(196,108,255,.55);
+}
+
+.workout-card {
+  transition: .25s ease;
+}
+
+.workout-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+}
+
+/* share menu box */
+.share-menu {
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--primary-soft);
+  padding: 14px;
+}
+
+.share-menu button {
+  font-weight: 600;
+  color: white;
+}

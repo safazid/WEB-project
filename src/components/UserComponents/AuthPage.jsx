@@ -1,0 +1,100 @@
+import { useEffect, useRef, useState } from "react";
+import "./login.css";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import MotivationText from "./MotivationText";
+import SocialIcons from "./SocialIcons";
+import AuthFooter from "./AuthFooter";
+
+export default function AuthPage() {
+  const [mode, setMode] = useState("login"); // login | register
+  const wrapperRef = useRef(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ هذا هو الصح
+  const handleLoginSuccess = (userId, userName) => {
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userName", userName);
+    localStorage.setItem("isLoggedIn", "true");
+    navigate("/profile");
+  };
+
+  // تبديل Login / Register حسب URL
+  useEffect(() => {
+    if (location.hash === "#register") {
+      setMode("register");
+    } else {
+      setMode("login");
+    }
+  }, [location.hash]);
+useEffect(() => {
+  // 🧹 Clear user session
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("isLoggedIn");
+}, []);
+
+  // ضبط ارتفاع الفورم
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const activeForm = wrapper.querySelector(
+      mode === "login" ? "#loginForm" : "#registerForm"
+    );
+
+    if (activeForm) {
+      wrapper.style.height = activeForm.offsetHeight + "px";
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [mode]);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+
+      {/* ===== LOGIN / REGISTER AREA ===== */}
+      <div
+        className="flex justify-center px-6 pt-32 flex-1 items-start"
+        style={{ minHeight: "calc(100vh - 140px)" }}
+      >
+        <div ref={wrapperRef} className="w-full max-w-md relative">
+
+          {/* LOGIN FORM */}
+          <div
+            id="loginForm"
+            className={`form-wrapper w-full ${
+              mode === "login" ? "visible-form" : "hidden-form"
+            }`}
+          >
+            <LoginForm
+              onRegister={() => setMode("register")}
+              onLoginSuccess={handleLoginSuccess}
+            />
+          </div>
+
+          {/* REGISTER FORM */}
+          <div
+            id="registerForm"
+            className={`form-wrapper w-full ${
+              mode === "register" ? "visible-form" : "hidden-form"
+            }`}
+          >
+            <RegisterForm onLogin={() => setMode("login")} />
+          </div>
+
+        </div>
+      </div>
+
+      <div className="mt-40">
+        <SocialIcons />
+      </div>
+
+      <AuthFooter />
+    </div>
+  );
+}

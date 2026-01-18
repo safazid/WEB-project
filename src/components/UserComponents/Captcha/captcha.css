@@ -1,0 +1,31 @@
+.captcha-select {
+  width: 100%;
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 2px solid var(--secondary);
+  border-radius: 12px;
+  padding: 10px 14px;
+  outline: none;
+  transition: 0.25s;
+}
+
+.captcha-select:focus {
+  box-shadow: 0 0 12px rgba(160, 102, 255, 0.5);
+  border-color: var(--secondary);
+}
+
+.captcha-select option {
+  background: #1b1f2a;
+  color: white;
+}
+
+.light-mode .captcha-select {
+  background: #ffffff;
+  color: #1a1a1a;
+  border-color: var(--secondary);
+}
+
+.light-mode .captcha-select option {
+  background: #ffffff;
+  color: #1a1a1a;
+}

@@ -1,0 +1,241 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);              /* ✅ أضيف */
+  color: var(--text-main);            /* ✅ أضيف */
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ===== THEME SWITCH (OLD STYLE) ===== */
+.theme-switch-pill {
+  width: 68px;
+  height: 34px;
+  padding: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b8a8c, #4ee4c2);
+  display: flex;
+  align-items: center;
+  transition: background 0.35s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.theme-switch-pill.light {
+  background: linear-gradient(135deg, #7fe7e1, #b9fff8);
+}
+
+.theme-switch-knob {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffcc4d;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transform: translateX(0); /* 🌙 Dark */
+  transition: transform 0.35s ease;
+}
+
+.theme-switch-pill.light .theme-switch-knob {
+  transform: translateX(34px); /* ☀️ Light */
+}
+
+/* Buttons */
+.login-link { color: white !important; font-weight: 500; padding: 0 8px; transition: .2s; }
+.login-link:hover { opacity: .8; }
+.register-btn {
+  background: linear-gradient(135deg, #C46CFF 0%, #8E3CA9 100%) !important; color: white !important;
+  padding: 8px 20px; font-weight: 600; border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(142,60,169,0.35); transition: .25s ease;
+}
+.register-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(142,60,169,0.45); }
+
+/* Animations */
+.fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn .9s ease-out forwards; }
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+.typing { display: inline-block; width: 0; white-space: nowrap; overflow: hidden; border-right: 3px solid var(--primary); animation: typing 3s steps(20) forwards, blink .7s infinite; }
+@keyframes typing { from { width:0 } to { width:100% } }
+@keyframes blink { 50% { border-color: transparent; } }
+.tilt:hover { transform: perspective(600px) rotateY(6deg) rotateX(6deg) scale(1.03); transition: .4s; box-shadow: 0 0 30px var(--primary-soft); }
+.chat-bubble {
+  position: fixed; bottom:25px; right:25px;
+  background: var(--primary);
+  color: var(--text-main);            /* ✅ بدل black */
+  padding: 14px 20px; border-radius: 50px;
+  box-shadow:0 0 20px var(--primary);
+  font-weight:700; cursor:pointer;
+  animation: floatChat 3s ease-in-out infinite; z-index:50;
+}
+@keyframes floatChat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+/* Colors */
+:root {
+  --primary: #4EE4C2;
+  --primary-soft: rgba(78, 228, 194, 0.5);
+  --secondary: #A066FF;
+  --tertiary: #4CD3F5;
+  --grid-color: #1dd3b880;
+  --bg: #0B0F17;
+  --card-bg: rgba(255,255,255,0.05);
+  --text-main: white;
+  --text-sub: #c9c9c9;
+  --transition: .35s ease;
+}
+
+/* Light Mode */
+.light-mode {
+  --primary: #0B8A8C;
+  --secondary: #8E3CA9;
+  --tertiary: #8E3CA9;
+  --text-main: #1A1A1A;
+  --text-sub: #4A4A4A;
+  --card-bg: #FFFFFF;
+  --card-border: #E6E6E9;
+  --grid-color: rgba(0,0,0,0.05);
+  --bg: linear-gradient(135deg,#ffffff 0%,#F6F2FF 35%,#E8FBFB 75%,#ffffff 100%);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--card-bg);        /* ✅ بدل لون ثابت */
+  color: var(--text-main);           /* ✅ */
+  padding: 24px;
+  min-height: 100vh;
+}
+
+/* Main dynamic area */
+.content {
+  margin-left: 240px;
+  padding: 40px;
+}
+
+/* Logo */
+.logo-text {
+  color: var(--primary);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+.light-mode .logo-text {
+  color: white !important;
+}
+
+/* Nav links */
+.nav-link {
+  color: var(--text-main);
+  transition: color 0.25s ease;
+}
+.nav-link:hover {
+  color: var(--primary);
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu {
+  background: var(--bg);
+  color: var(--text-main);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.35);
+}
+
+.close-btn {
+  font-size: 22px;
+  color: var(--text-main);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-menu .nav-link {
+  color: var(--text-main);
+  font-size: 16px;
+  text-align: left;
+  padding: 6px 0;
+}
+
+.mobile-menu .nav-link:hover {
+  color: var(--primary);
+}
+
+.mobile-menu hr {
+  border: none;
+  border-top: 1px solid var(--primary-soft);
+}
+
+/* Card default */
+.card {
+  background: var(--card-bg);        /* ✅ مهم */
+  color: var(--text-main);
+  transition: background var(--transition), color var(--transition);
+}
+
+.auth-title {
+  color: var(--text-main);
+}
+
+#registerForm h2 {
+  color: var(--secondary) !important;
+}
+
+.card button {
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+
+
+
+
+/* ================== AI CHAT ================== */
+.ai-chat-box {
+  background: #121821; /* دارك */
+}
+
+.light-mode .ai-chat-box {
+  background: #ffffff;
+}
+/* ===== SELECT FIX (REAL SOLUTION) ===== */
+select {
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--primary-soft);
+}
+/* dropdown list (browser forced) */
+select option {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+
+
+/* === WorkoutPreferences Dark Mode Fix (NO JSX TOUCH) === */
+body:not(.light-mode) .bg-white {
+  background: var(--card-bg) !important;
+  color: var(--text-main) !important;
+}
+
+body:not(.light-mode) .bg-gray-100 {
+  background: rgba(255,255,255,0.08) !important;
+  color: var(--text-main) !important;
+}
+
+body:not(.light-mode) select {
+  background: var(--card-bg);
+  color: var(--text-main);
+  border-color: var(--primary-soft);
+}
+/* ===== AI CHAT FIX (DARK MODE) ===== */
+
+/* النص اللي المستخدم بكتبه (الرسالة نفسها) */
+.ai-chat-box .bg-emerald-100 {
+  color: #064e3b; /* أخضر غامق – واضح */
+}
+
+/* input الكتابة */
+.ai-chat-box input {
+  color: #111;           /* لون النص */
+  background: #ffffff;  /* خلفية */
+}
+
+/* placeholder */
+.ai-chat-box input::placeholder {
+  color: #6b7280;
+}

@@ -1,0 +1,23 @@
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6); /* يبقى */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: #121821; /* دارك مود – مصمت */
+  border: 1px solid var(--primary-soft);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 20px var(--primary-soft);
+}
+
+.light-mode .modal-content {
+  background: #ffffff;
+}
