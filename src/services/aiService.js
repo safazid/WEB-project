@@ -1,20 +1,19 @@
 export async function askAI(prompt) {
-  /*const res = await fetch("http://localhost:3001/api/ai", {
+  const API_URL =
+    import.meta.env.PROD
+      ? "/api/ai"
+      : "http://localhost:3001/api/ai";
+
+  const res = await fetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
-  });*/
-  
-  const res = await fetch("/api/ai", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ prompt }),
-});
+  });
 
   const data = await res.json();
-  return data.raw;   // نُرجع النص فقط
+  return data.raw;
+}
+
 
   /*try {
     return JSON.parse(data.raw);
@@ -26,4 +25,4 @@ export async function askAI(prompt) {
       levelDecision: null,
     };
   }*/
-}
+
