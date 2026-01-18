@@ -6,25 +6,26 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 app.post("/api/ai", async (req, res) => {
   try {
     const { prompt } = req.body;
 
     const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`,
-        "X-Title": "FitRise AI Coach",
-      },
-      body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct",
-        messages: [
-          {
-            role: "system",
-            content: `
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${API_KEY}`,
+    "HTTP-Referer": "http://localhost:3000",   // مهم جداً
+    "X-Title": "FitRise AI Coach",
+  },
+  body: JSON.stringify({
+    model: "mistralai/mistral-7b-instruct",
+    messages: [
+      {
+        role: "system",
+        content: `
 You are a professional fitness coach.
 You MUST reply in pure JSON ONLY with this structure:
 
@@ -38,12 +39,12 @@ You MUST reply in pure JSON ONLY with this structure:
 }
 
 JSON ONLY. No text outside JSON.
-          `,
-          },
-          { role: "user", content: prompt },
-        ],
-      }),
-    });
+        `,
+      },
+      { role: "user", content: prompt },
+    ],
+  }),
+});
 
     const data = await r.json();
 
