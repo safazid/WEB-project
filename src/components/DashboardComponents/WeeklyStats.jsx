@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { auth } from "../../firebase";
+import { db, auth } from "../../firebase";
 
 export default function WeeklyStats() {
   const [weeks, setWeeks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+
+  // مراقبة تغيير الثيم
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const fetchWeekly = async () => {
@@ -15,8 +31,7 @@ export default function WeeklyStats() {
         return;
       }
 
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
+      const snap = await getDoc(doc(db, "users", user.uid));
       const data = snap.data() || {};
 
       const weeklyCalories = data.weeklyCalories || {};
@@ -24,11 +39,9 @@ export default function WeeklyStats() {
 
       const result = [];
 
-      // نعرض أي أسبوع فيه تمارين (UX-friendly)
       Object.keys(weeklyWorkouts).forEach((weekKey) => {
         const workouts = weeklyWorkouts[weekKey] || 0;
         const calories = weeklyCalories[weekKey] || 0;
-
         if (workouts === 0) return;
 
         const weekNumber = weekKey.split("-W")[1];
@@ -40,7 +53,6 @@ export default function WeeklyStats() {
         });
       });
 
-      // ترتيب الأسابيع تصاعدي
       result.sort((a, b) => {
         const wa = Number(a.week.replace("Week ", ""));
         const wb = Number(b.week.replace("Week ", ""));
@@ -59,30 +71,67 @@ export default function WeeklyStats() {
   }
 
   if (weeks.length === 0) {
-    return <div className="p-6">No workouts this month yet 💪</div>;
+    return <div className="p-6">No workouts yet 💪</div>;
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-bold">Weekly Stats (This Month)</h2>
+    <div
+      className="p-8 mb-10 transition-all duration-300 ease-out transform hover:-translate-y-2 hover:scale-[1.02]"
+      style={{
+        background: "var(--card-bg)",
+        borderRadius: "24px",
+        border: "1px solid #0B8A8C",
+        boxShadow: isDark
+          ? "0 0 0 1px rgba(11,138,140,0.25), 0 0 22px rgba(11,138,140,0.18)"
+          : "0 0 0 1px rgba(11,138,140,0.15), 0 0 14px rgba(11,138,140,0.12)",
+      }}
+    >
+      <h2 className="text-2xl font-bold mb-6" style={{ color: "#A066FF" }}>
+        Weekly Stats
+      </h2>
 
-      {weeks.map((w, i) => (
-        <div
-          key={i}
-          className="flex justify-between items-center bg-white p-4 rounded-xl shadow"
-        >
-          <div>
-            <div className="font-semibold">{w.week}</div>
-            <div className="text-sm text-gray-500">
-              {w.workouts} workout(s)
+      <div className="space-y-4">
+        {weeks.map((w, i) => (
+          <div
+            key={i}
+            className="flex justify-between items-center p-5 rounded-2xl"
+            style={{
+              background: isDark
+                ? "rgba(255,255,255,0.06)"
+                : "rgba(0,0,0,0.04)",
+            }}
+          >
+            {/* LEFT – Week + workouts */}
+            <div>
+              <div className="font-semibold text-lg">
+                {w.week}
+              </div>
+              <div
+                className="text-sm mt-1"
+                style={{ color: "var(--text-sub)" }}
+              >
+                🏋️ {w.workouts} workout{w.workouts !== 1 && "s"}
+              </div>
+            </div>
+
+            {/* RIGHT – Calories */}
+            <div className="text-right">
+              <div
+                className="text-sm"
+                style={{ color: "var(--text-sub)" }}
+              >
+                Calories
+              </div>
+              <div
+                className="text-2xl font-extrabold"
+                style={{ color: "var(--primary)" }}
+              >
+                🔥 {w.calories}
+              </div>
             </div>
           </div>
-
-          <div className="text-emerald-600 font-bold">
-            🔥 {w.calories} kcal
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

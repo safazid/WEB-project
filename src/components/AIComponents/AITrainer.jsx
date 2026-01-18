@@ -96,8 +96,39 @@ export default function AITrainer() {
 
         const prompt = buildPrompt(data, feelingParam, muscleParam);
         const raw = await askAI(prompt);
-        const clean = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
-        const parsed = JSON.parse(clean);
+      let parsed;
+
+try {
+  // 1️⃣ تنظيف أولي
+  let clean = raw
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
+    .trim();
+
+  // 2️⃣ ناخد فقط JSON بين { }
+  const firstBrace = clean.indexOf("{");
+  const lastBrace = clean.lastIndexOf("}");
+
+  if (firstBrace === -1 || lastBrace === -1) {
+    throw new Error("No JSON object found");
+  }
+
+  clean = clean.slice(firstBrace, lastBrace + 1);
+
+  // 3️⃣ parse
+  parsed = JSON.parse(clean);
+} catch (err) {
+  console.error("❌ AI JSON parse failed:", err, raw);
+
+  // 4️⃣ fallback مضمون
+  parsed = {
+    message: "Let’s do a simple workout today 💪",
+    workout: [],
+    nutritionTip: "Drink water and eat balanced meals.",
+    levelDecision: "stay",
+  };
+}
+
 
         // Auto level update
         const LEVELS = ["Sedentary", "Lightly active", "Moderately active", "Very active"];
@@ -166,16 +197,17 @@ export default function AITrainer() {
       const data = snap.data() || {};
 
       await updateDoc(userRef, {
-        totalCalories: increment(calories),
-        totalWorkouts: increment(1),
-        lastFeeling: todayFeeling,
-        lastMuscle: targetMuscle,
-        lastExercises: aiData.workout.map((w) => w.name),
-        lastWorkoutAt: serverTimestamp(),
-        [`dailyStats.${todayKey}.calories`]: increment(calories),
-        [`dailyStats.${todayKey}.exercises`]: increment(sessionExercises),
-        [`weeklyCalories.${weekKey}`]: increment(calories),
-      });
+  totalWorkouts: increment(1),
+  [`weeklyWorkouts.${weekKey}`]: increment(1),
+
+  lastFeeling: todayFeeling,
+  lastMuscle: targetMuscle,
+  lastExercises: aiData.workout.map((w) => w.name),
+  lastWorkoutAt: serverTimestamp(),
+
+
+});
+
 
       const dailyCals = data?.dailyStats?.[todayKey]?.calories || 0;
       const dailyEx = data?.dailyStats?.[todayKey]?.exercises || 0;

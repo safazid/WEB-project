@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 export default function WeeklyProgress({ completedWeekly = 0 }) {
   const weeklyGoal = 5;
 
+  // حساب النسبة
   const percent = Math.min(
     100,
     Math.round((completedWeekly / weeklyGoal) * 100)
   );
 
   const [animatedWidth, setAnimatedWidth] = useState(0);
-
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark"
   );
@@ -60,7 +60,7 @@ export default function WeeklyProgress({ completedWeekly = 0 }) {
       </h2>
 
       <p className="mb-4" style={{ color: "var(--text-sub)" }}>
-        {completedWeekly} of {weeklyGoal} weekly challenges completed
+        {completedWeekly} of {weeklyGoal} weekly workouts completed
       </p>
 
       {/* Progress Bar */}
@@ -85,8 +85,10 @@ export default function WeeklyProgress({ completedWeekly = 0 }) {
         />
       </div>
 
-      {/* Percentage */}
-      <p className="mt-3 text-sm font-medium" style={{ color: "var(--text-sub)" }}>
+      <p
+        className="mt-3 text-sm font-medium"
+        style={{ color: "var(--text-sub)" }}
+      >
         {percent}% completed
       </p>
     </div>
