@@ -1,4 +1,3 @@
-// api/ai.js
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
@@ -49,9 +48,9 @@ JSON ONLY. No text outside JSON.
     if (!data.choices || !data.choices.length) {
       return res.status(500).json({
         raw: JSON.stringify({
-          message: "AI is temporarily unavailable. Please try again later.",
+          message: "AI is temporarily unavailable.",
           workout: [],
-          nutritionTip: "Stay hydrated and keep meals balanced.",
+          nutritionTip: "Stay hydrated.",
           levelDecision: "stay",
         }),
       });
@@ -63,9 +62,9 @@ JSON ONLY. No text outside JSON.
     console.error("Server AI Error:", e);
     res.status(500).json({
       raw: JSON.stringify({
-        message: "AI connection failed. Try again shortly.",
+        message: "AI connection failed.",
         workout: [],
-        nutritionTip: "Drink water and keep your meals light today.",
+        nutritionTip: "Drink water.",
         levelDecision: "stay",
       }),
     });

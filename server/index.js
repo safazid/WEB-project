@@ -1,17 +1,60 @@
-import express from "express";
+/*import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
-
-import dotenv from "dotenv";
-dotenv.config();
-
-const API_KEY = process.env.OPENROUTER_API_KEY;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//const API_KEY = "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";
+const API_KEY = "d39eb57781fb402a740960b5c78f3bbbeb928171c8c8865231863d321d6294da";
+
+app.post("/api/ai", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`,
+        "X-Title": "FitRise AI Coach",
+      },
+      body: JSON.stringify({
+        model: "mistralai/mistral-7b-instruct",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a professional fitness coach. Reply ONLY in JSON with fields: message, workout(array), nutritionTip, levelDecision.",
+          },
+          { role: "user", content: prompt },
+        ],
+      }),
+    });
+
+    const data = await r.json();
+    const text = data.choices[0].message.content;
+
+    res.json({ raw: text });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "AI failed" });
+  }
+});
+
+app.listen(3001, () => {
+  console.log("AI Server running on http://localhost:3001");
+});*/
+
+import express from "express";
+import cors from "cors";
+import fetch from "node-fetch";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const API_KEY = "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";
 
 app.post("/api/ai", async (req, res) => {
   try {
