@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 
 import { db } from "../../firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore"; // ✅ تغيير ضروري فقط
