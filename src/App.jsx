@@ -10,7 +10,6 @@ import ProfilePage from "./components/ProfileComponents/ProfilePage";
 import AIFitnessBot from "./components/AIComponents/AIFitnessBot";
 import Workout from "./components/WorkoutComponents/Workout";
 import SocialSharing from "./components/SocialComponents/SocialSharing";
-import ChooseLevel from "./components/ProgressComponents/ChooseLevel";
 import WorkoutDemo from "./components/Demo/DemoWorkout";
 
 import AITrainer from "./components/AIComponents/AITrainer";
@@ -29,7 +28,6 @@ function App() {
         <Route path="/ai" element={<AIFitnessBot />} />
         <Route path="/workout" element={<Workout />} />
         <Route path="/share" element={<SocialSharing />} />
-        <Route path="/choose-level" element={<ChooseLevel />} />
         <Route path="/demo" element={<WorkoutDemo />} />
        <Route path="/ai-trainer" element={<AITrainer />} />
 

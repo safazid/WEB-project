@@ -7,42 +7,6 @@ import WorkoutPreferences from "../AIComponents/WorkoutPreferences";
 import { useNavigate } from "react-router-dom";
 
 
-/* =========================
-   USER FITNESS LEVEL
-========================= */
-//const fitnessLevel = localStorage.getItem("fitnessLevel") || "Beginner";
-
-
-const levelMap = {
-  Beginner: 1,
-  Intermediate: 2,
-  Advanced: 3,
-};
-
-const exerciseRules = {
-  Beginner: {
-    squat: 10,
-    pushup: 8,
-    plank: 20,
-    wallSit: 30,
-  },
-  Intermediate: {
-    squat: 20,
-    pushup: 15,
-    plank: 40,
-    wallSit: 45,
-  },
-  Advanced: {
-    squat: 30,
-    pushup: 25,
-    plank: 60,
-    wallSit: 60,
-  },
-};
-
-//const rules = exerciseRules[fitnessLevel];
-//const userLevel = levelMap[fitnessLevel] || 1;
-
 const PLAN_MET_MAP = {
   Cardio: 6,
   Legs: 5,
@@ -248,55 +212,9 @@ const plansData = [
 ];
 
 function getExercisesForPlan(plan) {
-  
-  const level = localStorage.getItem("fitnessLevel") || "Beginner";
-  const rules = exerciseRules[level];
-
-  if (!rules) return plan.exercises;
-
-  switch (plan.target) {
-
-    case "Legs":
-      return [
-        `${rules.squat} Squats`,
-        `${Math.floor(rules.squat / 2)} Lunges each leg`,
-        `${rules.wallSit}s Wall Sit`,
-      ];
-
-    case "Chest":
-      return [
-        `${rules.pushup} Push-ups`,
-        `${rules.plank}s Plank`,
-      ];
-
-    case "Abs":
-      return [
-        `${Math.floor(rules.squat / 2)} Crunches`,
-        `${rules.plank}s Plank`,
-      ];
-
-    case "Arms":
-      return [
-        `${rules.pushup} Arm dips`,
-        `${Math.floor(rules.pushup / 2)} Shoulder raises`,
-      ];
-
-    case "Glutes":
-      return [
-        `${rules.squat} Glute bridges`,
-        `${Math.floor(rules.squat / 2)} Kickbacks each leg`,
-      ];
-
-    case "Cardio":
-      return [
-        `${level === "Beginner" ? "5" : level === "Intermediate" ? "10" : "15"} min Jog`,
-        `${rules.squat} Jumping Jacks`,
-      ];
-
-    default:
-      return plan.exercises;
-  }
+  return plan.exercises || [];
 }
+
 
 
 /* =========================
@@ -309,24 +227,14 @@ export default function AIFitnessBot() {
   const [feeling, setFeeling] = useState("");
   const [muscle, setMuscle] = useState("");
 
-  const [level, setLevel] = useState(
-    localStorage.getItem("fitnessLevel") || "Beginner"
-  );
 
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  const rules = exerciseRules[level];
-  const userLevel = levelMap[level] || 1;
 
-  const filteredPlans = plansData.filter(
-    (plan) => plan.level <= userLevel
-  );
+  const filteredPlans = plansData;
 
-  useEffect(() => {
-    const storedLevel = localStorage.getItem("fitnessLevel") || "Beginner";
-    setLevel(storedLevel);
-  }, []);
 
+ 
 
   return (
     <>
@@ -438,10 +346,6 @@ export default function AIFitnessBot() {
         {selectedPlan.purpose}
       </p>
 
-      {/* ✅ الشدّة حسب المستوى */}
-      <p className="text-sm mb-3 text-[var(--primary)] font-semibold">
-        Intensity adjusted for {level} level
-      </p>
 
       <ul className="list-disc ml-6 mb-6">
   {getExercisesForPlan(selectedPlan).map((ex, i) => (

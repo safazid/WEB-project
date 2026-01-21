@@ -43,15 +43,7 @@ export default function Workout() {
   const [showMessage, setShowMessage] = useState(false);
 
   const navigate = useNavigate();
-
-  const fitnessLevel = localStorage.getItem("fitnessLevel");
-
-  useEffect(() => {
-    if (!fitnessLevel) {
-      navigate("/choose-level");
-    }
-  }, [fitnessLevel, navigate]);
-
+  
   useEffect(() => {
     if (seconds <= 0) return;
 
@@ -131,13 +123,6 @@ export default function Workout() {
           >
             🏋️‍♂️ {workoutName}
           </h2>
-
-          <p className="text-xs mb-4">
-            Fitness Level:{" "}
-            <span className="font-semibold text-[var(--primary)]">
-              {fitnessLevel}
-            </span>
-          </p>
 
           {/* ✅ NEW: show exercises only if provided */}
           {exercises.length > 0 && (
