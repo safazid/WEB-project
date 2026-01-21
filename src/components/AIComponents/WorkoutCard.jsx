@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { estimateBurnedForExercise } from "../../utils/calculateBurned";
 
 export default function WorkoutCard({
   data,
@@ -15,6 +16,8 @@ export default function WorkoutCard({
 
   const isFocused = activeIndex === index;
   const isHidden = activeIndex !== null && activeIndex !== index;
+
+  const [bgAudio] = useState(() => new Audio("/music.mp3"));
 
   function speak(text) {
     if (!window.speechSynthesis) return;
@@ -56,30 +59,46 @@ export default function WorkoutCard({
   }, [active, paused, timeLeft]);
 
   const start = () => {
-    setActive(true);
-    setDone(false);
-    setPaused(false);
-    setActiveIndex(index);
-    setTimeLeft(parseTime(data.reps));
-  };
+  setActive(true);
+  setDone(false);
+  setPaused(false);
+  setActiveIndex(index);
+  setTimeLeft(parseTime(data.reps));
+
+  bgAudio.loop = true;
+  bgAudio.volume = 0.4;
+  bgAudio.play();
+};
 
   const finish = () => {
-    const burned = Math.round(
-      (data.met || 4) * Number(userWeight || 60) * (data.duration / 3600)
-    );
+  /*const burned = Math.round(
+    (data.met || 4) * Number(userWeight || 60) * (data.duration / 3600)
+  );*/
+  const raw =
+  (data.met || 4) * Number(userWeight || 60) * (data.duration / 3600);
 
-    setDone(true);
-    setActive(false);
-    setPaused(false);
-    setActiveIndex(null);
+// نضخم القيمة عشان تكون منطقية ومحفّزة
+const burned = estimateBurnedForExercise(data, userWeight);
 
-    speak("Great job! You completed this exercise!");
-    onComplete(burned);
-  };
+  bgAudio.pause();
+  bgAudio.currentTime = 0;
+
+  setDone(true);
+  setActive(false);
+  setPaused(false);
+  setActiveIndex(null);
+
+  speak("Great job! You completed this exercise!");
+  onComplete(burned);
+};
 
   const togglePause = () => {
-    setPaused((p) => !p);
-  };
+  setPaused((p) => {
+    if (!p) bgAudio.pause();
+    else bgAudio.play();
+    return !p;
+  });
+};
 
   if (isHidden) return null;
 
