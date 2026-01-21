@@ -4,11 +4,19 @@ import Footer from "../layouts/Footer";
 import { useNavigate } from "react-router-dom";
 import "./Workout.css";
 
+import { doc, updateDoc, increment } from "firebase/firestore";
+import { db } from "../../firebase";
+import { getISOWeekKey } from "../../utils/dateHelpers";
+import { auth } from "../../firebase";
+
+
 export default function Workout() {
   const params = new URLSearchParams(window.location.search);
 
   const playMusic = params.get("music") === "1";
   const [bgAudio] = useState(() => new Audio("/music.mp3"));
+
+  const calories = parseInt(params.get("cal")) || 0;
 
   useEffect(() => {
   if (!playMusic) return;
@@ -55,19 +63,44 @@ export default function Workout() {
   }, [seconds]);
 
   useEffect(() => {
-    if (seconds === 0) {
-      setShowMessage(true);
+  if (seconds === 0) {
+    setShowMessage(true);
 
-      const done = Number(localStorage.getItem("workoutsDone") || 0);
-      localStorage.setItem("workoutsDone", done + 1);
+    const user = auth.currentUser;
 
-      const timeout = setTimeout(() => {
-        navigate("/ai");
-      }, 15000);
+    if (user) {
+      const today = new Date().toISOString().split("T")[0];
+      const weekKey = getISOWeekKey();
+      const ref = doc(db, "users", user.uid);
 
-      return () => clearTimeout(timeout);
+      (async () => {
+        try {
+         await updateDoc(ref, {
+  [`dailyStats.${today}.exercises`]: increment(1),
+  [`dailyStats.${today}.calories`]: increment(calories),
+
+  [`weeklyWorkouts.${weekKey}`]: increment(1),
+  [`weeklyCalories.${weekKey}`]: increment(calories),
+});
+
+
+          window.dispatchEvent(new Event("stats-updated"));
+        } catch (e) {
+          console.error("Failed to update workout stats:", e);
+        }
+      })();
     }
-  }, [seconds, navigate]);
+
+    const timeout = setTimeout(() => {
+      navigate("/ai");
+    }, 15000);
+
+    return () => clearTimeout(timeout);
+  }
+}, [seconds, navigate]);
+
+
+
 
   function format(sec) {
     const m = String(Math.floor(sec / 60)).padStart(2, "0");

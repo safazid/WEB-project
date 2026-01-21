@@ -43,6 +43,16 @@ const exerciseRules = {
 //const rules = exerciseRules[fitnessLevel];
 //const userLevel = levelMap[fitnessLevel] || 1;
 
+const PLAN_MET_MAP = {
+  Cardio: 6,
+  Legs: 5,
+  Chest: 5,
+  Abs: 4.5,
+  Arms: 4,
+  Glutes: 4.5,
+  Mobility: 2.5,
+};
+
 /* =========================
    PLANS DATA (STATIC)
 ========================= */
@@ -209,7 +219,7 @@ const plansData = [
     level: 1,
     name: "Full-Body Stretch",
     target: "Mobility",
-    duration: 8,
+    duration: 1,
     goal: "Flexibility",
     image: "https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg",
     purpose: "Reduce stiffness.",
@@ -451,18 +461,26 @@ export default function AIFitnessBot() {
         <button
           className="px-5 py-2 rounded-lg bg-[var(--primary)] text-black font-semibold"
           onClick={() => {
-            const exList = getExercisesForPlan(selectedPlan)
-  .map((s) => s.replaceAll("|", "/"))
-  .join("|");
+  const exList = getExercisesForPlan(selectedPlan)
+    .map((s) => s.replaceAll("|", "/"))
+    .join("|");
 
+  //const estimatedCalories = selectedPlan.duration * 15; // تقدير بسيط
+ const weight = Number(localStorage.getItem("weight")) || 60; // وزن المستخدم أو افتراضي
+const met = PLAN_MET_MAP[selectedPlan.target] || 4;
 
-            window.location.href =
-  `/workout?duration=${selectedPlan.duration}` +
-  `&name=${encodeURIComponent(selectedPlan.name)}` +
-  `&ex=${encodeURIComponent(exList)}` +
-  `&music=1`;
+const estimatedCalories = Math.round(
+  met * weight * (selectedPlan.duration / 60)
+);
 
-          }}
+  window.location.href =
+    `/workout?duration=${selectedPlan.duration}` +
+    `&name=${encodeURIComponent(selectedPlan.name)}` +
+    `&ex=${encodeURIComponent(exList)}` +
+    `&cal=${estimatedCalories}` +
+    `&music=1`;
+}}
+
         >
           Start Now
         </button>
