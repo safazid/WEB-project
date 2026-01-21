@@ -30,6 +30,55 @@ const dailyChallenges = [
 
 const getToday = () => new Date().toISOString().split("T")[0];
 
+function MysteryBoxCard({ unlocked, opened, onOpen }) {
+  return (
+    <div
+      onClick={() => unlocked && !opened && onOpen()}
+      className={`
+  relative p-6 rounded-2xl shadow-lg border
+  bg-gradient-to-br 
+  from-yellow-100 to-pink-100
+  dark:from-[#2a2433] dark:to-[#1e293b]
+  border-yellow-300/40 dark:border-purple-500/30
+  text-gray-900 dark:text-gray-100
+  transition-all duration-300
+  ${unlocked && !opened ? "cursor-pointer hover:scale-105 animate-pulse" : "opacity-70"}
+`}
+
+    >
+      <div className="flex items-center gap-3 mb-2">
+        <span className="text-3xl">🎁</span>
+        <h3 className="text-lg font-bold">Daily Mystery Box</h3>
+      </div>
+
+<p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        {opened
+          ? "You already opened today’s box 🎉"
+          : unlocked
+          ? "Tap the box to reveal your reward!"
+          : "Complete 1 workout today to unlock"}
+      </p>
+
+      <div className="w-full h-3 bg-white/60 rounded-full overflow-hidden mb-2">
+        <div
+          className="h-full bg-emerald-500 transition-all"
+          style={{ width: unlocked ? "100%" : "0%" }}
+        />
+      </div>
+
+<div className="text-sm text-gray-700 dark:text-gray-300">
+        {unlocked ? "1 / 1" : "0 / 1"}
+      </div>
+
+      {!opened && unlocked && (
+        <div className="absolute top-3 right-3 text-xs bg-emerald-600 text-white px-2 py-1 rounded-full">
+          OPEN
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DailyChallenges() {
   const [user, setUser] = useState(null);
   const [caloriesToday, setCaloriesToday] = useState(0);
@@ -88,12 +137,38 @@ export default function DailyChallenges() {
     return <div className="p-6 text-center">Loading challenges...</div>;
   }
 
+const mysteryKey = `mystery_${today}`;
+const mysteryOpened = completed[mysteryKey] === true;
+const canOpenMystery = exercisesToday >= 1 && !mysteryOpened;
+
+
   return (
     <div className="space-y-6">
       <ChallengeCompletedAlert
         open={showAlert}
         onClose={() => setShowAlert(false)}
       />
+      
+      <MysteryBoxCard
+  unlocked={exercisesToday >= 1}
+  opened={mysteryOpened}
+  onOpen={async () => {
+    if (!user || mysteryOpened || exercisesToday < 1) return;
+
+    const reward = Math.floor(Math.random() * 21) + 10;
+
+    await updateDoc(doc(db, "users", user.uid), {
+      totalPoints: increment(reward),
+      [`completedChallenges.${mysteryKey}`]: true,
+    });
+
+    alert(`🎉 You found ${reward} bonus points!`);
+
+    setCompleted((prev) => ({ ...prev, [mysteryKey]: true }));
+    window.dispatchEvent(new Event("stats-updated"));
+  }}
+/>
+
 
       {dailyChallenges.map((c) => {
         const value =

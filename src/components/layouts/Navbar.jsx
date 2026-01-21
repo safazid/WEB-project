@@ -146,26 +146,46 @@ export default function Navbar() {
                 </button>
 
                 {showNotifications && (
-                  <div className="absolute right-0 mt-3 w-80 bg-white shadow-xl rounded-xl p-4 z-50">
+<div
+  className="absolute right-0 mt-3 w-80 shadow-xl rounded-xl p-4 z-50"
+  style={{
+    background: "var(--card-bg)",
+    color: "var(--text-main)",
+    border: "1px solid var(--primary-soft)",
+  }}
+>
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="font-semibold text-sm">Notifications</h4>
+<h4 className="font-semibold text-sm" style={{ color: "var(--text-main)" }}>
+  Notifications
+</h4>
                       <button
                         onClick={() => setShowNotifications(false)}
-                        className="text-gray-400 hover:text-gray-600"
+className="opacity-60 hover:opacity-100"
+
                       >
                         ✕
                       </button>
                     </div>
 
                     {notifications.length === 0 ? (
-                      <p className="text-sm text-gray-400">No new notifications 🎉</p>
+<p className="text-sm" style={{ color: "var(--text-sub)" }}>
+  No new notifications 🎉
+</p>
                     ) : (
                       <ul className="space-y-2">
-                        {notifications.map((n) => (
-                          <li key={n.id} className="text-sm p-2 rounded-lg bg-gray-50">
-                            {n.text}
-                          </li>
-                        ))}
+                       {notifications.map((n) => (
+  <li
+    key={n.id}
+    className="text-sm p-2 rounded-lg"
+    style={{
+      background: "var(--primary-soft)",
+      color: "var(--text-main)",
+    }}
+  >
+    {n.text}
+  </li>
+))}
+
                       </ul>
                     )}
                   </div>
