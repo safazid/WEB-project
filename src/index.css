@@ -239,3 +239,10 @@ body:not(.light-mode) select {
 .ai-chat-box input::placeholder {
   color: #6b7280;
 }
+.light-mode .nav-link {
+  color: white !important;
+}
+
+.light-mode .nav-link:hover {
+  color: var(--primary) !important;
+}

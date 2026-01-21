@@ -1,9 +1,6 @@
-// src/components/DashboardComponents/DashboardPage.jsx
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
-
-import { getISOWeekKey } from "../../utils/dateHelpers";
 
 import StatsCards from "./StatsCards";
 import WeeklyProgress from "./WeeklyProgress";
@@ -12,119 +9,351 @@ import Footer from "../layouts/Footer";
 import ChatBubble from "../layouts/ChatBubble";
 import WeeklyStats from "../DashboardComponents/WeeklyStats";
 import MonthlyStats from "../DashboardComponents/MonthlyStats";
+import WeeklyChart from "../DashboardComponents/WeeklyChart";
+import MonthlyPieChart from "../DashboardComponents/MonthlyPieChart";
 
-function calculateStreak(dailyStats = {}) {
-  const dates = Object.keys(dailyStats)
-    .filter(d => dailyStats[d]?.exercises > 0)
-    .sort()
-    .reverse(); // من الأحدث للأقدم
 
-  let streak = 0;
-  let current = new Date(dates[0]);
 
-  for (let d of dates) {
-    const date = new Date(d);
-
-    if (
-      current.toISOString().slice(0, 10) ===
-      date.toISOString().slice(0, 10)
-    ) {
-      streak++;
-      current.setDate(current.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-
-  return streak;
+// ===== helpers =====
+function getWeekKey(d) {
+  const firstJan = new Date(d.getFullYear(), 0, 1);
+  const days = Math.floor((d - firstJan) / 86400000);
+  const week = Math.ceil((days + firstJan.getDay() + 1) / 7);
+  return `${d.getFullYear()}-W${week}`;
 }
-
-
-/* =================== */
+// ===================
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
-    totalWorkouts: 0,
-    totalCalories: 0,
-    totalPoints: 0,
-    completedWeekly: 0,
-    currentStreak: 0,
-  });
+  totalWorkouts: 0,
+  totalCalories: 0,
+  totalPoints: 0,
+  completedWeekly: 0,
+  currentStreak: 0,     // ✅
+});
+
+const [weeklyData, setWeeklyData] = useState([]);
+const [monthlyData, setMonthlyData] = useState([]);
+
 
   useEffect(() => {
-    const loadStats = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+  const loadStats = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
 
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) return;
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return;
 
-      const data = snap.data() || {};
-      const now = new Date();
+    const data = snap.data();
+    const now = new Date();
+    const currentWeekKey = getWeekKey(now);
 
-      // ✅ ISO week key (نفس اللي بنحفظ فيه بالـ AITrainer)
-      const currentWeekKey = getISOWeekKey(now);
+    setStats({
+      totalWorkouts: data.totalWorkouts || 0,
+      totalCalories: data.totalCalories || 0,
+      totalPoints: data.totalPoints || 0,
+      completedWeekly: data.weeklyWorkouts?.[currentWeekKey] || 0,
+      currentStreak: data.currentStreak || 0,
+    });
 
-      const streak = calculateStreak(data.dailyStats || {});
+    const weeklyCalories = data.weeklyCalories || {};
+    const weeklyWorkouts = data.weeklyWorkouts || {};
 
-      setStats({
-        totalWorkouts: data.totalWorkouts || 0,
-        totalCalories: data.totalCalories || 0,
-        totalPoints: data.totalPoints || 0,
+    const result = [];
 
-        // ✅ رقم الأسبوع الحالي
-        completedWeekly: data.weeklyWorkouts?.[currentWeekKey] || 0,
+    Object.keys(weeklyWorkouts).forEach((weekKey) => {
+      const workouts = weeklyWorkouts[weekKey] || 0;
+      const calories = weeklyCalories[weekKey] || 0;
+      if (workouts === 0) return;
 
-        // ✅ الستريك من dailyStats
-        currentStreak: streak,
+      const weekNumber = weekKey.split("-W")[1];
+
+      result.push({
+        week: `Week ${weekNumber}`,
+        workouts,
+        calories,
       });
-    };
+    });
 
-    loadStats();
-  }, []);
+    result.sort((a, b) => {
+      const wa = Number(a.week.replace("Week ", ""));
+      const wb = Number(b.week.replace("Week ", ""));
+      return wa - wb;
+    });
+
+    setWeeklyData(result);
+    const monthlyWorkouts = data.monthlyWorkouts || {};
+
+const monthsArr = Object.keys(monthlyWorkouts).map((key) => ({
+  month: key,
+  workouts: monthlyWorkouts[key],
+}));
+
+setMonthlyData(monthsArr);
+
+  };
+
+  loadStats();
+}, []);
+
+
+
+  async function handleExportReportPDF() {
+  const { jsPDF } = await import("jspdf");
+  const pdf = new jsPDF();
+
+  // ===== Title =====
+  pdf.setFontSize(18);
+  pdf.text("Workout Progress Report", 14, 20);
+
+  pdf.setFontSize(11);
+  pdf.text("Monthly Summary", 14, 30);
+
+  // ===== Table Header =====
+  let startY = 40;
+
+  pdf.setFontSize(10);
+  pdf.text("Month", 14, startY);
+  pdf.text("Total Workouts", 60, startY);
+  pdf.text("Total Calories", 120, startY);
+
+  startY += 6;
+  pdf.line(14, startY, 190, startY); // underline
+
+  // ===== Get data from Firestore (same logic as MonthlyStats) =====
+  const user = auth.currentUser;
+  if (!user) {
+    alert("User not logged in");
+    return;
+  }
+
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+  const data = snap.data() || {};
+
+  const monthlyWorkouts = data.monthlyWorkouts || {};
+  const monthlyCalories = data.monthlyCalories || {};
+
+  let y = startY + 6;
+
+  Object.keys(monthlyWorkouts).forEach((month) => {
+    const workouts = monthlyWorkouts[month] || 0;
+    const calories = monthlyCalories[month] || 0;
+
+    pdf.text(month, 14, y);
+    pdf.text(String(workouts), 70, y);
+    pdf.text(`${calories} kcal`, 120, y);
+
+    y += 8;
+  });
+
+    // ===== Weekly Details for Current Month =====
+  const now = new Date();
+  const currentMonthKey = `${now.getFullYear()}-${String(
+    now.getMonth() + 1
+  ).padStart(2, "0")}`;
+
+  const weeklyWorkouts = data.weeklyWorkouts || {};
+  const weeklyCalories = data.weeklyCalories || {};
+
+  // عنوان الجدول الثاني
+  y += 10;
+  pdf.setFontSize(11);
+  pdf.text("Weekly Breakdown (Current Month)", 14, y);
+
+  y += 10;
+  pdf.setFontSize(10);
+
+  pdf.text("Week", 14, y);
+  pdf.text("Workouts", 60, y);
+  pdf.text("Calories Burned", 120, y);
+
+  y += 6;
+  pdf.line(14, y, 190, y);
+
+  y += 6;
+
+  Object.keys(weeklyWorkouts).forEach((weekKey) => {
+    // فلترة الأسابيع التابعة للشهر الحالي فقط
+    if (!weekKey.startsWith(currentMonthKey.slice(0, 4))) return;
+
+    const workouts = weeklyWorkouts[weekKey];
+    const calories = weeklyCalories[weekKey] || 0;
+
+    pdf.text(weekKey, 14, y);
+    pdf.text(String(workouts), 70, y);
+    pdf.text(`${calories} kcal`, 120, y);
+
+    y += 8;
+  });
+
+
+    // ===== Last 7 Days (Daily Table) =====
+  y += 12;
+  pdf.setFontSize(11);
+  pdf.text("Last 7 Days (Daily)", 14, y);
+
+  const dailyStats = data.dailyStats || {};
+
+  y += 10;
+  pdf.setFontSize(10);
+
+  pdf.text("Date", 14, y);
+  pdf.text("Exercises", 70, y);
+  pdf.text("Calories", 120, y);
+
+  y += 6;
+  pdf.line(14, y, 190, y);
+  y += 6;
+
+  // آخر 7 أيام (من الأقدم للأحدث)
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+
+    const day = dailyStats[key] || {};
+    const exercises = day.exercises || 0;
+    const calories = day.calories || 0;
+
+    pdf.text(key, 14, y);
+    pdf.text(String(exercises), 80, y);
+    pdf.text(`${calories} kcal`, 120, y);
+
+    y += 8;
+
+    // صفحة جديدة إذا وصلنا آخر الصفحة
+    if (y > 270) {
+      pdf.addPage();
+      y = 20;
+    }
+  }
+
+    // ===== Engagement Metrics =====
+  y += 10;
+  pdf.setFontSize(11);
+  pdf.text("Engagement Metrics", 14, y);
+
+  const weeks = Object.keys(weeklyWorkouts);
+  const activeWeeks = weeks.length;
+
+  let totalWorkoutsAll = 0;
+  let totalCaloriesAll = 0;
+  let mostActiveWeek = "-";
+  let maxWorkouts = 0;
+
+  weeks.forEach((week) => {
+    const w = weeklyWorkouts[week] || 0;
+    const c = weeklyCalories[week] || 0;
+
+    totalWorkoutsAll += w;
+    totalCaloriesAll += c;
+
+    if (w > maxWorkouts) {
+      maxWorkouts = w;
+      mostActiveWeek = week;
+    }
+  });
+
+  const avgWorkouts =
+    activeWeeks > 0 ? (totalWorkoutsAll / activeWeeks).toFixed(1) : 0;
+
+  const avgCalories =
+    activeWeeks > 0 ? Math.round(totalCaloriesAll / activeWeeks) : 0;
+
+  y += 10;
+  pdf.setFontSize(10);
+
+  pdf.text("Active Weeks:", 14, y);
+  pdf.text(String(activeWeeks), 70, y);
+
+  y += 8;
+  pdf.text("Avg Workouts / Week:", 14, y);
+  pdf.text(String(avgWorkouts), 70, y);
+
+  y += 8;
+  pdf.text("Avg Calories / Week:", 14, y);
+  pdf.text(`${avgCalories} kcal`, 70, y);
+
+  y += 8;
+  pdf.text("Most Active Week:", 14, y);
+  pdf.text(mostActiveWeek, 70, y);
+
+
+  // ===== Save PDF =====
+  pdf.save("Workout_Report.pdf");
+}
+
+
 
   return (
-    <>
-      <section
-        className="max-w-7xl mx-auto px-6 py-32 fade-in"
-        style={{
-          background: "var(--bg)",
-          color: "var(--text-main)",
-        }}
+  <>
+    <section
+      className="max-w-7xl mx-auto px-6 py-32 fade-in"
+      style={{
+        background: "var(--bg)",
+        color: "var(--text-main)",
+      }}
+    >
+      <h1
+        className="text-4xl font-extrabold mb-2"
+        style={{ color: "var(--secondary)" }}
       >
-        <h1
-          className="text-4xl font-extrabold mb-2"
-          style={{ color: "var(--secondary)" }}
-        >
-          Your Progress Dashboard
-        </h1>
+        Your Progress Dashboard
+      </h1>
 
-        <p className="mb-12" style={{ color: "var(--text-sub)" }}>
-          Track your daily stats, progress, and weekly achievements
-        </p>
+      <p className="mb-12" style={{ color: "var(--text-sub)" }}>
+        Track your daily stats, progress, and weekly achievements
+      </p>
+
+      {/* 🔹 هذا هو القسم اللي رح نصدّره PDF */}
+
+      {/* زر التصدير – خارج المحتوى المصدر */}
+      <div className="mb-8">
+        <button
+          onClick={handleExportReportPDF}
+          className="px-6 py-3 rounded-xl font-semibold transition"
+          style={{
+            background: "var(--secondary)",
+            color: "white",
+          }}
+        >
+            Export Report (PDF)
+        </button>
+
+      </div>
 
         <div id="dashboard-summary" className="pdf-export">
-          {/* ✅ Top cards */}
-          <StatsCards stats={stats} />
+        {/* Top cards */}
+        <StatsCards stats={stats} />
 
-          {/* ✅ Weekly Progress */}
-          <WeeklyProgress completedWeekly={stats.completedWeekly} />
+        {/* Weekly goal */}
+        <WeeklyProgress completedWeekly={stats.completedWeekly} />
 
-          {/* Weekly stats */}
-          <WeeklyStats />
+        {/* Weekly stats */}
+        <WeeklyStats weeks={weeklyData} />
 
-          {/* Monthly stats */}
-          <MonthlyStats />
 
-          {/* Last workout */}
-          <LastWorkout />
-        </div>
+       <WeeklyChart weeks={weeklyData} />
 
-        <ChatBubble />
-      </section>
+       <MonthlyPieChart months={monthlyData} />
 
-      <Footer />
-    </>
-  );
+
+        {/* Monthly stats */}
+        <MonthlyStats />
+
+        {/* Last workout */}
+        <LastWorkout />
+      </div>
+
+      {/* ❌ هذا لا يدخل بالـPDF */}
+      <ChatBubble />
+    </section>
+
+    {/* ❌ هذا لا يدخل بالـPDF */}
+    <Footer />
+  </>
+);
+
 }
