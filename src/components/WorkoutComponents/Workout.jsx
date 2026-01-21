@@ -7,6 +7,21 @@ import "./Workout.css";
 export default function Workout() {
   const params = new URLSearchParams(window.location.search);
 
+  const playMusic = params.get("music") === "1";
+  const [bgAudio] = useState(() => new Audio("/music.mp3"));
+
+  useEffect(() => {
+  if (!playMusic) return;
+
+  bgAudio.loop = true;
+  bgAudio.volume = 0.4;
+  bgAudio.play();
+
+  return () => {
+    bgAudio.pause();
+    bgAudio.currentTime = 0;
+  };
+}, [playMusic, bgAudio]);
   const duration = parseInt(params.get("duration")) || 1;
   const workoutName = params.get("name") || "Workout Step";
 

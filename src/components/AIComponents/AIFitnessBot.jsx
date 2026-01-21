@@ -456,9 +456,12 @@ export default function AIFitnessBot() {
   .join("|");
 
 
-            window.location.href = `/workout?duration=${selectedPlan.duration}&name=${encodeURIComponent(
-              selectedPlan.name
-            )}&ex=${encodeURIComponent(exList)}`;
+            window.location.href =
+  `/workout?duration=${selectedPlan.duration}` +
+  `&name=${encodeURIComponent(selectedPlan.name)}` +
+  `&ex=${encodeURIComponent(exList)}` +
+  `&music=1`;
+
           }}
         >
           Start Now
