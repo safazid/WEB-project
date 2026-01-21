@@ -219,7 +219,7 @@ const plansData = [
     level: 1,
     name: "Full-Body Stretch",
     target: "Mobility",
-    duration: 1,
+    duration: 8,
     goal: "Flexibility",
     image: "https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg",
     purpose: "Reduce stiffness.",
