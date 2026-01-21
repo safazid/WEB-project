@@ -13,6 +13,7 @@ export default function Navbar() {
 
   const [dailyStats, setDailyStats] = useState({});
   const [currentStreak, setCurrentStreak] = useState(0);
+  const [hasNotification, setHasNotification] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("userId")
@@ -33,6 +34,8 @@ export default function Navbar() {
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("lastWorkoutDate");
+
     setIsLoggedIn(false);
     navigate("/");
     setOpen(false);
@@ -42,6 +45,7 @@ export default function Navbar() {
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("lastWorkoutDate");
 
     setIsLoggedIn(false);
     setOpen(false);
@@ -74,24 +78,23 @@ export default function Navbar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const list = [];
+  const today = new Date().toISOString().split("T")[0];
+  const userId = localStorage.getItem("userId");
+  if (!userId) return;
 
-    if (!dailyStats[todayKey]) {
-      list.push({
-        id: 1,
-        text: "You haven't completed today's workout yet 💪",
-      });
-    }
+  const lastWorkout = localStorage.getItem(`lastWorkoutDate_${userId}`);
 
-    if (currentStreak >= 2 && !dailyStats[todayKey]) {
-      list.push({
-        id: 2,
-        text: "Don't break your streak! 🔥",
-      });
-    }
+  if (!lastWorkout || lastWorkout !== today) {
+    setNotifications([
+      { id: 1, text: "You haven't completed today's workout yet 💪" },
+    ]);
+    setHasNotification(true);
+  } else {
+    setNotifications([]);
+    setHasNotification(false);
+  }
+}, [location.pathname, isLoggedIn]);
 
-    setNotifications(list);
-  }, [dailyStats, currentStreak, todayKey]);
 
   return (
     <>
@@ -130,15 +133,16 @@ export default function Navbar() {
                   <Bell
                     size={22}
                     className={`transition ${
-                      notifications.length > 0
-                        ? "text-yellow-400 animate-pulse"
-                        : "text-gray-400"
+                      hasNotification
+                      ? "text-yellow-400 animate-pulse"
+                      : "text-gray-400"
                     }`}
                   />
 
-                  {notifications.length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
-                  )}
+                  {hasNotification && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                )}  
+
                 </button>
 
                 {showNotifications && (

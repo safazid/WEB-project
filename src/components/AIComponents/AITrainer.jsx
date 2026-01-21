@@ -169,7 +169,8 @@ try {
     runAI();
   }, [feelingParam, muscleParam]);
 
-  const handleFinishWorkout = async () => {
+ const handleFinishWorkout = async () => {
+    
     try {
       if (!aiData || saving) return;
       setSaving(true);
@@ -183,6 +184,10 @@ try {
         setSaving(false);
         return;
       }
+
+      const today = new Date().toISOString().split("T")[0];
+      localStorage.setItem(`lastWorkoutDate_${user.uid}`, today);
+
 
       const calories = calculateCalories(
         completedExercises,
