@@ -1,3 +1,8 @@
+// Utility helpers for simple client-side authentication state.
+// These functions store, retrieve, and clear the current user
+// using localStorage, and provide a quick way to check
+// if the user is currently logged in.
+
 export function saveUser(user) {
   // user: { id, name, email }
   localStorage.setItem("user", JSON.stringify(user));

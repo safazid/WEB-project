@@ -1,3 +1,7 @@
+// DemoLevelSelect allows the user to choose the workout difficulty level.
+// It presents three options: Easy, Medium, and Hard.
+// When a level is selected, it calls onSelect(level) to move to the next step.
+// The Back button lets the user return to the goal selection screen.
 export default function DemoLevelSelect({ onSelect, onBack }) {
   return (
     <div className="max-w-md mx-auto p-6 text-center">

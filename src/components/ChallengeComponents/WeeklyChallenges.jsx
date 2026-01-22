@@ -1,4 +1,3 @@
-// src/components/ChallengeComponents/WeeklyChallenges.jsx
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db, auth } from "../../firebase";
@@ -6,7 +5,7 @@ import ChallengeCard from "./ChallengeCard";
 import ChallengeCompletedAlert from "./ChallengeCompletedAlert";
 import { getISOWeekKey } from "../../utils/dateHelpers";
 
-/* ===== Weekly config ===== */
+/* ===== Weekly challenge definitions ===== */
 const weeklyChallenges = [
   {
     id: "weekly_5_workouts",
@@ -27,7 +26,21 @@ const weeklyChallenges = [
     type: "calories",
   },
 ];
+/*
+  WeeklyChallenges
+  ----------------
+  Displays and manages the user's weekly challenges.
 
+  Features:
+  - Loads weekly workout and calorie stats from Firestore.
+  - Tracks which weekly challenges were already collected.
+  - Shows a progress bar for each challenge.
+  - Automatically triggers an alert when a challenge target is reached
+    but not yet collected.
+  - Allows the user to collect points once the target is met.
+  - Listens to the global "stats-updated" event to stay in sync
+    with workouts and challenges completed elsewhere in the app.
+*/
 export default function WeeklyChallenges() {
   const [weeklyWorkouts, setWeeklyWorkouts] = useState({});
   const [weeklyCalories, setWeeklyCalories] = useState({});
@@ -35,8 +48,10 @@ export default function WeeklyChallenges() {
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
 
+  // Unique key for the current ISO week (e.g. "2026-W3")
   const weekKey = getISOWeekKey();
 
+   /* Load weekly stats from Firestore */
   useEffect(() => {
     const load = async () => {
       const user = auth.currentUser;
@@ -52,12 +67,13 @@ export default function WeeklyChallenges() {
     };
 
     load();
+    // Keep data fresh when other parts of the app update stats
     window.addEventListener("stats-updated", load);
     return () =>
       window.removeEventListener("stats-updated", load);
   }, [weekKey]);
 
-  /* 🔔 Auto Alert */
+  /* 🔔 Auto alert when a weekly challenge reaches its target */
   useEffect(() => {
     weeklyChallenges.forEach((c) => {
       const value =

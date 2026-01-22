@@ -1,4 +1,3 @@
-// src/components/AIComponents/AITrainer.jsx
 import { useEffect, useState } from "react";
 import {
   doc,
@@ -18,10 +17,12 @@ import ChallengeCompletedAlert from "../ChallengeComponents/ChallengeCompletedAl
 
 /* ================= Helpers ================= */
 
+// Returns a YYYY-MM-DD key for the current local day
 function getLocalDayKey(date = new Date()) {
   return date.toISOString().split("T")[0];
 }
 
+// Returns an ISO week key like "2026-W3"
 function getISOWeekKey(date = new Date()) {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   const dayNum = d.getUTCDay() || 7;
@@ -31,6 +32,7 @@ function getISOWeekKey(date = new Date()) {
   return `${d.getUTCFullYear()}-W${weekNo}`;
 }
 
+// Estimates exercise duration in seconds based on text description
 function estimateDuration(reps = "") {
   const s = reps.toLowerCase();
   if (s.includes("minute")) return parseInt(s) * 60 || 60;
@@ -39,6 +41,7 @@ function estimateDuration(reps = "") {
   return 40;
 }
 
+// Rough MET estimation based on exercise name
 function estimateMET(name = "") {
   const n = name.toLowerCase();
   if (n.includes("plank")) return 3.8;
@@ -75,9 +78,11 @@ export default function AITrainer() {
   const [sessionExercises, setSessionExercises] = useState(0);
 
   useEffect(() => {
+  // Save URL params as local state
     setTodayFeeling(feelingParam);
     setTargetMuscle(muscleParam);
 
+   // Main AI workflow
     const runAI = async () => {
       try {
         const user = auth.currentUser;
@@ -86,26 +91,26 @@ export default function AITrainer() {
           setLoading(false);
           return;
         }
-
+       // Fetch user data from Firestore
         const userRef = doc(db, "users", user.uid);
         const snap = await getDoc(userRef);
         const data = snap.data() || {};
         setUserData(data);
 
+      // Load user weight (fallback: 60kg)
         setUserWeight(data?.fitness?.weight || 60);
 
+      // Build AI prompt and call LLM
         const prompt = buildPrompt(data, feelingParam, muscleParam);
         const raw = await askAI(prompt);
       let parsed;
 
 try {
-  // 1️⃣ تنظيف أولي
   let clean = raw
     .replace(/```json/gi, "")
     .replace(/```/g, "")
     .trim();
 
-  // 2️⃣ ناخد فقط JSON بين { }
   const firstBrace = clean.indexOf("{");
   const lastBrace = clean.lastIndexOf("}");
 
@@ -115,12 +120,10 @@ try {
 
   clean = clean.slice(firstBrace, lastBrace + 1);
 
-  // 3️⃣ parse
   parsed = JSON.parse(clean);
 } catch (err) {
   console.error("❌ AI JSON parse failed:", err, raw);
 
-  // 4️⃣ fallback مضمون
   parsed = {
     message: "Let’s do a simple workout today 💪",
     workout: [],
@@ -169,6 +172,7 @@ try {
     runAI();
   }, [feelingParam, muscleParam]);
 
+  // Finalizes the workout session and saves stats to Firestore
  const handleFinishWorkout = async () => {
     
     try {

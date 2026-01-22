@@ -5,7 +5,53 @@ import { db, auth } from "../../firebase";
 function getMonthKey(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
+/*
+  MonthlyStats
+  ------------
+  Displays a summary of the user's activity for a selected month,
+  including total workouts and calories burned.
 
+  Purpose:
+  - Allow the user to explore historical performance by month.
+  - Provide a simple and clear overview of monthly activity.
+  - Encourage reflection and long-term progress tracking.
+
+  State:
+  - selectedMonth: Currently selected month in "YYYY-MM" format.
+  - stats: Object containing:
+      {
+        workouts: Number,
+        calories: Number
+      }
+  - loading: Indicates whether data is being fetched.
+  - isDark: Tracks the current theme (dark / light) for styling.
+
+  Data Flow:
+  - Reads user data from Firestore ("users" collection).
+  - Extracts:
+      • monthlyWorkouts
+      • monthlyCalories
+  - Updates stats whenever the selected month changes.
+
+  UI Features:
+  - Month selector using <input type="month">.
+  - Card-style container consistent with the dashboard design.
+  - Animated hover effects for better interactivity.
+  - Displays:
+      • Total workouts for the month
+      • Total calories burned for the month
+
+  Theme Handling:
+  - Observes changes to the <html> class.
+  - Adjusts background and shadow dynamically for dark/light mode.
+  - Keeps visual consistency across the dashboard.
+
+  UX Benefits:
+  - Fast comparison between months.
+  - Immediate feedback when switching months.
+  - Clear separation between workouts and calories.
+  - Clean, readable layout suitable for analytics dashboards.
+*/
 export default function MonthlyStats() {
   const [selectedMonth, setSelectedMonth] = useState(getMonthKey(new Date()));
   const [stats, setStats] = useState({ calories: 0, workouts: 0 });
@@ -14,7 +60,6 @@ export default function MonthlyStats() {
     localStorage.getItem("theme") === "dark"
   );
 
-  // مراقبة تغيير الثيم
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));

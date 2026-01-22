@@ -1,3 +1,23 @@
+/*
+  ReviewsSection
+  --------------
+  Displays real-style testimonials from users to build trust and credibility.
+
+  Purpose:
+  - Show social proof for the FitRise platform.
+  - Highlight how different user levels (Beginner, Intermediate, Advanced)
+    benefit from AI-powered workouts and progress tracking.
+  - Strengthen emotional connection with visitors.
+
+  Structure:
+  - Section title and short intro text.
+  - A responsive grid of 3 review cards.
+  - Each card shows:
+      • Star rating
+      • User quote
+      • Avatar image
+      • Name and fitness level
+*/
 export default function ReviewsSection() {
   return (
     <section
@@ -55,6 +75,20 @@ export default function ReviewsSection() {
   );
 }
 
+/*
+  Review Card
+  -----------
+  A reusable component that renders a single user testimonial.
+
+  Props:
+  - stars: string representing rating (e.g. ★★★★★)
+  - text: user feedback quote
+  - img: avatar image URL
+  - name: user name
+  - role: fitness level / role
+  - color: border and accent color
+  - titleColor: color for the user's name
+*/
 function Review({ stars, text, img, name, role, color, titleColor }) {
   return (
     <div

@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import "./Login.css";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import MotivationText from "./MotivationText";
 import SocialIcons from "./SocialIcons";
 import AuthFooter from "./AuthFooter";
 
+// Handles the authentication flow for the app.
+// Switches between Login and Register forms based on URL hash or user action,
+// clears any existing session on load, animates form height changes smoothly,
+// and redirects the user after a successful login or registration.
 export default function AuthPage() {
   const [mode, setMode] = useState("login"); // login | register
   const wrapperRef = useRef(null);
@@ -15,7 +18,6 @@ export default function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ هذا هو الصح
   const handleLoginSuccess = (userId, userName) => {
     localStorage.setItem("userId", userId);
     localStorage.setItem("userName", userName);
@@ -23,7 +25,6 @@ export default function AuthPage() {
     navigate("/profile");
   };
 
-  // تبديل Login / Register حسب URL
   useEffect(() => {
     if (location.hash === "#register") {
       setMode("register");
@@ -38,7 +39,6 @@ useEffect(() => {
   localStorage.removeItem("isLoggedIn");
 }, []);
 
-  // ضبط ارتفاع الفورم
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;

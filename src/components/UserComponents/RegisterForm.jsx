@@ -2,12 +2,14 @@ import { useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CaptchaSwitcher from "./Captcha/CaptchaSwitcher";
 import MotivationText from "./MotivationText";
-
 // 🔐 Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
+// Handles user registration with form validation, CAPTCHA verification,
+// and Firebase Authentication. On success, redirects the user to the
+// fitness setup flow with basic profile data.
 export default function RegisterForm({ onLogin }) {
   const captchaRef = useRef(null);
   const [captchaOk, setCaptchaOk] = useState(false);
@@ -70,7 +72,6 @@ export default function RegisterForm({ onLogin }) {
   setSubmitting(true);
 
   try {
-    // 1️⃣ Firebase Auth فقط
     const cred = await createUserWithEmailAndPassword(
       auth,
       form.email,
@@ -79,7 +80,6 @@ export default function RegisterForm({ onLogin }) {
 
     const uid = cred.user.uid;
 
-    // 2️⃣ انتقلي للـ FitnessSetup ومعك البيانات
     navigate("/fitness-setup", {
       state: {
         registerData: {

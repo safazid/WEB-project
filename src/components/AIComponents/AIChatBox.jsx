@@ -1,13 +1,31 @@
 import { useState } from "react";
 import { askAI } from "../../services/aiService";
 
+/*
+  AIChatBox
+  -----------
+  A simple chat interface that allows the user to talk with an AI fitness coach.
+  It keeps a conversation history and sends user questions to the AI service.
+*/
 export default function AIChatBox({ context }) {
+  // Stores all chat messages (user + assistant)
   const [messages, setMessages] = useState([
     { role: "assistant", text: "Hi! I'm your AI Coach. Ask me anything 💪" },
   ]);
+
+    // Current input value
   const [input, setInput] = useState("");
+
+    // Indicates whether a request is in progress
   const [loading, setLoading] = useState(false);
 
+   /*
+    Sends the user's message to the AI service.
+    - Prevents sending empty messages
+    - Adds the user message to the chat
+    - Builds a prompt for the AI
+    - Handles and cleans the AI response
+  */
   const send = async () => {
     if (!input.trim() || loading) return;
 
@@ -16,6 +34,7 @@ export default function AIChatBox({ context }) {
     setInput("");
     setLoading(true);
 
+   // Build the AI prompt with clear rules and context
     const prompt = `
 You are a friendly and professional AI fitness coach.
 
@@ -39,10 +58,13 @@ Rules:
 `;
 
     try {
+     // Call the AI service
       const raw = await askAI(prompt);
+
+      // Remove code block markers if they exist
       let clean = raw.replace(/```/g, "").trim();
 
-      // لو الرد JSON – استخرج message فقط
+      // If the response looks like JSON, try to extract "message"
       if (clean.startsWith("{") && clean.endsWith("}")) {
         try {
           const obj = JSON.parse(clean);
@@ -52,8 +74,10 @@ Rules:
         } catch (e) {}
       }
 
+      // Add assistant reply to the chat
       setMessages((m) => [...m, { role: "assistant", text: clean }]);
     } catch (e) {
+     // Fallback message on error
       setMessages((m) => [
         ...m,
         { role: "assistant", text: "Sorry, I had a problem answering that." },

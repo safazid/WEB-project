@@ -1,7 +1,23 @@
+/* 
+  Global UI & Theme Styles for FitRise.
+
+  This file defines:
+  - Core color variables for dark and light themes.
+  - Smooth transitions between themes.
+  - The animated theme toggle switch.
+  - Shared button, card, and navigation styles.
+  - Layout helpers (sidebar, content, mobile menu).
+  - Visual effects (fade, typing, tilt, floating chat bubble).
+  - Dark/Light mode fixes for forms, selects, and AI chat.
+
+  The goal is to keep the entire app visually consistent,
+  responsive, and smoothly switchable between dark and light modes
+  without changing JSX components.
+*/
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--bg);              /* ✅ أضيف */
-  color: var(--text-main);            /* ✅ أضيف */
+  background: var(--bg);              
+  color: var(--text-main);            
   transition: background 0.4s ease, color 0.4s ease;
 }
 
@@ -60,7 +76,7 @@ body {
 .chat-bubble {
   position: fixed; bottom:25px; right:25px;
   background: var(--primary);
-  color: var(--text-main);            /* ✅ بدل black */
+  color: var(--text-main);           
   padding: 14px 20px; border-radius: 50px;
   box-shadow:0 0 20px var(--primary);
   font-weight:700; cursor:pointer;
@@ -98,8 +114,8 @@ body {
 /* Sidebar */
 .sidebar {
   width: 240px;
-  background: var(--card-bg);        /* ✅ بدل لون ثابت */
-  color: var(--text-main);           /* ✅ */
+  background: var(--card-bg);        
+  color: var(--text-main);           
   padding: 24px;
   min-height: 100vh;
 }
@@ -162,7 +178,7 @@ body {
 
 /* Card default */
 .card {
-  background: var(--card-bg);        /* ✅ مهم */
+  background: var(--card-bg);        
   color: var(--text-main);
   transition: background var(--transition), color var(--transition);
 }
@@ -181,12 +197,9 @@ body {
 }
 
 
-
-
-
 /* ================== AI CHAT ================== */
 .ai-chat-box {
-  background: #121821; /* دارك */
+  background: #121821; 
 }
 
 .light-mode .ai-chat-box {
@@ -224,15 +237,13 @@ body:not(.light-mode) select {
 }
 /* ===== AI CHAT FIX (DARK MODE) ===== */
 
-/* النص اللي المستخدم بكتبه (الرسالة نفسها) */
 .ai-chat-box .bg-emerald-100 {
-  color: #064e3b; /* أخضر غامق – واضح */
+  color: #064e3b; 
 }
 
-/* input الكتابة */
 .ai-chat-box input {
-  color: #111;           /* لون النص */
-  background: #ffffff;  /* خلفية */
+  color: #111;           
+  background: #ffffff;  
 }
 
 /* placeholder */

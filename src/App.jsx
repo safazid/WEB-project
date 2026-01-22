@@ -11,8 +11,12 @@ import AIFitnessBot from "./components/AIComponents/AIFitnessBot";
 import Workout from "./components/WorkoutComponents/Workout";
 import SocialSharing from "./components/SocialComponents/SocialSharing";
 import WorkoutDemo from "./components/Demo/DemoWorkout";
-
 import AITrainer from "./components/AIComponents/AITrainer";
+
+// Main application router.
+// Defines all app routes and wraps them with the MainLayout.
+// Each path maps to a specific feature page (home, auth, dashboard, AI, demo, etc.),
+// enabling smooth navigation across the FitRise platform.
 
 function App() {
   return (
@@ -30,7 +34,6 @@ function App() {
         <Route path="/share" element={<SocialSharing />} />
         <Route path="/demo" element={<WorkoutDemo />} />
        <Route path="/ai-trainer" element={<AITrainer />} />
-
         <Route path="/ai-coach" element={<AITrainer />} />
  
       </Route>

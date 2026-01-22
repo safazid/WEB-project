@@ -1,17 +1,11 @@
-/*export default function ChatBubble() {
-  return (
-    <div className="chat-bubble">
-      <span className="chat-dot" />
-      💬 Chat with AI
-    </div>
-  );
-}*/
 import { useState } from "react";
 import AIChatBox from "../AIComponents/AIChatBox";
 
+// ChatBubble renders a floating AI chat button on the screen.
+// Clicking the bubble toggles a small chat window with the AI assistant.
+// It stays fixed in the corner and can be opened or closed at any time.
 export default function ChatBubble({ context }) {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       {/* Bubble Button */}

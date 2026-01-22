@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// DemoChatBot simulates a simple AI assistant inside the demo.
+// The user can choose between Motivation, Workout, or Fitness Tips.
+// A fake “thinking” delay is used to mimic real AI behavior.
+// Each choice shows a short response and a call-to-action to register.
+// If "Workout" is chosen, the user can jump directly into the demo workout.
 const RESPONSES = {
   motivation: {
     title: "🔥 Motivation",
@@ -24,6 +29,7 @@ const RESPONSES = {
     cta: "Want more Fitness Tips? Join FitRise 💜",
   },
 };
+
 
 const MORE_LABELS = {
   motivation: "🔥 More Motivation",
@@ -56,7 +62,6 @@ const register = () => {
     <div className="p-6 space-y-6">
       <h2 className="text-xl font-bold">AI Fitness Assistant 🤖</h2>
 
-      {/* السؤال الأساسي */}
       {!choice && !loading && (
         <>
           <p className="text-[var(--secondary)]">
@@ -91,14 +96,12 @@ const register = () => {
         </>
       )}
 
-      {/* Fake typing */}
       {loading && (
         <p className="italic text-[var(--secondary)]">
           AI is thinking...
         </p>
       )}
 
-      {/* جواب البوت */}
       {current && (
         <div className="space-y-4">
           <div className="p-4 rounded-xl bg-[var(--card-bg)] border border-purple-500">
@@ -109,7 +112,6 @@ const register = () => {
             </p>
           </div>
 
-          {/* CTA حسب الاختيار */}
           <button
   type="button"
   onClick={register}
@@ -119,7 +121,6 @@ const register = () => {
 </button>
 
 
-          {/* ربط مباشر بالـ Workout */}
           {choice === "workout" && (
             <button
               type="button"
@@ -130,7 +131,6 @@ const register = () => {
             </button>
           )}
 
-          {/* خيارات متابعة ذكية */}
           <div className="flex flex-col gap-2">
            
 
@@ -167,7 +167,6 @@ const register = () => {
         </div>
       )}
 
-      {/* رجوع */}
       <button
         type="button"
         onClick={() => {

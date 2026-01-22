@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
+// DemoComplete is the final screen shown after finishing the demo workout.
+// It congratulates the user and encourages them to create an account.
+// The main button redirects to the registration page,
+// while the secondary button sends the user back to the home page.
 export default function DemoComplete() {
   const navigate = useNavigate();
 

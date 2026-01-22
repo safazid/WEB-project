@@ -1,5 +1,25 @@
 import logo from "../../assets/YOUR_LOGO.png";
 
+/*
+  AboutSection
+  ------------
+  This section introduces the FitRise platform.
+
+  Purpose:
+  - Presents a short description of what FitRise offers.
+  - Highlights the main idea: AI-powered workouts, progress tracking,
+    and daily motivation.
+  - Displays the FitRise logo alongside the text.
+
+  Structure:
+  - Uses a responsive two-column layout on medium screens and above.
+  - Left side: Title and descriptive text.
+  - Right side: Centered logo image.
+
+  Styling:
+  - Uses Tailwind classes for spacing, layout, and typography.
+  - Text color adapts using CSS variables (var(--text-sub)).
+*/
 export default function AboutSection() {
   return (
     <section id="about" className="py-20">

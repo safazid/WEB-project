@@ -7,15 +7,43 @@ import MotivationBox from "./MotivationBox";
 import Footer from "../layouts/Footer";
 import ChatBubble from "../layouts/ChatBubble";
 import ScoreBox from "./ScoreBox";
-
 import { doc, updateDoc, getDoc,increment } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getISOWeekKey } from "../../utils/dateHelpers";
 
+/*
+  ChallengesPage
+  --------------
+  Main container for the Challenges feature.
+
+  Responsibilities:
+  - Switch between Daily and Weekly challenges
+  - Handle challenge completion logic
+  - Update user stats in Firestore
+  - Prevent duplicate collection (daily / weekly)
+  - Render all related UI components
+
+  This page coordinates:
+  - Tabs (Daily / Weekly)
+  - Challenge lists
+  - User points & progress updates
+*/
 export default function ChallengesPage() {
+
+  // Active tab: "daily" | "weekly"
   const [activeTab, setActiveTab] = useState("daily");
+
+  // Optional motivational section toggle
   const [showMotivation, setShowMotivation] = useState(false);
 
+    /**
+   * Called when a challenge is completed and the user
+   * attempts to collect its reward.
+   *
+   * - Prevents duplicate collection
+   * - Updates Firestore with points, calories, and workouts
+   * - Handles both daily and weekly challenges
+   */
   const completeChallenge = async (
   id,
   points,
@@ -39,7 +67,7 @@ export default function ChallengesPage() {
   const snap = await getDoc(ref);
   const d = snap.data() || {};
 
-  // ❌ لا نستخدم localStorage للـ weekly
+  // DAILY: prevent multiple collections on the same day
   if (!isWeekly) {
     const userDaily =
       JSON.parse(localStorage.getItem("userDaily")) || {};
@@ -54,14 +82,14 @@ export default function ChallengesPage() {
       JSON.stringify(userDaily)
     );
   }
-
+  // WEEKLY: prevent duplicate collection in the same week
   const completedWeeklyKey = `${id}_${weekKey}`;
 
   if (isWeekly && d.completedWeekly?.[completedWeeklyKey]) {
     console.log("⛔ WEEKLY already collected (firestore)");
     return;
   }
-
+    // Update user stats in Firestore
   await updateDoc(ref, {
     totalPoints: increment(points),
     totalCalories: increment(calories),
@@ -73,6 +101,7 @@ export default function ChallengesPage() {
 
   console.log("✅ WEEKLY collected successfully");
 
+  // Notify other components (e.g., ScoreBox) to refresh
   window.dispatchEvent(new Event("stats-updated"));
 };
 

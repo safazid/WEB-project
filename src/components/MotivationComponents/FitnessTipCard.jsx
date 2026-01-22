@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+// FitnessTipCard is a reusable UI component that displays
+// a small fitness tip with an icon, title, and description.
+// It:
+// - Adapts its shadow style based on the current theme (light/dark)
+// - Listens for theme changes using a MutationObserver
+// - Shows a clean, card-style layout for tips or advice
+// - Is fully customizable via props (icon, title, desc)
 export default function FitnessTipCard({ icon, title, desc }) {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark"

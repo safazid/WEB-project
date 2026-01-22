@@ -1,3 +1,8 @@
+// DemoStartChoice is the first screen of the demo flow.
+// It lets the user choose between starting a workout demo
+// or trying the AI chatbot demo.
+// onWorkout starts the workout path.
+// onChat opens the AI chat experience.
 export default function DemoStartChoice({ onWorkout, onChat }) {
   return (
     <div className="p-6 text-center space-y-6">
@@ -12,7 +17,7 @@ export default function DemoStartChoice({ onWorkout, onChat }) {
       <div className="flex  gap-8">
         <button
         
-          type="button"          // ✅ مهم جدًا
+          type="button"         
           onClick={onWorkout}
           className="auth-input bg-purple-200 text-white"
         >
@@ -20,7 +25,7 @@ export default function DemoStartChoice({ onWorkout, onChat }) {
         </button>
 
         <button
-          type="button"          // ✅ مهم
+          type="button"          
           onClick={onChat}
           className="auth-input bg-[var(--card-bg)] border border-purple-500"
         >

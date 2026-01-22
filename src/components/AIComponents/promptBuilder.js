@@ -1,11 +1,19 @@
 import { WORKOUT_LIBRARY } from "./workoutLibrary";
 
+/**
+ * Calculates BMI based on weight (kg) and height (cm).
+ * Returns null if any value is missing.
+ */
 function calculateBMI(weight, heightCm) {
   if (!weight || !heightCm) return null;
   const h = heightCm / 100;
   return (weight / (h * h)).toFixed(1);
 }
 
+/**
+ * Maps textual activity level to a simplified scale
+ * used by the AI logic.
+ */
 function mapActivity(activity = "") {
   if (activity.includes("Sedentary")) return "very low";
   if (activity.includes("Lightly")) return "low";
@@ -14,6 +22,10 @@ function mapActivity(activity = "") {
   return "unknown";
 }
 
+/**
+ * Analyzes user consistency based on weekly completions
+ * and total workout count.
+ */
 function analyzeConsistency(completedWeekly = {}, totalWorkouts = 0) {
   const weeklyCount = Object.keys(completedWeekly || {}).length;
 
@@ -23,6 +35,11 @@ function analyzeConsistency(completedWeekly = {}, totalWorkouts = 0) {
   return "very low";
 }
 
+/**
+ * Builds a structured prompt for the AI trainer.
+ * The AI must choose exercises only from WORKOUT_LIBRARY
+ * and return pure JSON in a fixed format.
+ */
 export function buildPrompt(user, feeling, muscle) {
   const {
     fitness = {},
@@ -43,6 +60,7 @@ export function buildPrompt(user, feeling, muscle) {
 
   const painList = pains.length ? pains.join(", ") : "none";
 
+  // Extract only the relevant fields from the workout library
   const libraryText = WORKOUT_LIBRARY.map(w => ({
     name: w.name,
     muscle: w.muscle,
@@ -53,6 +71,7 @@ export function buildPrompt(user, feeling, muscle) {
     video: w.video
   }));
 
+  // Final prompt sent to the LLM
   return `
 You are a professional personal fitness coach.
 

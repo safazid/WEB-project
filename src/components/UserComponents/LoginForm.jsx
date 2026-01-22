@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 
+// Handles user login with Firebase authentication.
+// Allows users to sign in, reset their password via email,
+// and stores session data before redirecting to the profile page.
 export default function LoginForm({ onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

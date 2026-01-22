@@ -11,7 +11,7 @@
 
 .animate-fadeIn {
   animation: fadeIn 0.35s ease-out;
-  opacity: 1; /* ✅ أمان */
+  opacity: 1; 
 }
 
 @keyframes slideUp {
@@ -27,7 +27,7 @@
 
 .animate-slideUp {
   animation: slideUp 0.35s ease-out;
-  opacity: 1; /* ✅ أمان */
+  opacity: 1; 
 }
 
 .card-hover {
@@ -57,10 +57,9 @@
 }
 
 /* ================== PROFILE MODAL ================== */
-/* مودال البروفايل (مصمت، مش شفاف) */
 
 .profile-modal {
-  background: #121821; /* دارك مود – لون مصمت */
+  background: #121821; 
 }
 
 /* Light mode */
@@ -68,7 +67,6 @@
   background: #ffffff;
 }
 
-/* الوضع العادي */
 .user-name,
 .user-email {
   color: var(--text-main);

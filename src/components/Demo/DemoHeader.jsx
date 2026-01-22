@@ -8,8 +8,9 @@ export default function DemoHeader() {
         color: "var(--text-sub)",
       }}
     >
+     {/* Short intro message shown at the top of the demo dashboard */}
+      {/* Explains that this is a preview of the full AI-powered experience */}
 A quick preview of your fitness journey with AI-powered guidance
     </div>
   );
 }
-

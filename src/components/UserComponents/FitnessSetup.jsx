@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
-
 import { db } from "../../firebase";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore"; // ✅ تغيير ضروري فقط
+import { doc, setDoc, serverTimestamp } from "firebase/firestore"; 
 
 const painOptions = [
   { label: "Back", value: "back" },
@@ -13,6 +12,11 @@ const painOptions = [
   { label: "Hip", value: "hip" },
 ];
 
+// Collects the user's fitness profile after registration.
+// Gathers personal and fitness data (gender, height, weight, goal, activity,
+// birth date, and pain areas), validates the form, and saves everything
+// to Firestore before redirecting the user to their profile.
+
 export default function FitnessSetup() {
   const [form, setForm] = useState({
     gender: "",
@@ -21,13 +25,12 @@ export default function FitnessSetup() {
     goal: "",
     activity: "",
     dob: "",
-    pains: [], // ✅ مهم
+    pains: [], 
   });
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ الـ UID جاي من Register
   const userId =
     location.state?.registerData?.uid ||
     localStorage.getItem("userId");
@@ -60,7 +63,6 @@ export default function FitnessSetup() {
     }
 
     try {
-      // ✅ إنشاء المستخدم + حفظ الفيتنس (بدون حذف أي شيء)
     await setDoc(doc(db, "users", userId), {
   name: location.state?.registerData?.name,
   email: location.state?.registerData?.email,

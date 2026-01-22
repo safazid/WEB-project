@@ -1,4 +1,5 @@
 export default function PersonalInfoCard({ form, setForm }) {
+    // Handles basic personal details (name & email)
   return (
     <div className="bg-white rounded-2xl p-6 shadow border">
       <h3 className="text-[var(--teal)] font-bold mb-4">

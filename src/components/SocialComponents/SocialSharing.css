@@ -1,4 +1,12 @@
-/* ===== Social Sharing Page ===== */
+/* 
+  SocialSharing Styles
+
+  Styles for the Social Sharing page:
+  - Share button with gradient, glow, and hover animation
+  - Workout cards with smooth lift-on-hover effect
+  - Share menu container with themed background and borders
+  - Consistent rounded corners and soft shadows for a modern UI
+*/
 
 .share-btn {
   background: linear-gradient(135deg, #C46CFF, #8E3CA9);

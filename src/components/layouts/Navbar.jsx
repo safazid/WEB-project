@@ -6,6 +6,17 @@ import { Bell } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 
+// Navbar is the main top navigation bar of the app.
+// It handles:
+// - Navigation between sections and pages
+// - Login / logout state
+// - Theme toggling (light / dark mode)
+// - Notifications (e.g. daily workout reminder)
+// - Responsive behavior (desktop + mobile menu)
+//
+// The component reacts to route changes, user login status,
+// and Firestore data to show dynamic UI elements such as
+// profile access, notifications, and streak reminders.
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();

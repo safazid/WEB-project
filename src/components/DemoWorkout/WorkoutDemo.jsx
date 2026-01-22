@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { demoExercises } from "./demoExercises";
-
 import DemoStartChoice from "./DemoStartChoice";
 import DemoChatBot from "./DemoChatBot";
 import DemoGoalSelect from "./DemoGoalSelect";
@@ -11,6 +10,11 @@ import RestTimer from "./RestTimer";
 import ContinueAfterRest from "./ContinueAfterRest";
 import DemoComplete from "./DemoComplete";
 
+// WorkoutDemo controls the entire demo flow.
+// It manages the user journey from choosing what to try,
+// selecting a goal and level, running the exercises,
+// handling rest periods, and finishing the demo.
+// Each "step" represents a screen in the demo experience.
 export default function WorkoutDemo() {
   const [step, setStep] = useState("start");
   const [goal, setGoal] = useState(null);
@@ -116,8 +120,6 @@ if (step === "list") {
     />
   );
 }
-
-
 
   if (step === "done") {
     return <DemoComplete />;

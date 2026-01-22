@@ -1,6 +1,29 @@
-// src/components/ChallengeComponents/ChallengeCard.jsx
 import ProgressBar from "./ProgressBar";
 
+/*
+  ChallengeCard
+  --------------
+  Displays a single challenge in the challenges screen.
+
+  Responsibilities:
+  - Show challenge icon, title, and description
+  - Display progress using ProgressBar
+  - Show current value vs target
+  - Indicate reward points
+  - Handle completed / collect states
+
+  Props:
+  - icon: Emoji or icon representing the challenge
+  - title: Challenge title
+  - desc: Short description
+  - value: Current progress value
+  - target: Goal value
+  - points: Reward points
+  - progress: Percentage for progress bar (0–100)
+  - completed: Whether the challenge is already completed
+  - canCollect: Whether the reward can be collected
+  - onCollect: Callback when user clicks "Collect"
+*/
 export default function ChallengeCard({
   icon,
   title,

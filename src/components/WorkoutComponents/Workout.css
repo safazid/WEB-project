@@ -1,3 +1,8 @@
+/* Confetti effect styles:
+   - .confetti: small falling pieces that start above the screen
+   - fall animation: drops each piece down the page while rotating
+   - .animate-pop: adds a quick “pop in” scale effect for UI elements
+*/
 .confetti {
   position: absolute;
   top: -10px;

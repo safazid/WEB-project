@@ -1,3 +1,6 @@
+// ReadyNextExercise shows a simple confirmation screen between exercises.
+// It informs the user that the next exercise will start with a countdown
+// and waits for them to press the button to continue.
 export default function ReadyNextExercise({ onStart }) {
   return (
     <div className="max-w-md mx-auto text-center p-6">

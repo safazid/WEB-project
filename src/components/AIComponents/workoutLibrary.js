@@ -1,3 +1,24 @@
+/*
+  WORKOUT_LIBRARY
+  ----------------
+  This file contains a fixed, safe, and curated list of exercises
+  that the AI is allowed to use.
+
+  Each exercise object defines:
+  - name: Display name of the exercise
+  - muscle: Target muscle group (legs, arms, core, glutes, back, full, etc.)
+  - intensity: low | medium | high
+  - avoidFor: List of pain areas where this exercise is unsafe
+  - reps: Human-readable repetitions or time
+  - explanation: Short description for the user
+  - video: YouTube link for demonstration
+
+  The AI is strictly instructed to choose ONLY from this list.
+  This guarantees:
+  - No unsafe or invented exercises
+  - Full control over difficulty and safety
+  - Consistent quality across all generated workouts
+*/
 export const WORKOUT_LIBRARY = [
   {
     name: "Bodyweight Squats",

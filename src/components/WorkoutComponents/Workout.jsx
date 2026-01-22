@@ -3,13 +3,20 @@ import Navbar from "../layouts/Navbar";
 import Footer from "../layouts/Footer";
 import { useNavigate } from "react-router-dom";
 import "./Workout.css";
-
 import { doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getISOWeekKey } from "../../utils/dateHelpers";
 import { auth } from "../../firebase";
 
-
+// Workout is a full workout session screen.
+// It:
+// - Reads workout settings from URL params (duration, calories, name, exercises, music)
+// - Plays background music if enabled
+// - Runs a live countdown timer
+// - Displays the workout name and optional exercise list
+// - Updates Firestore with daily and weekly stats when finished
+// - Shows a completion message and redirects to the AI page
+// - Allows restarting the timer or returning to plans
 export default function Workout() {
   const params = new URLSearchParams(window.location.search);
 
@@ -90,9 +97,6 @@ export default function Workout() {
     return () => clearTimeout(timeout);
   }
 }, [seconds, navigate]);
-
-
-
 
   function format(sec) {
     const m = String(Math.floor(sec / 60)).padStart(2, "0");

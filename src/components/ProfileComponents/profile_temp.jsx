@@ -6,6 +6,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import EditProfileModal from "./EditProfileModal";
 import Loader from "../loader";
 
+// Profile page that loads the user data from Firestore,
+// displays personal info, BMI, and profile photo,
+// and allows updating the avatar and editing profile details.
+// Redirects to login if no user session is found.
+
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [image, setImage] = useState("");
@@ -15,8 +20,6 @@ export default function Profile() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ نحمي حالنا
-  //const userId = location.state?.userId;
 const userId = localStorage.getItem("userId");
 
   useEffect(() => {

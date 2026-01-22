@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
-
 import StatsCards from "./StatsCards";
 import WeeklyProgress from "./WeeklyProgress";
 import LastWorkout from "./LastWorkout";
@@ -14,28 +13,72 @@ import MonthlyPieChart from "../DashboardComponents/MonthlyPieChart";
 
 
 
-// ===== helpers =====
+// ===== Helper: generate a year-week key (e.g., 2026-W3) =====
 function getWeekKey(d) {
   const firstJan = new Date(d.getFullYear(), 0, 1);
   const days = Math.floor((d - firstJan) / 86400000);
   const week = Math.ceil((days + firstJan.getDay() + 1) / 7);
   return `${d.getFullYear()}-W${week}`;
 }
-// ===================
 
+/*
+  DashboardPage
+  -------------
+  This page represents the user's main fitness dashboard.
+
+  Purpose:
+  - Display all important progress metrics in one place.
+  - Help the user understand their performance over time.
+  - Provide visual feedback (charts & stats) for motivation.
+  - Allow exporting a full progress report as a PDF.
+
+  Features:
+  - Loads user stats from Firestore.
+  - Calculates weekly and monthly summaries.
+  - Displays:
+      • Total workouts, calories, and points
+      • Weekly goal progress
+      • Weekly and monthly charts
+      • Last workout info
+  - Generates a detailed PDF report including:
+      • Monthly summary
+      • Weekly breakdown
+      • Last 7 days activity
+      • Engagement metrics
+
+  Data Sources:
+  - Firestore document: users/{uid}
+  - Fields used:
+      • totalWorkouts
+      • totalCalories
+      • totalPoints
+      • weeklyWorkouts
+      • weeklyCalories
+      • monthlyWorkouts
+      • monthlyCalories
+      • dailyStats
+*/
 export default function DashboardPage() {
+    
+  // High-level summary stats
   const [stats, setStats] = useState({
   totalWorkouts: 0,
   totalCalories: 0,
   totalPoints: 0,
   completedWeekly: 0,
-  currentStreak: 0,     // ✅
+  currentStreak: 0,     
 });
 
+  // Chart data
 const [weeklyData, setWeeklyData] = useState([]);
 const [monthlyData, setMonthlyData] = useState([]);
 
-
+  /*
+    Load user data from Firestore:
+    - Build summary stats
+    - Prepare weekly chart data
+    - Prepare monthly chart data
+  */
   useEffect(() => {
   const loadStats = async () => {
     const user = auth.currentUser;
@@ -49,6 +92,7 @@ const [monthlyData, setMonthlyData] = useState([]);
     const now = new Date();
     const currentWeekKey = getWeekKey(now);
 
+   // Basic stats for top cards
     setStats({
       totalWorkouts: data.totalWorkouts || 0,
       totalCalories: data.totalCalories || 0,
@@ -57,9 +101,9 @@ const [monthlyData, setMonthlyData] = useState([]);
       currentStreak: data.currentStreak || 0,
     });
 
+    // Prepare weekly chart data
     const weeklyCalories = data.weeklyCalories || {};
     const weeklyWorkouts = data.weeklyWorkouts || {};
-
     const result = [];
 
     Object.keys(weeklyWorkouts).forEach((weekKey) => {
@@ -83,9 +127,10 @@ const [monthlyData, setMonthlyData] = useState([]);
     });
 
     setWeeklyData(result);
+    
+    // Prepare monthly chart data
     const monthlyWorkouts = data.monthlyWorkouts || {};
-
-const monthsArr = Object.keys(monthlyWorkouts).map((key) => ({
+    const monthsArr = Object.keys(monthlyWorkouts).map((key) => ({
   month: key,
   workouts: monthlyWorkouts[key],
 }));
@@ -97,8 +142,51 @@ setMonthlyData(monthsArr);
   loadStats();
 }, []);
 
+/*
+  handleExportReportPDF
+  ---------------------
+  Generates a full workout progress report as a PDF file.
 
+  The report includes:
+  1. Monthly summary:
+     - Total workouts per month
+     - Total calories per month
 
+  2. Weekly breakdown (current year):
+     - Workouts per week
+     - Calories per week
+
+  3. Daily activity (last 7 days):
+     - Date
+     - Exercises completed
+     - Calories burned
+
+  4. Engagement metrics:
+     - Number of active weeks
+     - Average workouts per week
+     - Average calories per week
+     - Most active week
+
+  Data source:
+  - Firestore document: users/{uid}
+  - Fields used:
+      • monthlyWorkouts
+      • monthlyCalories
+      • weeklyWorkouts
+      • weeklyCalories
+      • dailyStats
+
+  Flow:
+  - Create a new jsPDF instance.
+  - Add titles and table headers.
+  - Fetch user data from Firestore.
+  - Build tables dynamically from stored stats.
+  - Append engagement analytics.
+  - Export and download "Workout_Report.pdf".
+
+  This feature allows the user to keep a permanent,
+  shareable record of their fitness progress.
+*/
   async function handleExportReportPDF() {
   const { jsPDF } = await import("jspdf");
   const pdf = new jsPDF();
@@ -157,7 +245,6 @@ setMonthlyData(monthsArr);
   const weeklyWorkouts = data.weeklyWorkouts || {};
   const weeklyCalories = data.weeklyCalories || {};
 
-  // عنوان الجدول الثاني
   y += 10;
   pdf.setFontSize(11);
   pdf.text("Weekly Breakdown (Current Month)", 14, y);
@@ -175,7 +262,7 @@ setMonthlyData(monthsArr);
   y += 6;
 
   Object.keys(weeklyWorkouts).forEach((weekKey) => {
-    // فلترة الأسابيع التابعة للشهر الحالي فقط
+
     if (!weekKey.startsWith(currentMonthKey.slice(0, 4))) return;
 
     const workouts = weeklyWorkouts[weekKey];
@@ -207,7 +294,6 @@ setMonthlyData(monthsArr);
   pdf.line(14, y, 190, y);
   y += 6;
 
-  // آخر 7 أيام (من الأقدم للأحدث)
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
@@ -223,7 +309,6 @@ setMonthlyData(monthsArr);
 
     y += 8;
 
-    // صفحة جديدة إذا وصلنا آخر الصفحة
     if (y > 270) {
       pdf.addPage();
       y = 20;
@@ -307,9 +392,7 @@ setMonthlyData(monthsArr);
         Track your daily stats, progress, and weekly achievements
       </p>
 
-      {/* 🔹 هذا هو القسم اللي رح نصدّره PDF */}
 
-      {/* زر التصدير – خارج المحتوى المصدر */}
       <div className="mb-8">
         <button
           onClick={handleExportReportPDF}
@@ -347,11 +430,9 @@ setMonthlyData(monthsArr);
         <LastWorkout />
       </div>
 
-      {/* ❌ هذا لا يدخل بالـPDF */}
       <ChatBubble />
     </section>
 
-    {/* ❌ هذا لا يدخل بالـPDF */}
     <Footer />
   </>
 );

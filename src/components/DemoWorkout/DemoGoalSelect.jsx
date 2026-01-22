@@ -1,3 +1,7 @@
+// DemoGoalSelect lets the user choose their main fitness goal in the demo.
+// It displays a small list of goals (weight, strength, active) and
+// notifies the parent component when a goal is selected.
+// The Back button allows returning to the previous demo step.
 export default function DemoGoalSelect({ onSelect, onBack }) {
   const goals = [
     { id: "weight", label: "Lose Weight", icon: "🔥" },

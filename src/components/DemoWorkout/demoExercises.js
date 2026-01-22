@@ -1,3 +1,9 @@
+// demoExercises defines the demo workout plans for the FitRise demo flow.
+// The exercises are grouped by goal (weight, strength, active)
+// and by difficulty level (easy, medium, hard).
+// Each exercise contains a name and a duration in seconds.
+// This structure allows the demo to dynamically build a workout
+// based on the user’s selected goal and level.
 export const demoExercises = {
   weight: {
     easy: [

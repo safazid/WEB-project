@@ -6,6 +6,27 @@ import "./SocialSharing.css";
 import { doc, getDoc } from "firebase/firestore";
 import { WORKOUT_LIBRARY } from "../AIComponents/workoutLibrary";
 
+/*
+  SocialSharing Component
+
+  Displays the user's recent workouts and allows them to share progress.
+  It fetches the last completed exercises from Firebase, enriches them using
+  WORKOUT_LIBRARY, and shows them as workout cards.
+
+  Each card presents:
+  - Workout name
+  - Date
+  - Goal
+  - Duration
+  - Description
+
+  Users can share a workout by:
+  - Sending it via email (Gmail)
+  - Copying the workout info to the clipboard
+
+  If no workouts exist, an empty-state message is shown.
+  The page is wrapped with Navbar and Footer and follows the app theme.
+*/
 export default function SocialSharing() {
   const [openMenu, setOpenMenu] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
@@ -66,6 +87,13 @@ export default function SocialSharing() {
         </p>
 
         <div className="space-y-8">
+        {workouts.length === 0 && (
+  <div className="text-center py-20 opacity-70">
+    <p className="text-lg mb-2">No workouts yet</p>
+    <p className="text-sm">Complete a workout to share it with friends 💪</p>
+  </div>
+)}
+
           {workouts.map((w) => (
             <div
               key={w.id}

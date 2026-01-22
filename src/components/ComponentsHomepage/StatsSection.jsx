@@ -1,3 +1,23 @@
+/*
+  StatsSection
+  ------------
+  Displays key platform statistics to build trust and credibility.
+
+  Purpose:
+  - Show the scale and success of FitRise.
+  - Reinforce reliability through impressive numbers.
+  - Motivate new users by highlighting community growth and effectiveness.
+
+  Content:
+  - Active users count
+  - Total challenges completed
+  - Overall success rate
+
+  Layout:
+  - Responsive 3-column grid (stacks on small screens)
+  - Each stat is shown inside a styled card
+  - Hover effects for subtle interactivity
+*/
 export default function StatsSection() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-16 fade-in">

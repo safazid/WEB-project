@@ -1,5 +1,9 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 
+// Simple arithmetic CAPTCHA component.
+// Generates a small math question and verifies the user's answer
+// to prevent automated form submissions.
+
 const ArithmeticCaptcha = forwardRef(({ disabled, onResult }, ref) => {
   const [a, setA] = useState(0);
   const [b, setB] = useState(0);
@@ -27,7 +31,6 @@ const ArithmeticCaptcha = forwardRef(({ disabled, onResult }, ref) => {
     return valid;
   };
 
-  // 👇 expose verify() بشكل رسمي
   useImperativeHandle(ref, () => ({
     verify
   }));

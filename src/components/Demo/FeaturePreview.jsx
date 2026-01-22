@@ -7,11 +7,12 @@ export default function FeaturePreview() {
         border: "1px solid var(--primary-soft)",
       }}
     >
+          {/* Card title */}
       <h3 className="text-xl font-bold mb-3">
         Track Your Progress
       </h3>
 
-      {/* Placeholder Image */}
+      {/* Placeholder area for a future dashboard preview image */}
       <div
         className="h-32 rounded-lg flex items-center justify-center text-sm mb-4"
         style={{
@@ -22,6 +23,7 @@ export default function FeaturePreview() {
         Progress charts & stats preview
       </div>
 
+      {/* Short description of the feature */}
       <p className="text-sm" style={{ color: "var(--text-sub)" }}>
         Visualize your workouts, calories, streaks and achievements
         in one personalized dashboard.

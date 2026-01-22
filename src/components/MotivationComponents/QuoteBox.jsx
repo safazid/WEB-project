@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+// QuoteBox displays a motivational quote card.
+// It:
+// - Stores a list of predefined fitness quotes
+// - Shows one random quote at a time
+// - Allows the user to generate a new quote with a button
+// - Adapts its styling to light/dark mode using a MutationObserver
+// - Uses smooth card styling and shadow effects for a premium feel
 const quotes = [
   "Your body can stand almost anything. It's your mind you have to convince.",
   "Push yourself, because no one else will do it for you.",

@@ -1,3 +1,7 @@
+// ExerciseList shows a preview of the demo workout.
+// It lists all exercises with their durations,
+// lets the user change the difficulty level,
+// and allows starting the workout when ready.
 export default function ExerciseList({ exercises, onStart, goToLevel }) {
   return (
     <div className="max-w-md mx-auto p-6 text-center">
@@ -24,7 +28,6 @@ export default function ExerciseList({ exercises, onStart, goToLevel }) {
         ))}
       </ul>
 
-      {/* 🔙 رجوع مباشر لصفحة Goal */}
       <button
         onClick={goToLevel}
         className="mt-4 text-sm underline text-gray-500"

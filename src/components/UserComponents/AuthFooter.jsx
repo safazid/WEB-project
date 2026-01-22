@@ -1,3 +1,5 @@
+// Simple footer for the authentication pages.
+// Displays a clean copyright message and stays fixed at the bottom layout.
 export default function AuthFooter() {
   return (
     <footer

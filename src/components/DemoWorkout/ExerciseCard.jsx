@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
 import Countdown from "./Countdown";
 import FullScreenCountdown from "./FullScreenCountdown";
-
 // 🖼️ Images
 import squatsImg from "../../assets/squats.png";
 import bodyweightSquatsImg from "../../assets/Bodyweight_Squats.png";
 import jumpSquatsImg from "../../assets/Jump_Squats.png";
-
 import pushUpsImg from "../../assets/Push-ups.png";
 import wallPushUpsImg from "../../assets/Wall_Push-ups.png";
-
 import lungesImg from "../../assets/Lunges.png";
 import dumbbellLungesImg from "../../assets/Dumbbell_Lunges.png";
 import bulgarianImg from "../../assets/bulgarian.png";
-
 import jumpingJacksImg from "../../assets/Jumping_Jacks.png";
 import highKneesImg from "../../assets/High_knees.png";
 import marchImg from "../../assets/March_in_place.png";
-
 import burpeesImg from "../../assets/Burpees.png";
 import mountainClimbersImg from "../../assets/Mountain_Climbers.png";
-
 import plankImg from "../../assets/Plank_Hold.png";
 
+// ExerciseCard displays a single exercise during the demo workout.
+// It shows the exercise name, position in the workout, and a matching image.
+// The component moves through three phases:
+// - "idle": shows a button to start the exercise
+// - "pre": shows a full-screen countdown before starting
+// - "active": runs a timer for the exercise duration
+// When the timer finishes, onFinish is called to move to the next exercise.
 export default function ExerciseCard({
   exercise,
   onFinish,
@@ -90,7 +91,6 @@ export default function ExerciseCard({
     className="w-full h-64 object-cover"
   />
 
-  {/* 🖤 طبقة تطبير خفيفة */}
   <div
     className="absolute inset-0"
     style={{ background: "rgba(0,0,0,0.25)" }}
@@ -100,7 +100,6 @@ export default function ExerciseCard({
         </div>
       )}
 
-      {/* ▶ Start flow – بدون تغيير */}
       {phase === "idle" && (
         <button
           onClick={() => setPhase("pre")}

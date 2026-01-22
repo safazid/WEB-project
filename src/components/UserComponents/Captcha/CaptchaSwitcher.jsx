@@ -3,6 +3,12 @@ import ArithmeticCaptcha from "./ArithmeticCaptcha";
 import ImageCaptcha from "./ImageCaptcha";
 import "./captcha.css";
  
+
+// CAPTCHA controller component.
+// Lets the user choose between different CAPTCHA types (Arithmetic or Image),
+// tracks failed attempts, locks the CAPTCHA after too many errors,
+// and exposes a unified `verifyCaptcha()` method to the parent form.
+
 const MAX_ATTEMPTS = 3;
 
 const CaptchaSwitcher = forwardRef(({ onResult }, ref) => {

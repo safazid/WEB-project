@@ -1,4 +1,3 @@
-// src/components/ChallengeComponents/DailyChallenges.jsx
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db, auth } from "../../firebase";
@@ -79,6 +78,31 @@ function MysteryBoxCard({ unlocked, opened, onOpen }) {
   );
 }
 
+/*
+  DailyChallenges
+  ----------------
+  Displays and manages the user's daily challenges.
+
+  Features:
+  - Tracks daily calories and completed exercises
+  - Shows progress for each daily challenge
+  - Allows collecting rewards when targets are reached
+  - Displays an automatic alert when a challenge is completed
+  - Includes a "Mystery Box" reward unlocked after 1 workout
+
+  Data Sources:
+  - Firebase Auth: to identify the current user
+  - Firestore (users collection):
+      - dailyStats[YYYY-MM-DD].calories
+      - dailyStats[YYYY-MM-DD].exercises
+      - completedChallenges
+
+  Behavior:
+  - Loads today's stats on login
+  - Updates progress in real time
+  - Prevents collecting the same challenge twice
+  - Sends a "stats-updated" event after any reward
+*/
 export default function DailyChallenges() {
   const [user, setUser] = useState(null);
   const [caloriesToday, setCaloriesToday] = useState(0);
@@ -90,12 +114,14 @@ export default function DailyChallenges() {
   const today = getToday();
 
   /* ===== Auth ===== */
+  // Listen for auth changes and keep the current user
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return () => unsub();
   }, []);
 
   /* ===== Load ===== */
+  // Load today's stats from Firestore
   useEffect(() => {
     if (!user) return;
 
@@ -117,7 +143,8 @@ export default function DailyChallenges() {
     load();
   }, [user, today]);
 
-  /* 🔔 Auto Alert when challenge REACHES target (not collected yet) */
+/* 🔔 Auto Alert */
+// Show an alert when a challenge reaches its target but is not yet collected
   useEffect(() => {
     dailyChallenges.forEach((c) => {
       const value =

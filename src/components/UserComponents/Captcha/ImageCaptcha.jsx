@@ -42,7 +42,11 @@ const IMAGES = [
   },
 ];
 
-
+// Image-based CAPTCHA component.
+// Displays a grid of images and asks the user to select all images
+// matching a random target label (e.g., cat, dog, car, bike).
+// Handles selection toggling, validation logic, error display,
+// and exposes a `verify()` method to the parent via ref.
 
 const ImageCaptcha = forwardRef(({ disabled, onResult }, ref) => {
   const [target, setTarget] = useState("");

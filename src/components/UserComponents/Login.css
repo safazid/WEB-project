@@ -1,4 +1,3 @@
-/* ----------------- نفس شغلك الأصلي (الألوان + الثيم) ----------------- */ 
 :root { 
   --primary: #4EE4C2; 
   --primary-soft: rgba(78, 228, 194, 0.5); 
@@ -152,7 +151,6 @@ button.button-purple {
   animation: none;
 }
 
-/* حركة التمويج */
 @keyframes waveGradient {
   0% {
     background-position: 0% 50%;

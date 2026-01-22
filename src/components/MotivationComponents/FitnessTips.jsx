@@ -1,12 +1,17 @@
 import FitnessTipCard from "./FitnessTipCard";
 import { useEffect, useState } from "react";
 
+// FitnessTips renders a full section of helpful fitness tips.
+// It:
+// - Displays a themed section title that adapts to light/dark mode
+// - Uses multiple FitnessTipCard components to show tips
+// - Listens to theme changes using a MutationObserver
+// - Organizes all tips in a responsive grid layout
 export default function FitnessTips() {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark"
   );
 
-  // يراقب تغيير الثيم
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));

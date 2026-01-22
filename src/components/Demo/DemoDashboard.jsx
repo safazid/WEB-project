@@ -1,11 +1,35 @@
 import React from "react";
-
 import DemoHeader from "./DemoHeader";
 import DemoUserCard from "./DemoUserCard";
 import TodayChallenge from "./TodayChallenge";
 import FeaturePreview from "./FeaturePreview";
 import AICoachCard from "./AICoachCard";
 
+/*
+  Demo Dashboard Page
+  -------------------
+  This page represents a public "preview" version of the FitRise dashboard.
+  It allows visitors to explore how the app looks and feels without signing up.
+
+  Purpose:
+  - Showcase the main dashboard layout
+  - Present example user data and challenges
+  - Preview premium features (like the AI Coach)
+  - Encourage users to register
+
+  Structure:
+  - DemoHeader        → Title and intro for the demo page
+  - DemoUserCard      → Mock user profile (name, level, goal)
+  - TodayChallenge    → Example daily challenge
+  - FeaturePreview    → Highlights locked / premium features
+  - AICoachCard       → Preview of the AI Fitness Coach
+
+  Layout:
+  - Responsive grid:
+    • 1 column on small screens
+    • 2 columns on medium screens
+    • 3 columns on large screens
+*/
 export default function DemoDashboard() {
   return (
     <div
@@ -31,4 +55,3 @@ export default function DemoDashboard() {
     </div>
   );
 }
-

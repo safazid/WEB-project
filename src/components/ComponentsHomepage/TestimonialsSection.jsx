@@ -1,3 +1,26 @@
+/*
+  TestimonialsSection
+  -------------------
+  Displays short user testimonials to build trust and social proof.
+
+  Purpose:
+  - Show real user feedback.
+  - Increase credibility and emotional connection.
+  - Encourage new users to join by highlighting positive experiences.
+
+  Structure:
+  - Section title and subtitle.
+  - Three testimonial cards.
+  - Each card contains:
+    - Star rating
+    - Short quote
+    - User name
+
+  Design:
+  - Uses the same visual language as the rest of the site.
+  - Soft cards with shadows for depth.
+  - Responsive 3-column grid (stacks on small screens).
+*/
 export default function TestimonialsSection() {
   return (
     <section

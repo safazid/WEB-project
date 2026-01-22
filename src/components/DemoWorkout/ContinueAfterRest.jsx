@@ -1,3 +1,6 @@
+// This component is shown after the rest period.
+// It lets the user decide whether to continue to the next exercise
+// or stop the demo and return to the beginning.
 export default function ContinueAfterRest({ onContinue, onBack }) {
   return (
     <div className="max-w-md mx-auto text-center p-6">

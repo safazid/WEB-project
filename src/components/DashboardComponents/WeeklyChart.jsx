@@ -9,7 +9,52 @@ import {
 } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+/*
+  WeeklyChart
+  -----------
+  A visual analytics component that renders a bar chart representing
+  the user's weekly workout activity.
 
+  Props:
+  - weeks (array): An array of weekly summary objects.
+    Each object is expected to contain:
+      • week (string)    → e.g., "Week 3"
+      • workouts (number) → Number of workouts in that week
+      • calories (number) → (Optional) Calories burned in that week
+
+  Purpose:
+  - Provide a clear visual overview of workout consistency over time.
+  - Help users identify trends in their weekly training habits.
+  - Reinforce motivation by showing progress week by week.
+
+  Chart Behavior:
+  - Uses Chart.js (Bar chart) via react-chartjs-2.
+  - Automatically skips rendering when no weekly data exists.
+  - Displays each week as a separate bar.
+  - Bar height represents the number of workouts for that week.
+
+  Visual Design:
+  - Uses a vertical gradient fill for bars (purple tones).
+  - Rounded bar corners for a modern look.
+  - Smooth animation on load for better user experience.
+  - Tooltips with dark theme and soft rounded corners.
+  - Minimal grid for a clean, dashboard-style appearance.
+
+  UX Benefits:
+  - Makes progress tangible and easy to understand.
+  - Encourages consistency by visually rewarding active weeks.
+  - Helps users detect drops or peaks in activity.
+  - Complements numeric stats with an intuitive visual layer.
+
+  Performance Notes:
+  - The chart is fully responsive.
+  - Rendering is skipped if `weeks` is empty to avoid empty UI blocks.
+  - Gradient is computed dynamically based on the chart area.
+
+  This component is a core part of the Dashboard analytics layer
+  and works in conjunction with StatsCards, WeeklyStats, and MonthlyStats
+  to provide a complete progress overview.
+*/
 export default function WeeklyChart({ weeks = [] }) {
   if (!weeks.length) return null;
 

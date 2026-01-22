@@ -8,6 +8,8 @@ const messages = [
   "Motivation isn’t luck — it’s a system."
 ];
 
+// Displays rotating motivational messages with a smooth fade animation
+// to inspire users during authentication and onboarding.
 export default function MotivationText() {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);

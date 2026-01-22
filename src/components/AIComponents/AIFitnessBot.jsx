@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../layouts/Navbar";
 import Footer from "../layouts/Footer";
 import "./AIFitness.css";
@@ -7,6 +7,10 @@ import WorkoutPreferences from "../AIComponents/WorkoutPreferences";
 import { useNavigate } from "react-router-dom";
 
 
+/* 
+  MET values used to estimate burned calories 
+  based on workout category
+*/
 const PLAN_MET_MAP = {
   Cardio: 6,
   Legs: 5,
@@ -17,9 +21,10 @@ const PLAN_MET_MAP = {
   Mobility: 2.5,
 };
 
-/* =========================
-   PLANS DATA (STATIC)
-========================= */
+/* 
+  Static list of ready-made workout plans.
+  Each plan contains basic info and optional exercises.
+*/
 const plansData = [
   {
     id: 1,
@@ -211,30 +216,32 @@ const plansData = [
   },
 ];
 
+/* 
+  Returns the exercise list for a given plan.
+  If no exercises exist, returns an empty array.
+*/
 function getExercisesForPlan(plan) {
   return plan.exercises || [];
 }
 
 
 
+
 /* =========================
-   COMPONENT
+   MAIN COMPONENT
 ========================= */
 export default function AIFitnessBot() {
   const navigate = useNavigate();
 
-  // ✅ هون المكان الصح
+  // User input states (from WorkoutPreferences component)
   const [feeling, setFeeling] = useState("");
   const [muscle, setMuscle] = useState("");
 
-
+  // Currently selected ready-made plan
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-
+  // All available plans (no filtering by level anymore)
   const filteredPlans = plansData;
-
-
- 
 
   return (
     <>
@@ -369,8 +376,7 @@ export default function AIFitnessBot() {
     .map((s) => s.replaceAll("|", "/"))
     .join("|");
 
-  //const estimatedCalories = selectedPlan.duration * 15; // تقدير بسيط
- const weight = Number(localStorage.getItem("weight")) || 60; // وزن المستخدم أو افتراضي
+ const weight = Number(localStorage.getItem("weight")) || 60; 
 const met = PLAN_MET_MAP[selectedPlan.target] || 4;
 
 const estimatedCalories = Math.round(

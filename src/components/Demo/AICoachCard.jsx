@@ -1,3 +1,20 @@
+/*
+  AI Coach Preview Card
+  ---------------------
+  This component displays a preview card for the AI Fitness Coach feature.
+  It is used on public or demo pages to showcase the idea of an AI-powered
+  coach without allowing direct interaction.
+
+  Purpose:
+  - Explain what the AI Coach does
+  - Encourage users to sign up
+  - Visually present the feature in a soft, inviting way
+
+  Behavior:
+  - Displays a short description of the AI coach
+  - Shows a disabled button to indicate the feature is locked
+    until the user signs up
+*/
 export default function AICoachCard() {
   return (
     <div

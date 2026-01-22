@@ -1,10 +1,12 @@
 export default function FitnessInfoCard({ form, setForm }) {
+    // Card for editing fitness-related user data (height, weight, goal, activity, DOB)
   return (
     <div className="bg-white rounded-2xl p-6 shadow border">
       <h3 className="text-[var(--teal)] font-bold mb-4">
         Fitness Details
       </h3>
-
+      
+      {/* Height & Weight */}
       <div className="grid grid-cols-2 gap-4">
         <input
           type="number"
@@ -23,6 +25,7 @@ export default function FitnessInfoCard({ form, setForm }) {
         />
       </div>
 
+      {/* Fitness goal */}
       <select
         className="auth-input mt-4"
         value={form.goal}
@@ -34,6 +37,7 @@ export default function FitnessInfoCard({ form, setForm }) {
         <option>Stay Fit</option>
       </select>
 
+      {/* Activity level */}
       <select
         className="auth-input mt-4"
         value={form.activity}
@@ -46,6 +50,7 @@ export default function FitnessInfoCard({ form, setForm }) {
         <option>Very Active</option>
       </select>
 
+      {/* Date of birth */}
       <input
         type="date"
         className="auth-input mt-4"

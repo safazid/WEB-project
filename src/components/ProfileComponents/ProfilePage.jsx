@@ -3,17 +3,24 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-
 import ProfileHeader from "./ProfileHeader";
 import ProfileActions from "./ProfileActions";
 import ProfileAchievements from "./ProfileAchievements";
 import ProfileNavActions from "./ProfileNavActions";
 import EditProfileModal from "./EditProfileModal";
 import Loader from "./loader";
-
 import ChatBubble from "../layouts/ChatBubble";
 
 
+// Profile page component.
+// Loads the user's data from Firestore using the stored userId.
+// Handles authentication redirection, profile loading state,
+// and displays the main profile UI (header, actions, navigation, achievements).
+// Manages:
+// - Edit profile modal visibility
+// - First-time workout hint logic (stored in localStorage)
+// - Navigation to dashboard, challenges, motivation, AI coach, and social pages
+// - Passing user context to the floating AI ChatBubble
 export default function ProfilePage() {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
@@ -50,7 +57,6 @@ useEffect(() => {
 
     const data = snap.data();
 
-    // ✅ نضمن الاسم والإيميل دايمًا
     setProfile({
       name: data.name || "User",
       email: data.email || "",

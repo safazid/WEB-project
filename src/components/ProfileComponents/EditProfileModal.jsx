@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-
 import PersonalInfoCard from "./cards/PersonalInfoCard";
 import FitnessInfoCard from "./cards/FitnessInfoCard";
 import PasswordCard from "./cards/PasswordCard";
 import "./profile.css";
 
-
+// Edit Profile Modal
+// Allows the user to update personal info, fitness details, and password.
+// Saves changes to Firestore and updates the local profile state.
 export default function EditProfileModal({ profile, userId, onClose, onSave }) {
   const [form, setForm] = useState({
     name: profile.name,
@@ -20,8 +21,7 @@ export default function EditProfileModal({ profile, userId, onClose, onSave }) {
   });
 
   const [newPassword, setNewPassword] = useState("");
-
- const handleSave = async () => {
+  const handleSave = async () => {
   const ref = doc(db, "users", userId);
 
   const updatedProfile = {
@@ -44,7 +44,7 @@ export default function EditProfileModal({ profile, userId, onClose, onSave }) {
     ...(newPassword && { password: newPassword }),
   });
 
-  onSave(updatedProfile); // 👈 هيك الصفحة تتحدث فورًا
+  onSave(updatedProfile); 
   onClose();
 };
 
@@ -110,7 +110,7 @@ export default function EditProfileModal({ profile, userId, onClose, onSave }) {
         </section>
       </div>
 
-      {/* Footer ثابت */}
+      {/* Footer  */}
       <div className="px-8 py-5 bg-white border-t border-gray-100 flex justify-end gap-3">
         <button
           onClick={onClose}
@@ -136,5 +136,4 @@ export default function EditProfileModal({ profile, userId, onClose, onSave }) {
     </div>
   </div>
 );
-
 }

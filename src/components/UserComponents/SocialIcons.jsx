@@ -1,3 +1,5 @@
+// Displays social media icons (Instagram, Facebook, LinkedIn)
+// Used in the Auth page footer for branding and engagement.
 export default function SocialIcons() {
   return (
     <section

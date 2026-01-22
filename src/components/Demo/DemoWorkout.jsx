@@ -1,7 +1,5 @@
 import { useState } from "react";
-
 import { demoExercises } from "../DemoWorkout/demoExercises";
-
 import DemoStartChoice from "../DemoWorkout/DemoStartChoice";
 import DemoChatBot from "../DemoWorkout/DemoChatBot";
 import DemoGoalSelect from "../DemoWorkout/DemoGoalSelect";
@@ -13,14 +11,22 @@ import ContinueAfterRest from "../DemoWorkout/ContinueAfterRest";
 import DemoComplete from "../DemoWorkout/DemoComplete";
 
 export default function WorkoutDemo() {
+    // Controls the current step in the demo flow
   const [step, setStep] = useState("start");
+    // Stores the selected goal (e.g. strength, cardio, etc.)
   const [goal, setGoal] = useState(null);
+    // Stores the selected difficulty level
   const [level, setLevel] = useState(null);
+    // Index of the current exercise in the workout
   const [index, setIndex] = useState(0);
 
+    // Load exercises based on selected goal and level
   const exercises =
     goal && level ? demoExercises[goal][level] : [];
 
+  // Called when an exercise is finished
+  // If there are more exercises → go to rest
+  // Otherwise → finish the demo
   const finishExercise = () => {
     if (index < exercises.length - 1) {
       setStep("rest");
@@ -29,6 +35,7 @@ export default function WorkoutDemo() {
     }
   };
 
+    // ===== STEP: Start Screen =====
 if (step === "start") {
   return (
     <DemoStartChoice
@@ -42,8 +49,7 @@ if (step === "start") {
     />
   );
 }
-
-
+  // ===== STEP: AI Chat Preview =====
   if (step === "chat") {
   return (
     <DemoChatBot
@@ -52,7 +58,7 @@ if (step === "start") {
     />
   );
 }
-
+  // ===== STEP: Goal Selection =====
 if (step === "goal") {
   return (
     <DemoGoalSelect
@@ -64,8 +70,7 @@ if (step === "goal") {
     />
   );
 }
-
-
+  // ===== STEP: Level Selection =====
   if (step === "level") {
     return (
       <DemoLevelSelect
@@ -77,7 +82,7 @@ if (step === "goal") {
       />
     );
   }
-
+  // ===== STEP: Exercise List Preview =====
 if (step === "list") {
   return (
     <ExerciseList
@@ -87,8 +92,7 @@ if (step === "list") {
     />
   );
 }
-
-
+  // ===== STEP: Active Workout =====
   if (step === "workout") {
     return (
       <ExerciseCard
@@ -100,7 +104,7 @@ if (step === "list") {
       />
     );
   }
-
+  // ===== STEP: Rest Between Exercises =====
   if (step === "rest") {
     return (
       <RestTimer
@@ -110,7 +114,7 @@ if (step === "list") {
       />
     );
   }
-
+  // ===== STEP: Continue After Rest =====
 if (step === "confirm") {
   return (
     <ContinueAfterRest
@@ -122,9 +126,7 @@ if (step === "confirm") {
     />
   );
 }
-
-
-
+  // ===== STEP: Demo Finished =====
   if (step === "done") {
     return <DemoComplete />;
   }

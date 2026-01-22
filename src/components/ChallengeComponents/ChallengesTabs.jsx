@@ -1,12 +1,29 @@
+/*
+  ChallengesTabs
+  ---------------
+  Tab switcher for the Challenges page.
+
+  Responsibilities:
+  - Display "Daily" and "Weekly" tabs
+  - Highlight the active tab visually
+  - Notify parent component when the user switches tabs
+
+  Props:
+  - activeTab: "daily" | "weekly"
+  - setActiveTab: function to update the active tab
+*/
 export default function ChallengesTabs({ activeTab, setActiveTab }) {
+  
+  // Style for the currently active tab
   const activeStyle = {
     background: "#4EE4C2",
     color: "black",
   };
 
+  // Style for inactive tabs
   const inactiveStyle = {
     background: "transparent",
-    color: "inherit", // 🔑 المهم
+    color: "inherit", 
   };
 
   return (

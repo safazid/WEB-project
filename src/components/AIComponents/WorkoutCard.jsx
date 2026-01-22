@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import { estimateBurnedForExercise } from "../../utils/calculateBurned";
 
+/*
+  WorkoutCard
+  ------------
+  Represents a single exercise in the AI workout session.
+  Handles:
+  - Timer logic
+  - Play / Pause / Finish
+  - Background music
+  - Speech feedback
+  - Calorie estimation
+*/
 export default function WorkoutCard({
   data,
   index,
@@ -9,16 +20,22 @@ export default function WorkoutCard({
   userWeight,
   onComplete,
 }) {
+    // UI & state control
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null);
   const [done, setDone] = useState(false);
 
+  // Focus logic: only one card can be active at a time
   const isFocused = activeIndex === index;
   const isHidden = activeIndex !== null && activeIndex !== index;
 
+  // Background workout music
   const [bgAudio] = useState(() => new Audio("/music.mp3"));
 
+    /**
+   * Uses browser TTS to encourage the user.
+   */
   function speak(text) {
     if (!window.speechSynthesis) return;
     const msg = new SpeechSynthesisUtterance(text);
@@ -28,6 +45,12 @@ export default function WorkoutCard({
     window.speechSynthesis.speak(msg);
   }
 
+    /**
+   * Converts reps text into seconds.
+   * Examples:
+   *  - "30 seconds" → 30
+   *  - "2 minutes" → 120
+   */
   function parseTime(reps) {
     if (!reps) return 30;
     const lower = reps.toLowerCase();
@@ -36,6 +59,9 @@ export default function WorkoutCard({
     return 30;
   }
 
+  /**
+   * Converts YouTube URLs into embeddable format.
+   */
   function toEmbed(url) {
     if (!url) return null;
     if (url.includes("embed")) return url;
@@ -47,6 +73,7 @@ export default function WorkoutCard({
     return id ? `https://www.youtube.com/embed/${id}` : null;
   }
 
+  // Countdown timer logic
   useEffect(() => {
     if (!active || paused || timeLeft === null) return;
     if (timeLeft <= 0) return;
@@ -58,6 +85,9 @@ export default function WorkoutCard({
     return () => clearInterval(t);
   }, [active, paused, timeLeft]);
 
+  /**
+   * Starts the exercise.
+   */
   const start = () => {
   setActive(true);
   setDone(false);
@@ -70,14 +100,14 @@ export default function WorkoutCard({
   bgAudio.play();
 };
 
+ /**
+   * Finishes the exercise and reports calories.
+   */
   const finish = () => {
-  /*const burned = Math.round(
-    (data.met || 4) * Number(userWeight || 60) * (data.duration / 3600)
-  );*/
+ 
   const raw =
   (data.met || 4) * Number(userWeight || 60) * (data.duration / 3600);
 
-// نضخم القيمة عشان تكون منطقية ومحفّزة
 const burned = estimateBurnedForExercise(data, userWeight);
 
   bgAudio.pause();
@@ -92,6 +122,9 @@ const burned = estimateBurnedForExercise(data, userWeight);
   onComplete(burned);
 };
 
+   /**
+   * Pauses or resumes the timer and music.
+   */
   const togglePause = () => {
   setPaused((p) => {
     if (!p) bgAudio.pause();

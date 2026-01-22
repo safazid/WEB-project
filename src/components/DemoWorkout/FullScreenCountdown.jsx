@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// FullScreenCountdown displays a full-screen overlay countdown (3 → 0)
+// before starting an exercise. It decreases the number every second,
+// and when it reaches 0, it calls onFinish to continue to the workout.
 export default function FullScreenCountdown({ onFinish }) {
   const [count, setCount] = useState(3);
 
@@ -18,15 +21,13 @@ export default function FullScreenCountdown({ onFinish }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* 🖤 خلفية سوداء شفافة */}
       <div
         className="absolute inset-0"
         style={{
-          background: "rgba(0, 0, 0, 0.45)", // شفافية مظبوطة
+          background: "rgba(0, 0, 0, 0.45)", 
         }}
       />
 
-      {/* 🔢 دائرة العدّاد */}
       <div
         className="relative flex items-center justify-center rounded-full
                    w-28 h-28 md:w-32 md:h-32

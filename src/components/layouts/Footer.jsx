@@ -1,3 +1,5 @@
+// Footer displays the bottom section of the app with branding and a short tagline.
+// It stays consistent across pages and gives the project a professional finish.
 export default function Footer() {
   return (
     <footer

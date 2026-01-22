@@ -9,6 +9,44 @@ import { useEffect, useState } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+/*
+  MonthlyPieChart
+  ----------------
+  Visualizes the user's workout distribution across months
+  using a Doughnut chart (Chart.js).
+
+  Purpose:
+  - Provide a clear visual overview of how workouts are spread
+    over time.
+  - Help the user identify active vs. inactive months.
+  - Encourage long-term consistency by showing trends.
+
+  Props:
+  - months: Array of objects in the form:
+      [
+        { month: "2024-01", workouts: 12 },
+        { month: "2024-02", workouts: 8 },
+        ...
+      ]
+
+  Chart Behavior:
+  - Each slice represents one month.
+  - The size of each slice corresponds to the number of workouts.
+  - Uses a fixed color palette for visual distinction.
+  - Rendered using react-chartjs-2 (Doughnut chart).
+
+  Theme Handling:
+  - Observes changes on <html> class (light-mode / dark).
+  - Dynamically updates legend text color:
+      • Dark text in light mode
+      • White text in dark mode
+
+  UX Details:
+  - Wrapped in a card-style container consistent with the dashboard.
+  - Includes a title and short description.
+  - Centered chart with fixed max width for balance.
+  - Smooth integration with the rest of the dashboard layout.
+*/
 export default function MonthlyPieChart({ months }) {
   const [isLight, setIsLight] = useState(
     document.documentElement.classList.contains("light-mode")

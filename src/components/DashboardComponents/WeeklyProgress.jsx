@@ -1,9 +1,51 @@
 import { useEffect, useState } from "react";
 
+/*
+  WeeklyProgress
+  --------------
+  A dashboard component that visualizes the user's weekly workout progress
+  toward a predefined goal.
+
+  Props:
+  - completedWeekly (number): The number of workouts completed in the current week.
+    Defaults to 0 if not provided.
+
+  Internal Logic:
+  - weeklyGoal is fixed at 5 workouts per week.
+  - The progress percentage is calculated as:
+        (completedWeekly / weeklyGoal) * 100
+    and clamped to a maximum of 100%.
+
+  Behavior:
+  - The progress bar animates smoothly whenever the percentage changes.
+  - The bar resets to 0 and then grows to the new value for a visual effect.
+  - The component listens for theme changes (dark/light mode)
+    using a MutationObserver and adapts colors and shadows accordingly.
+
+  UI Structure:
+  - Title: "Weekly Progress"
+  - Subtitle: Displays completed workouts out of the weekly goal.
+  - Animated horizontal progress bar with gradient fill.
+  - Percentage label below the bar.
+
+  Visual Design:
+  - Uses a purple gradient for the progress bar.
+  - Rounded edges for a modern card appearance.
+  - Soft glow and hover effects for interactivity.
+  - Adaptive background and shadow based on the current theme.
+
+  UX Benefits:
+  - Gives users a clear sense of weekly commitment.
+  - Encourages consistency by making progress visible.
+  - Reinforces short-term goals (weekly) rather than only long-term totals.
+  - Provides instant feedback after each completed workout.
+
+  This component works alongside StatsCards, WeeklyChart, and MonthlyStats
+  to give users a structured and motivating progress overview.
+*/
 export default function WeeklyProgress({ completedWeekly = 0 }) {
   const weeklyGoal = 5;
 
-  // حساب النسبة
   const percent = Math.min(
     100,
     Math.round((completedWeekly / weeklyGoal) * 100)
@@ -14,7 +56,6 @@ export default function WeeklyProgress({ completedWeekly = 0 }) {
     localStorage.getItem("theme") === "dark"
   );
 
-  // مراقبة تغيير الثيم
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));
@@ -28,7 +69,6 @@ export default function WeeklyProgress({ completedWeekly = 0 }) {
     return () => observer.disconnect();
   }, []);
 
-  // حركة الشريط
   useEffect(() => {
     setAnimatedWidth(0);
     const timeout = setTimeout(() => {

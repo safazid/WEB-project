@@ -1,3 +1,25 @@
+/*
+  AiCoachSection
+  --------------
+  This section presents the AI Fitness Coach feature.
+
+  Purpose:
+  - Introduces the AI coach as a core feature of the platform.
+  - Explains how the coach adapts workouts, motivates users,
+    and helps maintain healthy habits.
+  - Highlights the smart, adaptive, and motivational nature
+    of the AI system.
+
+  Structure:
+  - A centered title at the top.
+  - A two-column layout on large screens.
+  - Left column contains descriptive text and feature bullets.
+
+  Styling:
+  - Uses Tailwind utility classes for layout and spacing.
+  - Colors rely on CSS variables (var(--primary), var(--secondary), var(--text-sub)).
+  - Includes a fade-in animation for smooth appearance.
+*/
 export default function AiCoachSection() {
   return (
     <section

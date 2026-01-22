@@ -1,15 +1,23 @@
+/* 
+  Dark overlay that covers the entire screen behind the modal.
+  It centers the modal and blocks interaction with the background.
+*/
 .modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6); /* يبقى */
+  background: rgba(0,0,0,0.6); 
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
 }
 
+/* 
+  Main modal container.
+  Holds the modal content (text, buttons, images, etc.).
+*/
 .modal-content {
-  background: #121821; /* دارك مود – مصمت */
+  background: #121821; 
   border: 1px solid var(--primary-soft);
   border-radius: 16px;
   padding: 2rem;
@@ -18,6 +26,10 @@
   box-shadow: 0 0 20px var(--primary-soft);
 }
 
+/* 
+  Light mode override:
+  When the app is in light mode, use a white background for the modal.
+*/
 .light-mode .modal-content {
   background: #ffffff;
 }

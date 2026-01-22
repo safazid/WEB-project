@@ -2,6 +2,37 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
+/*
+  LastWorkout
+  -----------
+  Displays the date of the user's most recent workout.
+
+  Purpose:
+  - Give the user a quick visual reminder of their last activity.
+  - Reinforce consistency and motivation on the dashboard.
+  - If the user has never trained, shows a default message ("No data yet").
+
+  Data source:
+  - Firestore document: users/{userId}
+  - Field used:
+      • totalWorkouts
+
+  Logic:
+  - On mount, fetch the current user document from Firestore.
+  - If totalWorkouts > 0:
+      • Display today's date formatted in a friendly way.
+  - Otherwise:
+      • Keep the default text ("No data yet").
+
+  Theme handling:
+  - Observes changes to the <html> class to detect dark/light mode.
+  - Adjusts shadow styling dynamically for better visual consistency.
+
+  UX details:
+  - Card has hover animation (lift + glow).
+  - Visual style adapts to dark and light themes.
+  - Acts as a soft motivational element on the dashboard.
+*/
 export default function LastWorkout() {
   const [lastText, setLastText] = useState("No data yet");
   const [isDark, setIsDark] = useState(

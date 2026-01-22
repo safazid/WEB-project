@@ -1,8 +1,29 @@
 import logo from "../../assets/YOUR_LOGO.png";
 import { useNavigate } from "react-router-dom";
 
+/*
+  HeroSection
+  -----------
+  The main landing “hero” section of the FitRise homepage.
+
+  Purpose:
+  - Creates the first visual impression of the app.
+  - Communicates the core value: smart, AI-powered fitness.
+  - Encourages the user to either start using the app or try a demo.
+
+  Features:
+  - Headline with brand colors for emphasis.
+  - Short descriptive paragraph.
+  - Two call-to-action buttons:
+      • "Start Now" → navigates to /login
+      • "Try Demo"  → navigates to /demo
+  - Brand logo displayed on the right side.
+
+  Behavior:
+  - Uses React Router's `useNavigate` to handle navigation.
+*/
 export default function HeroSection() {
-  const navigate = useNavigate(); // 👈 هذا السطر المهم
+  const navigate = useNavigate();
   return (
     <section
       id="home"

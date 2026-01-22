@@ -2,6 +2,62 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 
+/*
+  WeeklyStats
+  -----------
+  A dashboard component that displays a historical summary of the user's
+  weekly workout and calorie data.
+
+  Data Source:
+  - Fetches user data from Firestore using the authenticated user ID.
+  - Reads:
+      - weeklyWorkouts: { [weekKey]: number }
+      - weeklyCalories: { [weekKey]: number }
+
+  State:
+  - weeks: An array of formatted weekly objects:
+      {
+        week: "Week X",
+        workouts: number,
+        calories: number
+      }
+  - loading: Controls the loading state.
+  - isDark: Tracks whether the UI is in dark mode.
+
+  Processing Logic:
+  - Iterates over all weekly workout entries.
+  - Skips weeks with 0 workouts.
+  - Extracts the week number from keys like "2026-W3".
+  - Builds a clean array of week objects.
+  - Sorts weeks in ascending order (Week 1 → Week N).
+
+  Behavior:
+  - Shows a loading message while fetching data.
+  - Shows a friendly empty state if no workouts exist.
+  - Observes theme changes using a MutationObserver to adapt styling.
+
+  UI Structure:
+  - Card container titled "Weekly Stats".
+  - A vertical list of week rows.
+  - Each row displays:
+      - Left: Week label and number of workouts.
+      - Right: Total calories burned in that week.
+
+  Visual Design:
+  - Rounded card with soft glow and hover animation.
+  - Adaptive background based on dark/light mode.
+  - Clear visual separation between weekly entries.
+  - Emoji cues (🏋️, 🔥) for quick readability.
+
+  UX Benefits:
+  - Helps users reflect on long-term consistency.
+  - Makes weekly patterns visible at a glance.
+  - Encourages sustained engagement over time.
+  - Complements WeeklyProgress and WeeklyChart components.
+
+  This component forms the historical backbone of the dashboard,
+  turning raw Firestore data into an easy-to-read progress timeline.
+*/
 export default function WeeklyStats() {
   const [weeks, setWeeks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +65,6 @@ export default function WeeklyStats() {
     localStorage.getItem("theme") === "dark"
   );
 
-  // مراقبة تغيير الثيم
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));

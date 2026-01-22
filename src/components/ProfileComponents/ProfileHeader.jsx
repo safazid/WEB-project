@@ -1,3 +1,11 @@
+// Profile header section displayed at the top of the Profile page.
+// Shows the user's avatar, name, and email in a centered layout.
+//
+// Props:
+// - profile: object containing user data (name, email, etc.)
+//
+// The avatar is currently a placeholder icon and can later be
+// replaced with a real uploaded profile image.
 export default function ProfileHeader({ profile }) {
   return (
     <div className="flex flex-col items-center text-center mb-8">

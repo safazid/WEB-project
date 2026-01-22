@@ -1,5 +1,41 @@
 import { useEffect, useState } from "react";
 
+/*
+  StatCard
+  --------
+  A reusable UI component for displaying a single statistic
+  inside the dashboard (e.g., total workouts, calories, points, streak).
+
+  Props:
+  - label (string): Short description of the metric (e.g., "Total Workouts").
+  - value (string | number): The main value to display.
+  - color (string): Tailwind color class for the value (e.g., "text-purple-500").
+  - note (string): Small helper text shown under the value.
+
+  Purpose:
+  - Present key user metrics in a clear, visually appealing way.
+  - Keep the dashboard modular and consistent.
+  - Allow easy reuse for different statistics.
+
+  Behavior:
+  - Listens for theme changes (dark / light) using a MutationObserver.
+  - Dynamically updates shadows and visual style based on the active theme.
+  - Adds hover animations for better user experience:
+      • Slight lift (translateY)
+      • Scale up
+      • Glow effect
+
+  UI Features:
+  - Card-style layout with rounded corners.
+  - Theme-aware shadow and border styling.
+  - Centered text layout for quick readability.
+  - Animated hover feedback for interactivity.
+
+  UX Benefits:
+  - Makes key statistics immediately noticeable.
+  - Encourages engagement through subtle animations.
+  - Keeps the dashboard clean, modern, and consistent.
+*/
 export default function StatCard({ label, value, color, note }) {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark"

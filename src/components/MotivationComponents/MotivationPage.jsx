@@ -3,12 +3,17 @@ import FitnessTips from "./FitnessTips";
 import { useEffect, useState } from "react";
 import ChatBubble from "../layouts/ChatBubble"; 
 
+// MotivationPage is a full-screen inspiration page for the user.
+// It:
+// - Adapts its colors to light/dark mode using a MutationObserver
+// - Displays a motivational title and subtitle
+// - Shows a QuoteBox for daily inspiration
+// - Renders the FitnessTips section with helpful cards
+// - Includes the floating AI ChatBubble for instant guidance
 export default function MotivationPage() {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark"
   );
-
-  // 👇 هذا السطر هو المفتاح
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains("dark"));

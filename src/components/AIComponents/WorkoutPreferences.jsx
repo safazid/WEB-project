@@ -1,3 +1,14 @@
+/*
+  WorkoutPreferences
+  -------------------
+  This component collects the user's current state before
+  generating an AI workout:
+  - How the user feels today (energy level)
+  - Which muscle group they want to train
+
+  The selected values are controlled by the parent component
+  via props (feeling, setFeeling, muscle, setMuscle).
+*/
 export default function WorkoutPreferences({
   feeling,
   setFeeling,
