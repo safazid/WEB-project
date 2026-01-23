@@ -31,14 +31,25 @@ export default function WorkoutPreferences({
             { key: "energetic", label: "⚡ Energetic" },
           ].map((f) => (
             <button
-              key={f.key}
-              onClick={() => setFeeling(f.key)}
-              className={`px-4 py-2 rounded-lg border ${
-                feeling === f.key
-                  ? "bg-emerald-500 text-white"
-                  : "bg-gray-100"
-              }`}
-            >
+  key={f.key}
+  onClick={() => setFeeling(f.key)}
+  className={`px-4 py-2 rounded-lg border transition ${
+    feeling === f.key
+      ? "text-black"
+      : "bg-gray-100 dark:bg-gray-800"
+  }`}
+  style={
+    feeling === f.key
+      ? {
+          background: "var(--secondary)",
+          borderColor: "var(--primary-soft)",
+          color: "white",
+          boxShadow: "0 0 10px var(--primary-soft)",
+        }
+      : {}
+  }
+>
+
               {f.label}
             </button>
           ))}

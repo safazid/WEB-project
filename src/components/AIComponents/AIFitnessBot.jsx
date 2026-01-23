@@ -269,18 +269,28 @@ export default function AIFitnessBot() {
       setMuscle={setMuscle}
     />
 
-    <button
-      onClick={() => {
-        if (!feeling || !muscle) {
-          alert("Choose how you feel today, and the type of exercise 💪");
-          return;
-        }
-        navigate(`/ai-trainer?feeling=${feeling}&muscle=${muscle}`);
-      }}
-      className="mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow hover:scale-105 transition"
-    >
-      Generate My AI Workout 🤖
-    </button>
+<button
+  onClick={() => {
+    if (!feeling || !muscle) {
+      alert("Choose how you feel today, and the type of exercise 💪");
+      return;
+    }
+    navigate(`/ai-trainer?feeling=${feeling}&muscle=${muscle}`);
+  }}
+  className="mt-6 px-7 py-3 rounded-xl font-semibold transition hover:scale-[1.05]"
+  style={{
+    background: "linear-gradient(135deg, var(--secondary), var(--primary))",
+    color: document.documentElement.classList.contains("light-mode")
+      ? "#ffffff"   // 🤍 نص أبيض باللايت
+      : "#ffffff",   // 🤍 نص أبيض بالدارك كمان (اختياري)
+    boxShadow: "0 0 18px var(--primary-soft)",
+  }}
+>
+  Generate My AI Workout 🤖
+</button>
+
+
+
   </div>
 
   {/* ===== EXTRA PLANS ===== */}

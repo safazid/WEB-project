@@ -40,6 +40,29 @@ function estimateDuration(reps = "") {
   if (s.includes("x")) return 45;
   return 40;
 }
+async function updateStreak(userRef, todayKey) {
+  const snap = await getDoc(userRef);
+  const data = snap.data() || {};
+
+  const lastWorkoutDate = data.lastWorkoutDate;
+  let currentStreak = data.currentStreak || 0;
+
+  if (!lastWorkoutDate) {
+    currentStreak = 1;
+  } else {
+    const diff = Math.floor(
+      (new Date(todayKey) - new Date(lastWorkoutDate)) / (1000 * 60 * 60 * 24)
+    );
+
+    if (diff === 1) currentStreak += 1;
+    else if (diff > 1) currentStreak = 1;
+  }
+
+  await updateDoc(userRef, {
+    currentStreak,
+    lastWorkoutDate: todayKey,
+  });
+}
 
 // Rough MET estimation based on exercise name
 function estimateMET(name = "") {
@@ -204,6 +227,7 @@ try {
       const userRef = doc(db, "users", user.uid);
       const snap = await getDoc(userRef);
       const data = snap.data() || {};
+await updateStreak(userRef, todayKey);
 
       await updateDoc(userRef, {
   totalWorkouts: increment(1),

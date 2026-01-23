@@ -54,7 +54,7 @@ export default function HeroSection() {
             <div className="mt-8 flex gap-4">
               <button
                 className="px-6 py-3 rounded-lg font-bold "
-                style={{ background: "var(--primary)", color: "black" }}
+                style={{ background: "var(--primary)", color: "white" }}
                 onClick={() => {navigate("/login"); setOpen(false);}}             
               >
                 Start Now

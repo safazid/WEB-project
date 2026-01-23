@@ -15,13 +15,23 @@
   Purpose:
   - Visually represent progress for challenges, goals, or any measurable task.
 */
-export default function ProgressBar({ value }) {
+export default function ProgressBar({ value = 0 }) {
   return (
-    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+    <div
+      className="w-full h-2 rounded overflow-hidden"
+      style={{
+        background: "color-mix(in srgb, var(--primary) 25%, transparent)",
+        backdropFilter: "blur(6px)",
+      }}
+    >
       <div
-        className="h-full bg-emerald-500 transition-all duration-300"
-        style={{ width: `${value}%` }}
+        className="h-full transition-all duration-500"
+        style={{
+          width: `${value}%`,
+          background: "var(--primary)",
+        }}
       />
     </div>
   );
 }
+

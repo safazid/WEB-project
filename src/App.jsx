@@ -12,6 +12,7 @@ import Workout from "./components/WorkoutComponents/Workout";
 import SocialSharing from "./components/SocialComponents/SocialSharing";
 import WorkoutDemo from "./components/Demo/DemoWorkout";
 import AITrainer from "./components/AIComponents/AITrainer";
+import MiniMusicWidget from "./components/layouts/MiniMusicWidget";
 
 // Main application router.
 // Defines all app routes and wraps them with the MainLayout.
@@ -34,8 +35,9 @@ function App() {
         <Route path="/share" element={<SocialSharing />} />
         <Route path="/demo" element={<WorkoutDemo />} />
        <Route path="/ai-trainer" element={<AITrainer />} />
-        <Route path="/ai-coach" element={<AITrainer />} />
- 
+       <Route path="/ai-coach" element={<AITrainer />} />
+<Route path="/music" element={<MiniMusicWidget />} />
+
       </Route>
     </Routes>
   );

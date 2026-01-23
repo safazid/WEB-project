@@ -10,6 +10,7 @@ import WeeklyStats from "../DashboardComponents/WeeklyStats";
 import MonthlyStats from "../DashboardComponents/MonthlyStats";
 import WeeklyChart from "../DashboardComponents/WeeklyChart";
 import MonthlyPieChart from "../DashboardComponents/MonthlyPieChart";
+import { calculateWeeklyStreak } from "../../utils/streakUtils";
 
 
 
@@ -93,13 +94,17 @@ const [monthlyData, setMonthlyData] = useState([]);
     const currentWeekKey = getWeekKey(now);
 
    // Basic stats for top cards
-    setStats({
-      totalWorkouts: data.totalWorkouts || 0,
-      totalCalories: data.totalCalories || 0,
-      totalPoints: data.totalPoints || 0,
-      completedWeekly: data.weeklyWorkouts?.[currentWeekKey] || 0,
-      currentStreak: data.currentStreak || 0,
-    });
+
+console.log("Daily Stats from Firestore:", data.dailyStats);
+
+setStats({
+  totalWorkouts: data.totalWorkouts || 0,
+  totalCalories: data.totalCalories || 0,
+  totalPoints: data.totalPoints || 0,
+  completedWeekly: data.weeklyWorkouts?.[currentWeekKey] || 0,
+  currentStreak: calculateWeeklyStreak(data.dailyStats || {}),
+});
+
 
     // Prepare weekly chart data
     const weeklyCalories = data.weeklyCalories || {};
@@ -140,6 +145,7 @@ setMonthlyData(monthsArr);
   };
 
   loadStats();
+  
 }, []);
 
 /*

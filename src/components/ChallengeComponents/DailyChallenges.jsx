@@ -34,23 +34,25 @@ function MysteryBoxCard({ unlocked, opened, onOpen }) {
     <div
       onClick={() => unlocked && !opened && onOpen()}
       className={`
-  relative p-6 rounded-2xl shadow-lg border
-  bg-gradient-to-br 
-  from-yellow-100 to-pink-100
-  dark:from-[#2a2433] dark:to-[#1e293b]
-  border-yellow-300/40 dark:border-purple-500/30
-  text-gray-900 dark:text-gray-100
-  transition-all duration-300
-  ${unlocked && !opened ? "cursor-pointer hover:scale-105 animate-pulse" : "opacity-70"}
-`}
-
+        relative p-6 rounded-2xl border transition-all
+        ${unlocked && !opened 
+          ? "cursor-pointer hover:scale-[1.03] hover:shadow-[0_0_25px_color-mix(in_srgb,var(--primary)_45%,transparent)]" 
+          : "opacity-70"}
+      `}
+      style={{
+        background: "color-mix(in srgb, var(--primary) 18%, transparent)",
+        backdropFilter: "blur(8px)",
+        borderColor: "var(--primary-soft)",
+      }}
     >
       <div className="flex items-center gap-3 mb-2">
-        <span className="text-3xl">🎁</span>
-        <h3 className="text-lg font-bold">Daily Mystery Box</h3>
+        <span className="text-3xl drop-shadow">🎁</span>
+        <h3 className="text-lg font-bold tracking-wide text-[var(--primary)]">
+          Daily Mystery Box
+        </h3>
       </div>
 
-<p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+      <p className="text-sm mb-4 opacity-80">
         {opened
           ? "You already opened today’s box 🎉"
           : unlocked
@@ -58,50 +60,49 @@ function MysteryBoxCard({ unlocked, opened, onOpen }) {
           : "Complete 1 workout today to unlock"}
       </p>
 
-      <div className="w-full h-3 bg-white/60 rounded-full overflow-hidden mb-2">
+      {/* Progress Bar */}
+      <div
+        className="w-full h-3 rounded-full overflow-hidden mb-2"
+        style={{
+          background: "color-mix(in srgb, var(--primary) 25%, transparent)",
+        }}
+      >
         <div
-          className="h-full bg-emerald-500 transition-all"
-          style={{ width: unlocked ? "100%" : "0%" }}
+          className="h-full transition-all duration-500"
+          style={{
+            width: unlocked ? "100%" : "0%",
+            background: "var(--primary)",
+            boxShadow:
+              "0 0 12px color-mix(in srgb, var(--primary) 60%, transparent)",
+          }}
         />
       </div>
 
-<div className="text-sm text-gray-700 dark:text-gray-300">
+      <div className="text-sm font-semibold opacity-80">
         {unlocked ? "1 / 1" : "0 / 1"}
       </div>
 
       {!opened && unlocked && (
-        <div className="absolute top-3 right-3 text-xs bg-emerald-600 text-white px-2 py-1 rounded-full">
-          OPEN
+        <div
+          className="absolute top-3 right-3 text-xs font-bold px-2 py-1 rounded-full"
+          style={{
+            background: "var(--primary)",
+            color: "#000",
+            boxShadow: "0 0 12px var(--primary-soft)",
+          }}
+        >
+          OPEN 🎉
         </div>
       )}
     </div>
   );
 }
 
+
 /*
   DailyChallenges
   ----------------
   Displays and manages the user's daily challenges.
-
-  Features:
-  - Tracks daily calories and completed exercises
-  - Shows progress for each daily challenge
-  - Allows collecting rewards when targets are reached
-  - Displays an automatic alert when a challenge is completed
-  - Includes a "Mystery Box" reward unlocked after 1 workout
-
-  Data Sources:
-  - Firebase Auth: to identify the current user
-  - Firestore (users collection):
-      - dailyStats[YYYY-MM-DD].calories
-      - dailyStats[YYYY-MM-DD].exercises
-      - completedChallenges
-
-  Behavior:
-  - Loads today's stats on login
-  - Updates progress in real time
-  - Prevents collecting the same challenge twice
-  - Sends a "stats-updated" event after any reward
 */
 export default function DailyChallenges() {
   const [user, setUser] = useState(null);
@@ -114,14 +115,12 @@ export default function DailyChallenges() {
   const today = getToday();
 
   /* ===== Auth ===== */
-  // Listen for auth changes and keep the current user
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return () => unsub();
   }, []);
 
   /* ===== Load ===== */
-  // Load today's stats from Firestore
   useEffect(() => {
     if (!user) return;
 
@@ -143,8 +142,7 @@ export default function DailyChallenges() {
     load();
   }, [user, today]);
 
-/* 🔔 Auto Alert */
-// Show an alert when a challenge reaches its target but is not yet collected
+  /* 🔔 Auto Alert */
   useEffect(() => {
     dailyChallenges.forEach((c) => {
       const value =
@@ -164,10 +162,9 @@ export default function DailyChallenges() {
     return <div className="p-6 text-center">Loading challenges...</div>;
   }
 
-const mysteryKey = `mystery_${today}`;
-const mysteryOpened = completed[mysteryKey] === true;
-const canOpenMystery = exercisesToday >= 1 && !mysteryOpened;
-
+  const mysteryKey = `mystery_${today}`;
+  const mysteryOpened = completed[mysteryKey] === true;
+  const canOpenMystery = exercisesToday >= 1 && !mysteryOpened;
 
   return (
     <div className="space-y-6">
@@ -175,28 +172,29 @@ const canOpenMystery = exercisesToday >= 1 && !mysteryOpened;
         open={showAlert}
         onClose={() => setShowAlert(false)}
       />
-      
+
+      {/* 🎁 Mystery Box */}
       <MysteryBoxCard
-  unlocked={exercisesToday >= 1}
-  opened={mysteryOpened}
-  onOpen={async () => {
-    if (!user || mysteryOpened || exercisesToday < 1) return;
+        unlocked={exercisesToday >= 1}
+        opened={mysteryOpened}
+        onOpen={async () => {
+          if (!user || mysteryOpened || exercisesToday < 1) return;
 
-    const reward = Math.floor(Math.random() * 21) + 10;
+          const reward = Math.floor(Math.random() * 21) + 10;
 
-    await updateDoc(doc(db, "users", user.uid), {
-      totalPoints: increment(reward),
-      [`completedChallenges.${mysteryKey}`]: true,
-    });
+          await updateDoc(doc(db, "users", user.uid), {
+            totalPoints: increment(reward),
+            [`completedChallenges.${mysteryKey}`]: true,
+          });
 
-    alert(`🎉 You found ${reward} bonus points!`);
+          alert(`🎉 You found ${reward} bonus points!`);
 
-    setCompleted((prev) => ({ ...prev, [mysteryKey]: true }));
-    window.dispatchEvent(new Event("stats-updated"));
-  }}
-/>
+          setCompleted((prev) => ({ ...prev, [mysteryKey]: true }));
+          window.dispatchEvent(new Event("stats-updated"));
+        }}
+      />
 
-
+      {/* 🎯 Daily Challenges */}
       {dailyChallenges.map((c) => {
         const value =
           c.type === "calories" ? caloriesToday : exercisesToday;
@@ -206,25 +204,34 @@ const canOpenMystery = exercisesToday >= 1 && !mysteryOpened;
         const reachedTarget = value >= c.target;
 
         return (
-          <ChallengeCard
+          <div
             key={c.id}
-            {...c}
-            value={value}
-            progress={Math.min((value / c.target) * 100, 100)}
-            completed={isCollected}
-            canCollect={reachedTarget && !isCollected}
-            onCollect={async () => {
-              if (!user || !reachedTarget || isCollected) return;
+            className={`
+              rounded-2xl transition-all
+              ${reachedTarget && !isCollected 
+                ? "shadow-[0_0_20px_rgba(16,185,129,0.35)] border border-emerald-400"
+                : ""}
+            `}
+          >
+            <ChallengeCard
+              {...c}
+              value={value}
+              progress={Math.min((value / c.target) * 100, 100)}
+              completed={isCollected}
+              canCollect={reachedTarget && !isCollected}
+              onCollect={async () => {
+                if (!user || !reachedTarget || isCollected) return;
 
-              await updateDoc(doc(db, "users", user.uid), {
-                totalPoints: increment(c.points),
-                [`completedChallenges.${key}`]: true,
-              });
+                await updateDoc(doc(db, "users", user.uid), {
+                  totalPoints: increment(c.points),
+                  [`completedChallenges.${key}`]: true,
+                });
 
-              setCompleted((prev) => ({ ...prev, [key]: true }));
-              window.dispatchEvent(new Event("stats-updated"));
-            }}
-          />
+                setCompleted((prev) => ({ ...prev, [key]: true }));
+                window.dispatchEvent(new Event("stats-updated"));
+              }}
+            />
+          </div>
         );
       })}
     </div>

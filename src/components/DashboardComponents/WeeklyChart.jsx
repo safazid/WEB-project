@@ -7,56 +7,30 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useState, useEffect } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
-/*
-  WeeklyChart
-  -----------
-  A visual analytics component that renders a bar chart representing
-  the user's weekly workout activity.
 
-  Props:
-  - weeks (array): An array of weekly summary objects.
-    Each object is expected to contain:
-      • week (string)    → e.g., "Week 3"
-      • workouts (number) → Number of workouts in that week
-      • calories (number) → (Optional) Calories burned in that week
-
-  Purpose:
-  - Provide a clear visual overview of workout consistency over time.
-  - Help users identify trends in their weekly training habits.
-  - Reinforce motivation by showing progress week by week.
-
-  Chart Behavior:
-  - Uses Chart.js (Bar chart) via react-chartjs-2.
-  - Automatically skips rendering when no weekly data exists.
-  - Displays each week as a separate bar.
-  - Bar height represents the number of workouts for that week.
-
-  Visual Design:
-  - Uses a vertical gradient fill for bars (purple tones).
-  - Rounded bar corners for a modern look.
-  - Smooth animation on load for better user experience.
-  - Tooltips with dark theme and soft rounded corners.
-  - Minimal grid for a clean, dashboard-style appearance.
-
-  UX Benefits:
-  - Makes progress tangible and easy to understand.
-  - Encourages consistency by visually rewarding active weeks.
-  - Helps users detect drops or peaks in activity.
-  - Complements numeric stats with an intuitive visual layer.
-
-  Performance Notes:
-  - The chart is fully responsive.
-  - Rendering is skipped if `weeks` is empty to avoid empty UI blocks.
-  - Gradient is computed dynamically based on the chart area.
-
-  This component is a core part of the Dashboard analytics layer
-  and works in conjunction with StatsCards, WeeklyStats, and MonthlyStats
-  to provide a complete progress overview.
-*/
 export default function WeeklyChart({ weeks = [] }) {
   if (!weeks.length) return null;
+
+  // ✅ Track light/dark mode dynamically
+  const [isLight, setIsLight] = useState(
+    document.documentElement.classList.contains("light-mode")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsLight(document.documentElement.classList.contains("light-mode"));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const data = {
     labels: weeks.map((w) => w.week),
@@ -91,9 +65,11 @@ export default function WeeklyChart({ weeks = [] }) {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: "rgba(20,20,30,0.95)",
-        titleColor: "#fff",
-        bodyColor: "#fff",
+        backgroundColor: isLight
+          ? "rgba(255,255,255,0.95)"
+          : "rgba(20,20,30,0.95)",
+        titleColor: isLight ? "#111" : "#fff",
+        bodyColor: isLight ? "#111" : "#fff",
         borderWidth: 0,
         cornerRadius: 12,
         padding: 12,
@@ -106,20 +82,20 @@ export default function WeeklyChart({ weeks = [] }) {
     scales: {
       x: {
         ticks: {
-          color: "var(--text-sub)",
-          font: { weight: "500" },
+          color: isLight ? "#111111" : "#FFFFFF",
+          font: { weight: "600" },
         },
-        grid: {
-          display: false,
-        },
+        grid: { display: false },
       },
       y: {
         beginAtZero: true,
         ticks: {
-          color: "var(--text-sub)",
+          color: isLight ? "#111111" : "#FFFFFF",
         },
         grid: {
-          color: "rgba(255,255,255,0.08)",
+          color: isLight
+            ? "rgba(0,0,0,0.08)"
+            : "rgba(255,255,255,0.15)",
         },
       },
     },
@@ -134,7 +110,12 @@ export default function WeeklyChart({ weeks = [] }) {
         border: "1px solid #0B8A8C",
       }}
     >
-      <h2 className="text-2xl font-bold mb-6" style={{ color: "#A066FF" }}>
+      <h2
+        className="text-2xl font-bold mb-6"
+        style={{
+          color: isLight ? "#6B21A8" : "#C46CFF",
+        }}
+      >
         Weekly Workout Chart
       </h2>
 
