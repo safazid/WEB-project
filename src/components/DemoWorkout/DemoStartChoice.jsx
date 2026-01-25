@@ -19,7 +19,7 @@ export default function DemoStartChoice({ onWorkout, onChat }) {
         
           type="button"          
           onClick={onWorkout}
-          className="auth-input bg-purple-200 text-white"
+          className="auth-input bg-[var(--card-bg)] border border-purple-500"
         >
           🏋️ Start Workout Demo
         </button>
