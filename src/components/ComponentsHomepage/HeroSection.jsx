@@ -1,5 +1,6 @@
 import logo from "../../assets/YOUR_LOGO.png";
 import { useNavigate } from "react-router-dom";
+import "../../index.css";
 
 /*
   HeroSection
@@ -52,13 +53,18 @@ export default function HeroSection() {
             </p>
 
             <div className="mt-8 flex gap-4">
-              <button
-                className="px-6 py-3 rounded-lg font-bold "
-                style={{ background: "var(--primary)", color: "white" }}
-                onClick={() => {navigate("/login"); setOpen(false);}}             
-              >
-                Start Now
-              </button>
+<button
+  className="px-6 py-3 rounded-lg font-bold"
+  style={{
+    background: "var(--primary)",
+    color: "var(--btn-text)",
+  }}
+  onClick={() => navigate("/login")}
+>
+  Start Now
+</button>
+
+
 
               <button onClick={() => navigate("/demo")}
                 className="px-6 py-3 rounded-lg border"

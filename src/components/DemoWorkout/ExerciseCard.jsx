@@ -24,6 +24,8 @@ import plankImg from "../../assets/Plank_Hold.png";
 // - "pre": shows a full-screen countdown before starting
 // - "active": runs a timer for the exercise duration
 // When the timer finishes, onFinish is called to move to the next exercise.
+
+
 export default function ExerciseCard({
   exercise,
   onFinish,
@@ -91,6 +93,7 @@ export default function ExerciseCard({
     className="w-full h-64 object-cover"
   />
 
+  {/* 🖤 طبقة تطبير خفيفة */}
   <div
     className="absolute inset-0"
     style={{ background: "rgba(0,0,0,0.25)" }}
@@ -100,6 +103,7 @@ export default function ExerciseCard({
         </div>
       )}
 
+      {/* ▶ Start flow – بدون تغيير */}
       {phase === "idle" && (
         <button
           onClick={() => setPhase("pre")}

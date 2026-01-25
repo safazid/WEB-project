@@ -10,7 +10,7 @@ import ProfilePage from "./components/ProfileComponents/ProfilePage";
 import AIFitnessBot from "./components/AIComponents/AIFitnessBot";
 import Workout from "./components/WorkoutComponents/Workout";
 import SocialSharing from "./components/SocialComponents/SocialSharing";
-import WorkoutDemo from "./components/Demo/DemoWorkout";
+import WorkoutDemo from "./components/DemoWorkout/WorkoutDemo";
 import AITrainer from "./components/AIComponents/AITrainer";
 import MiniMusicWidget from "./components/layouts/MiniMusicWidget";
 

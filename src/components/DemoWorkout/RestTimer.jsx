@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // It counts down from the given number of seconds,
 // shows encouraging messages, and automatically
 // calls onFinish when the timer reaches zero.
+
 export default function RestTimer({ seconds = 5, onFinish }) {
   const [time, setTime] = useState(seconds);
 

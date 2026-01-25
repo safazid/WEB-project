@@ -257,3 +257,17 @@ body:not(.light-mode) select {
 .light-mode .nav-link:hover {
   color: var(--primary) !important;
 }
+:root {
+  --btn-text: white;
+}
+
+.dark {
+  --btn-text: black;
+}
+:root {
+  --bubble-text: white;
+}
+
+.dark {
+  --bubble-text: black;
+}

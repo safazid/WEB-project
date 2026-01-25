@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 // It congratulates the user and encourages them to create an account.
 // The main button redirects to the registration page,
 // while the secondary button sends the user back to the home page.
+
 export default function DemoComplete() {
   const navigate = useNavigate();
 

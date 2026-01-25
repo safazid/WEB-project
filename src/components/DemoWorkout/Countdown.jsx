@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // A simple countdown timer component.
 // It starts from the given number of seconds and decreases every second.
 // When the timer reaches zero, it calls the onComplete callback.
+
 export default function Countdown({ seconds, onComplete }) {
   const [time, setTime] = useState(seconds);
 
@@ -33,8 +34,10 @@ export default function Countdown({ seconds, onComplete }) {
           color: "var(--text)",
         }}
       >
+        {/* أيقونة */}
         <span className="text-xl opacity-80">⏱</span>
 
+        {/* النص */}
         <div className="text-center leading-tight">
           <p className="text-xs tracking-wide uppercase opacity-60">
             Time Left
