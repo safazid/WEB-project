@@ -232,14 +232,14 @@ await updateStreak(userRef, todayKey);
       await updateDoc(userRef, {
   totalWorkouts: increment(1),
   [`weeklyWorkouts.${weekKey}`]: increment(1),
+  [`completedWeekly.${weekKey}`]: true,
 
   lastFeeling: todayFeeling,
   lastMuscle: targetMuscle,
   lastExercises: aiData.workout.map((w) => w.name),
   lastWorkoutAt: serverTimestamp(),
-
-
 });
+
 
 
       const dailyCals = data?.dailyStats?.[todayKey]?.calories || 0;

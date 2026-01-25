@@ -15,12 +15,21 @@ import { calculateWeeklyStreak } from "../../utils/streakUtils";
 
 
 // ===== Helper: generate a year-week key (e.g., 2026-W3) =====
-function getWeekKey(d) {
+/*function getWeekKey(d) {
   const firstJan = new Date(d.getFullYear(), 0, 1);
   const days = Math.floor((d - firstJan) / 86400000);
   const week = Math.ceil((days + firstJan.getDay() + 1) / 7);
   return `${d.getFullYear()}-W${week}`;
+}*/
+function getISOWeekKey(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${weekNo}`;
 }
+
 
 /*
   DashboardPage
@@ -91,7 +100,9 @@ const [monthlyData, setMonthlyData] = useState([]);
 
     const data = snap.data();
     const now = new Date();
-    const currentWeekKey = getWeekKey(now);
+    //const currentWeekKey = getWeekKey(now);
+    const currentWeekKey = getISOWeekKey(now);
+
 
    // Basic stats for top cards
 
