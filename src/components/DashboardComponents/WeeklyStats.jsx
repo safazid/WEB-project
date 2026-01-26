@@ -109,13 +109,17 @@ export default function WeeklyStats() {
       });
 
       result.sort((a, b) => {
-        const wa = Number(a.week.replace("Week ", ""));
-        const wb = Number(b.week.replace("Week ", ""));
-        return wa - wb;
-      });
+  const wa = Number(a.week.replace("Week ", ""));
+  const wb = Number(b.week.replace("Week ", ""));
+  return wa - wb;
+});
 
-      setWeeks(result);
-      setLoading(false);
+// take just 4 last weeks 
+const last4Weeks = result.slice(-4).reverse();
+
+setWeeks(last4Weeks);
+setLoading(false);
+
     };
 
     fetchWeekly();

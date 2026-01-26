@@ -13,6 +13,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function WeeklyChart({ weeks = [] }) {
   if (!weeks.length) return null;
+// ✅ Keep only last 10 weeks
+const last4Weeks = weeks.slice(-10);
 
   // ✅ Track light/dark mode dynamically
   const [isLight, setIsLight] = useState(
@@ -32,12 +34,13 @@ export default function WeeklyChart({ weeks = [] }) {
     return () => observer.disconnect();
   }, []);
 
+
   const data = {
-    labels: weeks.map((w) => w.week),
+    labels: last4Weeks.map((w) => w.week),
     datasets: [
       {
         label: "Workouts",
-        data: weeks.map((w) => w.workouts),
+        data: last4Weeks.map((w) => w.workouts),
         backgroundColor: (ctx) => {
           const { chart } = ctx;
           const { ctx: c, chartArea } = chart;
@@ -58,6 +61,7 @@ export default function WeeklyChart({ weeks = [] }) {
       },
     ],
   };
+
 
   const options = {
     responsive: true,
