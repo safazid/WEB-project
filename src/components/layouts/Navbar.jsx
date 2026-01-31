@@ -6,6 +6,7 @@ import { Bell } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import MiniMusicWidget from "../layouts/MiniMusicWidget";
+import OnlineStatus from "../layouts/OnlineStatus";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -132,6 +133,21 @@ export default function Navbar() {
     }
   }, [location.pathname, isLoggedIn]);
 
+  useEffect(() => {
+  const socket = new WebSocket("ws://localhost:8080");
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "NOTIFICATION") {
+      setNotifications((prev) => [...prev, data.payload]);
+      setHasNotification(true);
+    }
+  };
+
+  return () => socket.close();
+}, []);
+
   // ==============================
   // JSX RENDER
   // ==============================
@@ -168,6 +184,7 @@ export default function Navbar() {
 
           {/* ===================== RIGHT SIDE ===================== */}
           <div className="hidden md:flex gap-4 items-center">
+          <OnlineStatus />
             <ThemeToggle />
 
             {/* NOTIFICATIONS */}
