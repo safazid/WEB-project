@@ -43,9 +43,11 @@ JSON ONLY. No text outside JSON.
       }),
     });
 
-    const data = await r.json();
+    //const data = await r.json();
+    const data = await r.json().catch(() => null);
 
-    if (!data.choices || !data.choices.length) {
+   // if (!data.choices || !data.choices.length) {
+   if (!data || !data.choices || !data.choices.length){
       return res.status(500).json({
         raw: JSON.stringify({
           message: "AI is temporarily unavailable.",
