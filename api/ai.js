@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -16,7 +17,8 @@ export default async function handler(req, res) {
         "X-Title": "FitRise AI Coach",
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct",
+        model: "openai/gpt-4o-mini",
+          max_tokens: 300,
         messages: [
           {
             role: "system",
